@@ -1,0 +1,127 @@
+<!-- important/pages/tea-knowledge/index.wxml -->
+<view class="container">
+  <!-- 顶部搜索栏 -->
+  <view class="search-wrapper">
+    <view class="search-bar">
+      <icon type="search" size="16" color="#999" class="search-icon"></icon>
+      <input 
+        class="search-input" 
+        placeholder="搜索茶叶知识" 
+        placeholder-class="placeholder"
+        confirm-type="search"
+        value="{{searchKeyword}}"
+        bindinput="searchArticles"
+        bindconfirm="searchArticles" 
+      />
+      <view class="clear-icon" wx:if="{{searchKeyword}}">
+        <icon type="clear" size="16" color="#999" catchtap="clearSearch"></icon>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 推荐文章 -->
+  <view class="recommended-section">
+    <view class="section-title">
+      <text class="title">精选文章</text>
+      <text class="subtitle">Tea Knowledge</text>
+    </view>
+    
+    <swiper class="recommended-swiper" indicator-dots="{{true}}" autoplay="{{true}}" interval="{{5000}}" duration="{{500}}" circular="{{true}}">
+      <swiper-item wx:for="{{recommended}}" wx:key="id">
+        <view class="recommended-item" bindtap="viewArticle" data-id="{{item.id}}">
+          <image class="recommended-image" src="{{item.cover}}" mode="aspectFill"></image>
+          <view class="recommended-info">
+            <view class="recommended-title">{{item.title}}</view>
+            <view class="recommended-desc">{{item.description}}</view>
+            <view class="recommended-meta">
+              <text class="author">{{item.author}}</text>
+              <text class="views">{{item.views}} 浏览</text>
+            </view>
+          </view>
+        </view>
+      </swiper-item>
+    </swiper>
+  </view>
+  
+  <!-- 分类标签 -->
+  <view class="tabs">
+    <view 
+      wx:for="{{tabs}}" 
+      wx:key="index" 
+      class="tab-item {{currentTab === index ? 'active' : ''}}"
+      bindtap="switchTab"
+      data-index="{{index}}"
+    >
+      {{item}}
+    </view>
+  </view>
+  
+  <!-- 文章列表 -->
+  <scroll-view
+    scroll-y="{{true}}"
+    class="article-list-wrapper"
+    style="height: {{windowHeight - 300}}px;"
+  >
+    <view class="article-list" wx:if="{{articles.length > 0 && !loading}}">
+      <view 
+        class="article-item" 
+        wx:for="{{articles[currentTab]}}" 
+        wx:key="id"
+        bindtap="viewArticle"
+        data-id="{{item.id}}"
+      >
+        <image class="article-image" src="{{item.cover}}" mode="aspectFill"></image>
+        <view class="article-content">
+          <view class="article-title">{{item.title}}</view>
+          <view class="article-desc">{{item.description}}</view>
+          <view class="article-meta">
+            <view class="meta-left">
+              <text class="author">{{item.author}}</text>
+              <text class="date">{{item.publishDate}}</text>
+            </view>
+            <view class="meta-right">
+              <view class="view-count">
+                <image class="icon" src="/images/icons/eye.png"></image>
+                <text>{{item.views}}</text>
+              </view>
+              <view class="like-count">
+                <image class="icon" src="/images/icons/like.png"></image>
+                <text>{{item.likes}}</text>
+              </view>
+            </view>
+          </view>
+          <view class="article-tags">
+            <text 
+              class="tag" 
+              wx:for="{{item.tags}}" 
+              wx:key="index" 
+              wx:for-item="tag"
+            >{{tag}}</text>
+          </view>
+        </view>
+      </view>
+      
+      <!-- 底部提示 -->
+      <view class="footer-tips">已加载全部文章</view>
+    </view>
+    
+    <!-- 加载中 -->
+    <view class="loading-wrapper" wx:if="{{loading}}">
+      <view class="loading">
+        <image class="loading-image" src="/images/loading/loading-tea.gif"></image>
+        <text class="loading-text">加载中...</text>
+      </view>
+    </view>
+    
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{articles.length === 0 && !loading}}">
+      <image class="empty-image" src="/images/states/empty.png"></image>
+      <text class="empty-text">暂无相关文章</text>
+    </view>
+  </scroll-view>
+  
+  <!-- 返回顶部按钮 -->
+  <view class="back-to-top" wx:if="{{showBackToTop}}" bindtap="backToTop">
+    <image src="/images/icons/top.png"></image>
+  </view>
+</view> 

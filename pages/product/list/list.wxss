@@ -1,0 +1,153 @@
+/* 商品列表页 */
+
+.page {
+  min-height: 100vh;
+  background: #f5f0e8;
+}
+
+.page-header {
+  padding: 40rpx 30rpx 20rpx;
+  text-align: center;
+}
+
+.page-title {
+  display: block;
+  font-size: 40rpx;
+  font-weight: 500;
+  color: #2d2520;
+  letter-spacing: 8rpx;
+  margin-bottom: 12rpx;
+}
+
+.page-subtitle {
+  display: block;
+  font-size: 24rpx;
+  color: #8b7355;
+  letter-spacing: 4rpx;
+}
+
+/* 筛选 */
+.filter-scroll {
+  padding: 20rpx 30rpx;
+  white-space: nowrap;
+}
+
+.filter-list {
+  display: inline-flex;
+}
+
+.filter-item {
+  display: inline-block;
+  padding: 16rpx 32rpx;
+  margin-right: 16rpx;
+  font-size: 26rpx;
+  color: #5a5045;
+  background: #fff;
+  border-radius: 30rpx;
+  border: 1rpx solid #e8e0d5;
+  transition: all 0.3s;
+}
+
+.filter-item.active {
+  color: #c9a86c;
+  background: rgba(201, 168, 108, 0.1);
+  border-color: #c9a86c;
+}
+
+/* 商品列表 */
+.product-list {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 20rpx;
+}
+
+.product-card {
+  width: calc(50% - 20rpx);
+  margin: 0 10rpx 24rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 16rpx rgba(45, 37, 32, 0.06);
+}
+
+.product-image {
+  position: relative;
+  width: 100%;
+  height: 260rpx;
+  background: #f0ebe0;
+}
+
+.product-tag {
+  position: absolute;
+  top: 12rpx;
+  left: 12rpx;
+  padding: 6rpx 16rpx;
+  background: #c9a86c;
+  border-radius: 20rpx;
+  font-size: 20rpx;
+  color: #fff;
+}
+
+.product-info {
+  padding: 20rpx;
+}
+
+.product-name {
+  display: block;
+  font-size: 26rpx;
+  font-weight: 500;
+  color: #2d2520;
+  margin-bottom: 8rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.product-brief {
+  display: block;
+  font-size: 22rpx;
+  color: #8b7355;
+  margin-bottom: 16rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.product-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.product-price {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #b8860b;
+}
+
+.product-weight {
+  font-size: 20rpx;
+  color: #a09080;
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 100rpx 0;
+}
+
+.empty-icon {
+  font-size: 80rpx;
+  margin-bottom: 20rpx;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: #8b7355;
+}
+
+.footer-space {
+  height: 60rpx;
+}

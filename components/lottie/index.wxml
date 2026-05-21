@@ -1,0 +1,4 @@
+<!-- components/lottie/index.wxml -->
+<view class="lottie-container" style="width: {{width}}; height: {{height}};">
+  <canvas type="2d" id="lottie-canvas" class="lottie-canvas" style="width: 100%; height: 100%;"></canvas>
+</view> 

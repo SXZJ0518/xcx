@@ -1,0 +1,58 @@
+<view class="page">
+  <!-- 品牌大图 -->
+  <view class="hero">
+    <view class="hero-bg"></view>
+    <view class="hero-content">
+      <text class="hero-brand">凤凰单枞</text>
+      <text class="hero-slogan">潮州凤凰山 · 高山炭焙</text>
+    </view>
+  </view>
+
+  <!-- 品牌故事 -->
+  <view class="story-section">
+    <text class="story-title">关于凤凰单枞</text>
+    
+    <view class="story-block">
+      <text class="block-title">产地</text>
+      <text class="block-content">凤凰单枞产于广东省潮州市凤凰山，凤凰山海拔千米以上，云雾缭绕，土壤肥沃，得天独厚的自然环境孕育出品质卓越的单枞茶。</text>
+    </view>
+
+    <view class="story-block">
+      <text class="block-title">工艺</text>
+      <text class="block-content">传统炭焙工艺，慢火细烘，历经数十小时，保留茶叶本真香气。每一道工序都凝聚着制茶师的心血与匠心。</text>
+    </view>
+
+    <view class="story-block">
+      <text class="block-title">香型</text>
+      <text class="block-content">凤凰单枞以"一丛一味、百丛百香"著称，十大主流香型各有特色：黄栀香、芝兰香、蜜兰香、桂花香、玉兰香、姜花香、夜来香、杏仁香、肉桂香、鸭屎香。</text>
+    </view>
+  </view>
+
+  <!-- 联系方式 -->
+  <view class="contact-section">
+    <text class="contact-title">联系我们</text>
+    
+    <view class="contact-item" bindtap="copyWechat">
+      <text class="contact-icon">📱</text>
+      <view class="contact-info">
+        <text class="contact-label">微信咨询</text>
+        <text class="contact-value">点击复制微信号</text>
+      </view>
+      <text class="contact-arrow">→</text>
+    </view>
+
+    <view class="contact-item" bindtap="makeCall">
+      <text class="contact-icon">📞</text>
+      <view class="contact-info">
+        <text class="contact-label">电话咨询</text>
+        <text class="contact-value">点击拨打电话</text>
+      </view>
+      <text class="contact-arrow">→</text>
+    </view>
+  </view>
+
+  <!-- 底部 -->
+  <view class="footer">
+    <text class="footer-text">© 2024 凤凰单枞 · 一丛一味 百丛百香</text>
+  </view>
+</view>

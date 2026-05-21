@@ -1,0 +1,90 @@
+<view class="page">
+  <!-- 商品图片 -->
+  <view class="product-hero">
+    <image src="{{product.imageUrl || '/images/tea-placeholder.png'}}" mode="aspectFill" class="hero-image"></image>
+    <view class="hero-overlay"></view>
+  </view>
+
+  <!-- 商品信息 -->
+  <view class="product-info">
+    <text class="product-name">{{product.name}}</text>
+    <text class="product-brief">{{product.brief}}</text>
+    
+    <view class="product-meta">
+      <view class="meta-item">
+        <text class="meta-label">产地</text>
+        <text class="meta-value">{{product.origin}}</text>
+      </view>
+      <view class="meta-item">
+        <text class="meta-label">海拔</text>
+        <text class="meta-value">{{product.altitude}}</text>
+      </view>
+      <view class="meta-item">
+        <text class="meta-label">工艺</text>
+        <text class="meta-value">{{product.roast}}</text>
+      </view>
+    </view>
+
+    <view class="product-price-row">
+      <text class="price-current">¥{{product.price}}</text>
+      <text class="price-original">¥{{product.originalPrice}}</text>
+      <text class="price-weight">{{product.weight}}</text>
+    </view>
+
+    <view class="product-tags">
+      <text class="tag" wx:for="{{product.tags}}" wx:key="*this">{{item}}</text>
+    </view>
+  </view>
+
+  <!-- 产品故事 -->
+  <view class="section">
+    <view class="section-title">
+      <text class="title-line"></text>
+      <text>产品故事</text>
+      <text class="title-line"></text>
+    </view>
+    <view class="story-content">
+      <text>{{product.description}}</text>
+    </view>
+  </view>
+
+  <!-- 冲泡建议 -->
+  <view class="section brew-section">
+    <view class="section-title">
+      <text class="title-line"></text>
+      <text>冲泡建议</text>
+      <text class="title-line"></text>
+    </view>
+    <view class="brew-grid">
+      <view class="brew-item">
+        <text class="brew-icon">🌡️</text>
+        <text class="brew-label">水温</text>
+        <text class="brew-value">{{product.brewTemp}}</text>
+      </view>
+      <view class="brew-item">
+        <text class="brew-icon">⏱️</text>
+        <text class="brew-label">时间</text>
+        <text class="brew-value">{{product.brewTime}}</text>
+      </view>
+      <view class="brew-item">
+        <text class="brew-icon">🔄</text>
+        <text class="brew-label">次数</text>
+        <text class="brew-value">{{product.brewCount}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 联系客服 -->
+  <view class="contact-section">
+    <view class="contact-card">
+      <text class="contact-title">品茶咨询</text>
+      <text class="contact-desc">添加微信，了解更多详情</text>
+      <button class="contact-btn" bindtap="copyWechat">
+        <text>复制微信号</text>
+      </button>
+    </view>
+  </view>
+
+  <!-- 底部留白 -->
+  <view class="footer-space"></view>
+</view>

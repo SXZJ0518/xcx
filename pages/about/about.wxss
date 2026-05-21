@@ -1,0 +1,150 @@
+/* 关于页面 - 东方禅意 */
+
+.page {
+  min-height: 100vh;
+  background: #f5f0e8;
+}
+
+/* Hero */
+.hero {
+  position: relative;
+  height: 400rpx;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2520 100%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.hero-brand {
+  font-size: 60rpx;
+  font-weight: 300;
+  color: #c9a86c;
+  letter-spacing: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.hero-slogan {
+  font-size: 26rpx;
+  color: #a09080;
+  letter-spacing: 6rpx;
+}
+
+/* 品牌故事 */
+.story-section {
+  padding: 60rpx 40rpx;
+  background: #fff;
+}
+
+.story-title {
+  display: block;
+  text-align: center;
+  font-size: 36rpx;
+  font-weight: 500;
+  color: #2d2520;
+  letter-spacing: 8rpx;
+  margin-bottom: 50rpx;
+}
+
+.story-block {
+  margin-bottom: 40rpx;
+}
+
+.block-title {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #c9a86c;
+  letter-spacing: 4rpx;
+  margin-bottom: 16rpx;
+}
+
+.block-content {
+  display: block;
+  font-size: 26rpx;
+  color: #5a5045;
+  line-height: 2;
+  text-align: justify;
+}
+
+/* 联系方式 */
+.contact-section {
+  padding: 50rpx 30rpx;
+  margin-top: 20rpx;
+  background: #fff;
+}
+
+.contact-title {
+  display: block;
+  text-align: center;
+  font-size: 32rpx;
+  font-weight: 500;
+  color: #2d2520;
+  letter-spacing: 6rpx;
+  margin-bottom: 40rpx;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  padding: 30rpx;
+  background: #f5f0e8;
+  border-radius: 16rpx;
+  margin-bottom: 20rpx;
+}
+
+.contact-icon {
+  font-size: 48rpx;
+  margin-right: 24rpx;
+}
+
+.contact-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-label {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #2d2520;
+  margin-bottom: 8rpx;
+}
+
+.contact-value {
+  font-size: 24rpx;
+  color: #8b7355;
+}
+
+.contact-arrow {
+  font-size: 32rpx;
+  color: #c9a86c;
+  opacity: 0.6;
+}
+
+/* 底部 */
+.footer {
+  padding: 60rpx 30rpx;
+  text-align: center;
+}
+
+.footer-text {
+  font-size: 22rpx;
+  color: #a09080;
+  letter-spacing: 2rpx;
+}

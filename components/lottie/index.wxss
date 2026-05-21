@@ -1,0 +1,13 @@
+/* components/lottie/index.wxss */
+.lottie-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.lottie-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+} 

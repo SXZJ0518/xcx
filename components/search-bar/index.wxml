@@ -1,0 +1,40 @@
+<!-- components/search-bar/index.wxml -->
+<view class="custom-search-wrapper">
+  <view 
+    class="search-bar {{isFocus ? 'focused' : ''}}" 
+    style="background-color: {{bgColor}}; border-radius: {{borderRadius}}; height: {{height}};"
+    bindtap="onTapWithRipple">
+    
+    <!-- 搜索图标 -->
+    <view class="search-icon">
+      <view class="icon-search"></view>
+    </view>
+    
+    <!-- 输入框 -->
+    <input 
+      id="search-input"
+      class="search-input"
+      type="text"
+      value="{{inputValue}}"
+      placeholder="{{placeholder}}"
+      placeholder-class="placeholder"
+      confirm-type="search"
+      focus="{{isFocus}}"
+      bindinput="onInput"
+      bindfocus="onFocus"
+      bindblur="onBlur"
+      bindconfirm="onConfirm"
+    />
+    
+    <!-- 清除按钮 -->
+    <view wx:if="{{inputValue.length > 0}}" class="clear-icon" catchtap="onClear">
+      <view class="icon-clear"></view>
+    </view>
+    
+    <!-- 涟漪效果 -->
+    <view wx:if="{{showRipple}}" class="ripple" style="{{rippleStyle}}"></view>
+  </view>
+  
+  <!-- 取消按钮 -->
+  <view wx:if="{{showCancel || isFocus}}" class="cancel-btn" bindtap="onCancel">取消</view>
+</view> 

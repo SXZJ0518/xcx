@@ -1,0 +1,330 @@
+/* 东方禅意美学 · 凤凰单枞 */
+
+.page {
+  min-height: 100vh;
+  background: #f5f0e8;
+}
+
+/* ========== Hero 品牌大图 ========== */
+.hero {
+  position: relative;
+  height: 520rpx;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2520 50%, #3d3530 100%);
+}
+
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="%23c9a86c" stroke-width="0.3" opacity="0.15"/><circle cx="50" cy="50" r="30" fill="none" stroke="%23c9a86c" stroke-width="0.2" opacity="0.1"/></svg>') center/200rpx repeat;
+  opacity: 0.6;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 60rpx 40rpx;
+}
+
+.hero-brand {
+  font-size: 72rpx;
+  font-weight: 300;
+  color: #c9a86c;
+  letter-spacing: 24rpx;
+  margin-bottom: 20rpx;
+}
+
+.hero-slogan {
+  font-size: 28rpx;
+  color: #a09080;
+  letter-spacing: 8rpx;
+  margin-bottom: 30rpx;
+}
+
+.hero-desc {
+  font-size: 22rpx;
+  color: #706050;
+  letter-spacing: 4rpx;
+}
+
+/* ========== 通用 Section ========== */
+.section {
+  padding: 50rpx 30rpx;
+}
+
+.section-header {
+  margin-bottom: 30rpx;
+}
+
+.section-title {
+  display: block;
+  font-size: 36rpx;
+  font-weight: 500;
+  color: #2d2520;
+  letter-spacing: 4rpx;
+  margin-bottom: 12rpx;
+}
+
+.section-subtitle {
+  display: block;
+  font-size: 24rpx;
+  color: #8b7355;
+  letter-spacing: 2rpx;
+}
+
+.section-more {
+  display: flex;
+  align-items: center;
+  margin-top: 16rpx;
+}
+
+.section-more text {
+  font-size: 24rpx;
+  color: #c9a86c;
+}
+
+.section-more .arrow {
+  margin-left: 8rpx;
+  transition: transform 0.3s;
+}
+
+/* ========== 十大香型横向滚动 ========== */
+.aroma-scroll {
+  width: 100%;
+  white-space: nowrap;
+}
+
+.aroma-list {
+  display: inline-flex;
+  padding: 10rpx 0;
+}
+
+.aroma-item {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  width: 160rpx;
+  margin-right: 24rpx;
+  padding: 30rpx 16rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  box-shadow: 0 4rpx 20rpx rgba(45, 37, 32, 0.06);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.aroma-item:active {
+  transform: scale(0.96);
+}
+
+.aroma-icon {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  margin-bottom: 16rpx;
+  background: linear-gradient(135deg, #c9a86c, #a08050);
+}
+
+.aroma-name {
+  font-size: 26rpx;
+  font-weight: 500;
+  color: #2d2520;
+  margin-bottom: 8rpx;
+}
+
+.aroma-desc {
+  font-size: 20rpx;
+  color: #8b7355;
+  text-align: center;
+  white-space: normal;
+  line-height: 1.4;
+}
+
+/* ========== 产品网格 ========== */
+.product-grid {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -12rpx;
+}
+
+.product-card {
+  width: calc(50% - 24rpx);
+  margin: 0 12rpx 24rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 20rpx rgba(45, 37, 32, 0.06);
+  transition: transform 0.3s;
+}
+
+.product-card:active {
+  transform: scale(0.98);
+}
+
+.product-image {
+  position: relative;
+  width: 100%;
+  height: 280rpx;
+  background: #f0ebe0;
+}
+
+.product-image image {
+  width: 100%;
+  height: 100%;
+}
+
+.product-tag {
+  position: absolute;
+  top: 16rpx;
+  left: 16rpx;
+  padding: 6rpx 16rpx;
+  background: #c9a86c;
+  border-radius: 20rpx;
+  font-size: 20rpx;
+  color: #fff;
+}
+
+.product-info {
+  padding: 24rpx;
+}
+
+.product-name {
+  display: block;
+  font-size: 26rpx;
+  font-weight: 500;
+  color: #2d2520;
+  margin-bottom: 8rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.product-brief {
+  display: block;
+  font-size: 22rpx;
+  color: #8b7355;
+  margin-bottom: 16rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.product-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.product-price {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #b8860b;
+}
+
+.product-weight {
+  font-size: 20rpx;
+  color: #a09080;
+}
+
+/* ========== 品牌故事 ========== */
+.story-section {
+  padding: 60rpx 40rpx;
+  background: #fff;
+  margin: 30rpx 0;
+}
+
+.story-content {
+  max-width: 600rpx;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.story-title {
+  display: block;
+  font-size: 36rpx;
+  font-weight: 500;
+  color: #2d2520;
+  letter-spacing: 6rpx;
+  margin-bottom: 40rpx;
+}
+
+.story-text {
+  display: block;
+  font-size: 26rpx;
+  color: #5a5045;
+  line-height: 2;
+  margin-bottom: 20rpx;
+  text-align: justify;
+}
+
+/* ========== 联系我们 ========== */
+.contact-section {
+  padding: 40rpx 30rpx;
+}
+
+.contact-card {
+  background: linear-gradient(135deg, #2d2520 0%, #3d3530 100%);
+  border-radius: 20rpx;
+  padding: 50rpx 40rpx;
+  text-align: center;
+}
+
+.contact-title {
+  display: block;
+  font-size: 32rpx;
+  font-weight: 500;
+  color: #c9a86c;
+  letter-spacing: 4rpx;
+  margin-bottom: 16rpx;
+}
+
+.contact-desc {
+  display: block;
+  font-size: 24rpx;
+  color: #a09080;
+  margin-bottom: 40rpx;
+}
+
+.contact-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24rpx 60rpx;
+  background: #c9a86c;
+  border-radius: 50rpx;
+  border: none;
+}
+
+.contact-btn::after {
+  border: none;
+}
+
+.contact-btn text {
+  font-size: 28rpx;
+  color: #2d2520;
+}
+
+.btn-icon {
+  margin-right: 12rpx;
+}
+
+/* ========== 底部留白 ========== */
+.footer-space {
+  height: 60rpx;
+}

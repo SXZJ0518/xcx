@@ -1,8 +1,8 @@
 # Dependencies
 node_modules/
 
-# Build output
-dist/
+# Build output (dist IS tracked for Vercel deployment)
+# dist/
 build/
 *.log
 
@@ -44,16 +44,3 @@ yarn-error.log*
 
 # Uploads
 uploads/
-
-# WeChat specific
-project.private.config.json
-miniprogram_npm/
-.sass-cache/
-
-# Cloud functions node_modules
-cloudfunctions/**/node_modules/
-cloudfunctions/**/package-lock.json
-
-# Admin后台（通过Vercel单独部署）
-admin/node_modules/
-admin/dist/

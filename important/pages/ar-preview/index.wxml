@@ -1,0 +1,90 @@
+<!-- important/pages/ar-preview/index.wxml -->
+<view class="ar-container">
+  <!-- 加载状态 -->
+  <view class="loading-overlay" wx:if="{{loading}}">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">AR体验加载中...</text>
+  </view>
+  
+  <!-- 相机授权提示 -->
+  <view class="auth-overlay" wx:if="{{!cameraAuth && !loading}}">
+    <image class="auth-icon" src="/images/icons/camera-permission.png"></image>
+    <text class="auth-title">需要相机权限</text>
+    <text class="auth-desc">使用AR功能需要您授权相机权限</text>
+    <button class="auth-btn" bindtap="checkCameraPermission">授权使用</button>
+  </view>
+  
+  <!-- AR视图 -->
+  <view class="ar-view" wx:if="{{cameraAuth && !loading}}">
+    <ar-camera
+      bind:ready="onARReady"
+      bind:error="onARError"
+      resolution="high"
+      style="width: 100%; height: 100%;"
+    ></ar-camera>
+    
+    <!-- 使用指引浮层 -->
+    <view class="instructions-overlay" wx:if="{{showInstructions}}">
+      <view class="instructions-content">
+        <text class="instructions-title">AR茶具体验</text>
+        <text class="instructions-desc">您可以在真实环境中预览茶具效果，体验不同茶具的外观和比例。</text>
+        <view class="instructions-steps">
+          <view class="step">
+            <image class="step-icon" src="/images/icons/scan.png"></image>
+            <text class="step-text">扫描平面</text>
+          </view>
+          <view class="step">
+            <image class="step-icon" src="/images/icons/pinch.png"></image>
+            <text class="step-text">双指缩放</text>
+          </view>
+          <view class="step">
+            <image class="step-icon" src="/images/icons/drag.png"></image>
+            <text class="step-text">单指移动</text>
+          </view>
+        </view>
+        <button class="instructions-btn" bindtap="closeInstructions">开始体验</button>
+      </view>
+    </view>
+    
+    <!-- 底部茶具选择栏 -->
+    <view class="teaware-selector">
+      <scroll-view scroll-x="{{true}}" class="teaware-scroll">
+        <view 
+          class="teaware-item {{currentTeaware.id === item.id ? 'active' : ''}}" 
+          wx:for="{{teaware}}" 
+          wx:key="id"
+          bindtap="selectTeaware"
+          data-id="{{item.id}}"
+        >
+          <image class="teaware-thumb" src="{{item.thumbnail}}" mode="aspectFill"></image>
+          <text class="teaware-name">{{item.name}}</text>
+        </view>
+      </scroll-view>
+    </view>
+    
+    <!-- 茶具详情弹窗 -->
+    <view class="teaware-details {{showDetails ? 'show' : ''}}" wx:if="{{currentTeaware}}">
+      <view class="details-header">
+        <text class="details-title">{{currentTeaware.name}}</text>
+        <view class="details-close" bindtap="closeDetails">
+          <icon type="clear" size="20" color="#666"></icon>
+        </view>
+      </view>
+      <text class="details-desc">{{currentTeaware.description}}</text>
+      <view class="details-buttons">
+        <button class="details-btn view">查看商品</button>
+        <button class="details-btn buy">立即购买</button>
+      </view>
+    </view>
+    
+    <!-- 帮助按钮 -->
+    <view class="help-btn" bindtap="openInstructions">
+      <image src="/images/icons/help.png"></image>
+    </view>
+    
+    <!-- 返回按钮 -->
+    <view class="back-btn" bindtap="navigateBack">
+      <image src="/images/icons/back.png"></image>
+    </view>
+  </view>
+</view> 
