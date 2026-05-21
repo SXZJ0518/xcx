@@ -48,6 +48,29 @@
     </view>
   </view>
 
+  <!-- 香型特征 -->
+  <view class="section aroma-section" wx:if="{{product.aromaFeature}}">
+    <view class="section-title">
+      <text class="title-line"></text>
+      <text>香型特征 · {{product.categoryName}}</text>
+      <text class="title-line"></text>
+    </view>
+    <view class="aroma-card">
+      <view class="aroma-item">
+        <text class="aroma-label">香气特征</text>
+        <text class="aroma-value">{{product.aromaFeature}}</text>
+      </view>
+      <view class="aroma-item" wx:if="{{product.representative}}">
+        <text class="aroma-label">代表品种</text>
+        <text class="aroma-value">{{product.representative}}</text>
+      </view>
+      <view class="aroma-item" wx:if="{{product.qualityFeature}}">
+        <text class="aroma-label">品质特点</text>
+        <text class="aroma-value">{{product.qualityFeature}}</text>
+      </view>
+    </view>
+  </view>
+
   <!-- 冲泡建议 -->
   <view class="section brew-section">
     <view class="section-title">
