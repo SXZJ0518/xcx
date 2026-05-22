@@ -43,7 +43,7 @@ function callCloudFunction(action, params = {}) {
 
 // ==================== 首页相关 ====================
 /**
- * 获取首页数据（轮播图、热销商品、香型列表、农产推荐）
+ * 获取首页聚合数据（轮播图、热销商品、分类列表、站点配置）
  */
 const getHomeData = function() { return callCloudFunction('getHomeData') }
 
@@ -51,8 +51,10 @@ const getHomeData = function() { return callCloudFunction('getHomeData') }
 /**
  * 获取商品列表
  * @param {Object} params
- * @param {string} params.type - 商品类型：tea(茶叶) / honey(蜂蜜)
  * @param {string} params.categoryId - 分类ID
+ * @param {string} params.type - 商品类型：normal(单枞茶) / special(特惠茶) / farm(农产品)
+ * @param {string} params.season - 采摘季节：spring(春茶) / second_spring(二春)
+ * @param {string} params.packType - 包装类型：bag(袋装) / can(铁罐) / gift(礼盒)
  * @param {string} params.keyword - 搜索关键词
  * @param {number} params.page - 页码
  * @param {number} params.pageSize - 每页数量
@@ -65,28 +67,11 @@ const getProductList = function(params = {}) { return callCloudFunction('getProd
  */
 const getProductDetail = function(id) { return callCloudFunction('getProductDetail', { id }) }
 
-/**
- * 搜索商品
- * @param {Object} params
- * @param {string} params.keyword - 搜索关键词
- */
-const searchProducts = function(params) { return callCloudFunction('searchProducts', params) }
-
 // ==================== 分类相关 ====================
 /**
  * 获取分类列表
  */
 const getCategoryList = function() { return callCloudFunction('getCategoryList') }
-
-// ==================== 轮播图相关 ====================
-/**
- * 获取轮播图列表
- */
-const getBannerList = function() { return callCloudFunction('getBannerList') }
-
-// ==================== 热门/新品商品 ====================
-const getHotProducts = function() { return callCloudFunction('getHotProducts') }
-const getNewProducts = function() { return callCloudFunction('getNewProducts') }
 
 // ==================== 茶知识相关 ====================
 /**
@@ -108,20 +93,11 @@ const getSiteConfig = function() { return callCloudFunction('getSiteConfig') }
 
 // ==================== 导出模块 ====================
 module.exports = {
-  // 扁平导出
   getHomeData,
-  getProductList, getProductDetail, searchProducts,
-  getCategoryList, getBannerList, getHotProducts, getNewProducts,
-  getKnowledgeList, getKnowledgeDetail, getSiteConfig,
-
-  // 命名空间导出（兼容旧代码调用方式）
-  product: {
-    list: getProductList,
-    detail: getProductDetail,
-    search: searchProducts,
-    category: function(categoryId, params) { return getProductList({ ...params, categoryId }) }
-  },
-  category: { list: getCategoryList },
-  banner: { list: getBannerList },
-  knowledge: { list: getKnowledgeList, detail: getKnowledgeDetail }
+  getProductList,
+  getProductDetail,
+  getCategoryList,
+  getKnowledgeList,
+  getKnowledgeDetail,
+  getSiteConfig
 }

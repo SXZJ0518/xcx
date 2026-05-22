@@ -1,13 +1,11 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/discover/discover",
     "pages/product/list/list",
-    "pages/culture/culture",
     "pages/profile/profile",
     "pages/product/detail/detail",
-    "pages/tea-knowledge/list/list",
-    "pages/tea-knowledge/detail/detail",
-    "pages/search/search"
+    "pages/tea-knowledge/detail/detail"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -29,16 +27,16 @@
         "selectedIconPath": "images/tabbar/home-active.png"
       },
       {
-        "pagePath": "pages/product/list/list",
-        "text": "产品",
-        "iconPath": "images/tabbar/category.png",
-        "selectedIconPath": "images/tabbar/category-active.png"
+        "pagePath": "pages/discover/discover",
+        "text": "发现",
+        "iconPath": "images/tabbar/discover.png",
+        "selectedIconPath": "images/tabbar/discover-active.png"
       },
       {
-        "pagePath": "pages/culture/culture",
-        "text": "茶文化",
-        "iconPath": "images/tabbar/cart.png",
-        "selectedIconPath": "images/tabbar/cart-active.png"
+        "pagePath": "pages/product/list/list",
+        "text": "茶品",
+        "iconPath": "images/tabbar/category.png",
+        "selectedIconPath": "images/tabbar/category-active.png"
       },
       {
         "pagePath": "pages/profile/profile",

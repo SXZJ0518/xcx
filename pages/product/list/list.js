@@ -1,24 +1,34 @@
 /**
- * 产品列表页 - 凤凰单枞
- * 支持茶叶/蜂蜜切换、香型分类筛选、搜索、分页
+ * 茶品列表页 - 凤凰单枞
+ * 支持分类切换（单枞茶/特惠茶/农产品）、包装筛选、季节筛选
  */
 const api = require('../../../utils/api')
+const Mock = require('../../../utils/wx.mock')
 
 Page({
   data: {
     products: [],
     categories: [],
-    currentType: 'tea',       // tea | honey
-    currentCategory: 'all',   // all 或具体 categoryId
+    currentCategory: 'cat_normal',   // cat_normal(单枞茶) / cat_special(特惠茶) / cat_farm(农产品)
+    currentPackType: 'all',          // all / bag(袋装) / can(铁罐) / gift(礼盒)
+    currentSeason: 'all',            // all / spring(春茶) / second_spring(二春)
     keyword: '',
     page: 1,
     hasMore: true,
-    isLoading: false,
-    siteConfig: {}
+    isLoading: false
   },
 
   onLoad(options) {
-    // 如果有 categoryId 参数，设置当前分类
+    // 从发现页跳转带 aromaName 参数
+    if (options && options.aromaName) {
+      // 根据 aromaName 找到对应的 categoryId
+      const categories = Mock.mockCategories
+      const matched = categories.find(c => c.name === options.aromaName)
+      if (matched) {
+        this.setData({ currentCategory: matched.id })
+      }
+    }
+    // 兼容旧的 categoryId 参数
     if (options && options.categoryId) {
       this.setData({ currentCategory: options.categoryId })
     }
@@ -26,7 +36,6 @@ Page({
   },
 
   onShow() {
-    // 每次显示时刷新数据
     this.setData({
       products: [],
       page: 1,
@@ -59,24 +68,64 @@ Page({
     try {
       const params = {
         page: this.data.page,
-        pageSize: 10
+        pageSize: 20
       }
 
-      // 按分类筛选
-      if (this.data.currentCategory !== 'all') {
-        params.categoryId = this.data.currentCategory
+      const cat = this.data.currentCategory
+
+      if (cat === 'cat_normal') {
+        // 单枞茶：按香型分类
+        params.type = 'tea'
+      } else if (cat === 'cat_special') {
+        // 特惠茶：茶叶中有原价>售价的
+        params.type = 'tea'
+      } else if (cat === 'cat_farm') {
+        // 农产品：蜂蜜
+        params.type = 'honey'
+      } else {
+        // 具体香型分类ID
+        params.categoryId = cat
       }
 
-      // 按关键词搜索
       if (this.data.keyword) {
         params.keyword = this.data.keyword
       }
 
       const res = await api.getProductList(params)
-      const list = (res && res.list) || []
+      let list = (res && res.list) || []
+
+      // 如果是特惠茶，只保留有折扣的
+      if (cat === 'cat_special') {
+        list = list.filter(p => p.originalPrice && p.originalPrice > p.price)
+      }
+
+      // 包装筛选（仅单枞茶/具体香型时生效）
+      if (this.data.currentPackType !== 'all' && (cat === 'cat_normal' || cat !== 'cat_special' && cat !== 'cat_farm')) {
+        const packMap = { bag: '袋装', can: '铁罐', gift: '礼盒' }
+        const packKeyword = packMap[this.data.currentPackType]
+        if (packKeyword) {
+          list = list.filter(p => {
+            const tags = p.tags || []
+            const name = p.name || ''
+            return tags.some(t => t.includes(packKeyword)) || name.includes(packKeyword)
+          })
+        }
+      }
+
+      // 季节筛选
+      if (this.data.currentSeason !== 'all') {
+        const seasonMap = { spring: '春茶', second_spring: '二春' }
+        const seasonKeyword = seasonMap[this.data.currentSeason]
+        if (seasonKeyword) {
+          list = list.filter(p => {
+            const tags = p.tags || []
+            return tags.some(t => t.includes(seasonKeyword))
+          })
+        }
+      }
 
       const newProducts = this.data.page === 1 ? list : this.data.products.concat(list)
-      const hasMore = list.length >= (params.pageSize || 10)
+      const hasMore = list.length >= (params.pageSize || 20)
 
       this.setData({
         products: newProducts,
@@ -91,31 +140,21 @@ Page({
   },
 
   /**
-   * 切换商品类型（茶叶/蜂蜜）
-   */
-  switchType(e) {
-    const type = e.currentTarget.dataset.type
-    if (type === this.data.currentType) return
-
-    this.setData({
-      currentType: type,
-      currentCategory: 'all',
-      products: [],
-      page: 1,
-      hasMore: true
-    })
-    this.loadProducts()
-  },
-
-  /**
-   * 切换香型分类
+   * 切换分类（单枞茶/特惠茶/农产品）
    */
   switchCategory(e) {
-    const id = e.currentTarget.dataset.id || 'all'
-    if (id === this.data.currentCategory) return
+    const cat = e.currentTarget.dataset.cat
+    if (cat === this.data.currentCategory) return
+
+    if (cat === 'cat_farm') {
+      wx.showToast({ title: '敬请期待', icon: 'none', duration: 1500 })
+      return
+    }
 
     this.setData({
-      currentCategory: id,
+      currentCategory: cat,
+      currentPackType: 'all',
+      currentSeason: 'all',
       products: [],
       page: 1,
       hasMore: true
@@ -124,12 +163,42 @@ Page({
   },
 
   /**
-   * 跳转搜索页
+   * 切换包装类型
    */
-  goToSearch() {
-    wx.navigateTo({
-      url: '/pages/search/search'
+  switchPackType(e) {
+    const packType = e.currentTarget.dataset.pack || 'all'
+    if (packType === this.data.currentPackType) return
+
+    this.setData({
+      currentPackType: packType,
+      products: [],
+      page: 1,
+      hasMore: true
     })
+    this.loadProducts()
+  },
+
+  /**
+   * 切换季节
+   */
+  switchSeason(e) {
+    const season = e.currentTarget.dataset.season || 'all'
+    if (season === this.data.currentSeason) return
+
+    this.setData({
+      currentSeason: season,
+      products: [],
+      page: 1,
+      hasMore: true
+    })
+    this.loadProducts()
+  },
+
+  /**
+   * 搜索栏点击（装饰性）
+   */
+  onSearchTap() {
+    wx.showToast({ title: '搜索功能暂未开放', icon: 'none', duration: 1500 })
   },
 
   /**

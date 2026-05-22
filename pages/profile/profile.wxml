@@ -1,38 +1,43 @@
 <view class="page">
-  <!-- 用户区域 -->
+
+  <!-- ========== 1. 用户区域 ========== -->
   <view class="user-header">
     <view class="user-bg"></view>
     <view class="user-content">
       <view class="avatar-wrap">
-        <image class="avatar" src="/images/default-avatar.png" mode="aspectFill"></image>
+        <view class="avatar-default">
+          <view class="avatar-icon"></view>
+        </view>
       </view>
       <text class="nickname">茶友</text>
       <text class="user-desc">品茶悟道，静心修行</text>
     </view>
   </view>
 
-  <!-- 联系方式卡片 -->
-  <view class="contact-card">
-    <view class="contact-item" bindtap="copyWechat">
+  <!-- ========== 2. 联系方式卡片（有微信号或电话才显示） ========== -->
+  <view class="contact-card" wx:if="{{siteConfig.wechat || siteConfig.phone}}">
+    <!-- 微信号 -->
+    <view class="contact-item" wx:if="{{siteConfig.wechat}}" bindtap="copyWechat">
       <view class="contact-icon-wrap wechat-icon">
         <text class="contact-icon-text">微</text>
       </view>
       <view class="contact-info">
         <text class="contact-label">微信号</text>
-        <text class="contact-value">{{siteConfig.wechat || '暂未设置'}}</text>
+        <text class="contact-value">{{siteConfig.wechat}}</text>
       </view>
       <view class="contact-action">
         <text class="action-text">复制</text>
       </view>
     </view>
 
-    <view class="contact-item" bindtap="callPhone">
+    <!-- 电话 -->
+    <view class="contact-item" wx:if="{{siteConfig.phone}}" bindtap="callPhone">
       <view class="contact-icon-wrap phone-icon">
         <text class="contact-icon-text">电</text>
       </view>
       <view class="contact-info">
         <text class="contact-label">电话</text>
-        <text class="contact-value">{{siteConfig.phone || '暂未设置'}}</text>
+        <text class="contact-value">{{siteConfig.phone}}</text>
       </view>
       <view class="contact-action">
         <text class="action-text">拨打</text>
@@ -40,9 +45,10 @@
     </view>
   </view>
 
-  <!-- 功能列表 -->
+  <!-- ========== 3. 功能列表 ========== -->
   <view class="menu-card">
-    <view class="menu-item" bindtap="goToAbout">
+    <!-- 关于我们 -->
+    <view class="menu-item" wx:if="{{siteConfig.about}}">
       <view class="menu-left">
         <view class="menu-icon about-icon"></view>
         <text class="menu-label">关于我们</text>
@@ -50,14 +56,12 @@
       <text class="menu-arrow">→</text>
     </view>
 
-    <view class="menu-item" bindtap="goToCulture">
-      <view class="menu-left">
-        <view class="menu-icon culture-icon"></view>
-        <text class="menu-label">茶知识</text>
-      </view>
-      <text class="menu-arrow">→</text>
+    <!-- 品牌故事展示区域 -->
+    <view class="about-content" wx:if="{{siteConfig.about}}">
+      <text class="about-text">{{siteConfig.about}}</text>
     </view>
 
+    <!-- 分享给朋友 -->
     <button class="menu-item menu-btn" open-type="share">
       <view class="menu-left">
         <view class="menu-icon share-icon"></view>
@@ -67,10 +71,10 @@
     </button>
   </view>
 
-  <!-- 品牌信息底部 -->
+  <!-- ========== 4. 底部品牌信息 ========== -->
   <view class="brand-footer">
     <text class="brand-name">{{siteConfig.brandName || '凤凰单枞'}}</text>
-    <text class="brand-address">{{siteConfig.address || '广东省潮州市凤凰山'}}</text>
-    <text class="brand-copyright">一丛一味 · 百丛百香</text>
+    <text class="brand-address">{{siteConfig.address || '广东省潮州市凤凰镇'}}</text>
+    <text class="brand-version">v1.0.0</text>
   </view>
 </view>

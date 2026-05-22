@@ -8,8 +8,7 @@ Page({
   data: {
     banners: [],
     hotProducts: [],
-    categories: [],
-    honeyProducts: [],
+    aromaTypes: [],
     siteConfig: {}
   },
 
@@ -24,36 +23,33 @@ Page({
   },
 
   /**
-   * 加载首页所有数据
+   * 加载首页所有数据（并行请求）
    */
   async loadHomeData() {
     try {
-      const [banners, hotProducts, categories] = await Promise.all([
-        api.getBannerList(),
+      const [homeRes, hotRes, categoryRes, configRes] = await Promise.all([
+        api.getHomeData(),
         api.getHotProducts(),
-        api.getCategoryList()
+        api.getCategoryList(),
+        api.getSiteConfig()
       ])
 
-      // 热销最多取4个
-      const topHot = (hotProducts || []).slice(0, 4)
-
-      // 蜂蜜产品（模拟数据中暂无蜂蜜，预留接口）
-      const honeyProducts = []
-
       // 站点配置
-      const siteConfig = {
-        brandName: '凤凰单枞',
-        slogan: '一丛一味 · 百丛百香',
-        desc: '潮州凤凰山 · 高山炭焙 · 传统工艺',
-        brandStory: '凤凰单枞，产于广东省潮州市凤凰山，是乌龙茶中的极品。因"一丛一味、百丛百香"而得名，每株茶树皆有独特香气。',
-        wechatId: 'fenghuang_dancong'
-      }
+      const siteConfig = configRes || homeRes?.siteConfig || {}
+
+      // 热销商品最多4个
+      const hotProducts = (hotRes || homeRes?.hotProducts || []).slice(0, 4)
+
+      // 香型列表
+      const aromaTypes = categoryRes || homeRes?.categories || []
+
+      // 轮播图
+      const banners = homeRes?.banners || []
 
       this.setData({
-        banners: banners || [],
-        hotProducts: topHot,
-        categories: categories || [],
-        honeyProducts,
+        banners,
+        hotProducts,
+        aromaTypes,
         siteConfig
       })
     } catch (err) {
@@ -63,9 +59,7 @@ Page({
         siteConfig: {
           brandName: '凤凰单枞',
           slogan: '一丛一味 · 百丛百香',
-          desc: '潮州凤凰山 · 高山炭焙 · 传统工艺',
-          brandStory: '凤凰单枞，产于广东省潮州市凤凰山，是乌龙茶中的极品。',
-          wechatId: 'fenghuang_dancong'
+          about: '凤凰单枞，产于广东省潮州市凤凰山，是乌龙茶中的极品。'
         }
       })
     }
@@ -74,7 +68,7 @@ Page({
   /**
    * 跳转商品详情
    */
-  goToProductDetail(e) {
+  goToDetail(e) {
     const id = e.currentTarget.dataset.id
     wx.navigateTo({
       url: `/pages/product/detail/detail?id=${id}`
@@ -82,17 +76,7 @@ Page({
   },
 
   /**
-   * 跳转产品列表页（带分类ID）
-   */
-  goToCategory(e) {
-    const id = e.currentTarget.dataset.id
-    wx.navigateTo({
-      url: `/pages/product/list/list?categoryId=${id}`
-    })
-  },
-
-  /**
-   * 跳转产品页（TabBar）
+   * 跳转茶品页（TabBar）
    */
   goToProducts() {
     wx.switchTab({
@@ -101,9 +85,9 @@ Page({
   },
 
   /**
-   * 跳转茶文化页（TabBar）
+   * 跳转发现页（TabBar）
    */
-  goToCulture() {
+  goToDiscover() {
     wx.switchTab({
       url: '/pages/category/category'
     })
@@ -113,13 +97,13 @@ Page({
    * 复制微信号
    */
   copyWechat() {
-    const wechatId = this.data.siteConfig.wechatId || ''
-    if (!wechatId) {
+    const wechat = this.data.siteConfig.wechat || ''
+    if (!wechat) {
       wx.showToast({ title: '暂无微信号', icon: 'none' })
       return
     }
     wx.setClipboardData({
-      data: wechatId,
+      data: wechat,
       success: () => {
         wx.showToast({
           title: '已复制微信号',

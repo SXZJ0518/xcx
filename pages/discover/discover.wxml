@@ -1,0 +1,85 @@
+<view class="page">
+
+  <!-- ========== 1. 顶部 Banner ========== -->
+  <view class="banner">
+    <view class="banner-bg"></view>
+    <view class="banner-content">
+      <text class="banner-title">一丛一味 百丛百香</text>
+      <text class="banner-subtitle">凤凰单枞十大香型</text>
+      <view class="banner-divider"></view>
+    </view>
+  </view>
+
+  <!-- ========== 2. 十大香型 ========== -->
+  <view class="section">
+    <view class="section-header">
+      <view class="section-title-wrap">
+        <view class="section-title-line"></view>
+        <text class="section-title">十大香型</text>
+      </view>
+    </view>
+
+    <view class="aroma-grid">
+      <view
+        class="aroma-card"
+        wx:for="{{aromaTypes}}"
+        wx:key="id"
+        bindtap="goToProducts"
+        data-name="{{item.name}}"
+      >
+        <view class="aroma-card-inner">
+          <text class="aroma-name">{{item.name}}</text>
+          <text class="aroma-feature">{{item.aromaFeature}}</text>
+          <view class="aroma-status {{item.yourProduct ? 'has-product' : 'no-product'}}">
+            <text wx:if="{{item.yourProduct}}">我们有售 →</text>
+            <text wx:else>暂无产品</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- ========== 3. 茶知识 ========== -->
+  <view class="section knowledge-section">
+    <view class="section-header">
+      <view class="section-title-wrap">
+        <view class="section-title-line"></view>
+        <text class="section-title">茶知识</text>
+      </view>
+    </view>
+
+    <view class="knowledge-list">
+      <view
+        class="knowledge-card"
+        wx:for="{{knowledgeList}}"
+        wx:key="id"
+        bindtap="goToKnowledgeDetail"
+        data-id="{{item.id}}"
+      >
+        <view class="knowledge-card-inner">
+          <view class="knowledge-top">
+            <text class="knowledge-category" wx:if="{{item.category}}">{{item.category}}</text>
+            <text class="knowledge-date" wx:if="{{item.createTime}}">{{item.createTime}}</text>
+          </view>
+          <text class="knowledge-title">{{item.title}}</text>
+          <text class="knowledge-summary">{{item.summary}}</text>
+          <view class="knowledge-bottom">
+            <view class="knowledge-views">
+              <view class="views-icon"></view>
+              <text class="views-text">{{item.views || 0}}</text>
+            </view>
+            <text class="knowledge-arrow">阅读全文 →</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 知识空状态 -->
+    <view class="empty-knowledge" wx:if="{{!knowledgeList.length}}">
+      <text class="empty-text">暂无茶知识文章</text>
+    </view>
+  </view>
+
+  <!-- 底部留白 -->
+  <view class="footer-space"></view>
+</view>
