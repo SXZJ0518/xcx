@@ -8,7 +8,7 @@
  * 环境切换：修改下方 USE_MOCK 值即可，无需改动任何业务代码
  */
 
-const USE_MOCK = true // 【上线时改为 false】
+const USE_MOCK = false // 【开发时改为 true，上线时改为 false】
 
 const Mock = require('./wx.mock')
 
