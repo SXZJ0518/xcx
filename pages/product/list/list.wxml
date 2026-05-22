@@ -31,7 +31,6 @@
       >
         <view class="nav-line" wx:if="{{currentCategory === item.id}}"></view>
         <text class="nav-text">{{item.name}}</text>
-        <view class="nav-badge" wx:if="{{item.id === 'cat_special'}}">省</view>
       </view>
     </view>
 
