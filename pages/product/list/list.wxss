@@ -215,30 +215,17 @@ page {
   pointer-events: none;
 }
 
-.p-tag-special {
+/* 动态图片标签 */
+.p-tag-dynamic {
   position: absolute;
   top: 0;
   left: 0;
   padding: 8rpx 18rpx;
-  background: linear-gradient(135deg, #e74c3c, #c0392b);
   border-radius: 0 0 16rpx 0;
-  font-size: 20rpx;
+  font-size: 22rpx;
   font-weight: 500;
-  color: var(--white);
   letter-spacing: 2rpx;
-}
-
-.p-tag-new {
-  position: absolute;
-  top: 0;
-  left: 0;
-  padding: 8rpx 18rpx;
-  background: linear-gradient(135deg, var(--ink), #3d3530);
-  border-radius: 0 0 16rpx 0;
-  font-size: 20rpx;
-  font-weight: 500;
-  color: var(--gold);
-  letter-spacing: 2rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.15);
 }
 
 .p-info {

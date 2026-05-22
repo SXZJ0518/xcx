@@ -123,7 +123,8 @@ const mockProducts = [
     sales: 342,
     brief: '凤凰单枞最受欢迎的香型，蜜香馥郁，回甘悠长',
     cover: '',
-    imageUrl: ''
+    imageUrl: '',
+    imageTag: { text: '蜜兰香', bg: '#d4a017', textColor: '#ffffff' }
   },
   {
     id: 'prod_2',
@@ -151,7 +152,8 @@ const mockProducts = [
     sales: 528,
     brief: '名字接地气，香气高雅，金银花奶香杏仁香层次丰富',
     cover: '',
-    imageUrl: ''
+    imageUrl: '',
+    imageTag: { text: '银花香', bg: '#9b8b6e', textColor: '#ffffff' }
   },
   {
     id: 'prod_3',
@@ -179,7 +181,8 @@ const mockProducts = [
     sales: 456,
     brief: '黄栀香型代表，栀子花香清雅，性价比之选',
     cover: '',
-    imageUrl: ''
+    imageUrl: '',
+    imageTag: { text: '黄栀香', bg: '#e6b422', textColor: '#ffffff' }
   },
   {
     id: 'prod_4',
@@ -207,7 +210,8 @@ const mockProducts = [
     sales: 189,
     brief: '杏仁香型代表，天然果仁香，辨识度极高',
     cover: '',
-    imageUrl: ''
+    imageUrl: '',
+    imageTag: { text: '杏仁香', bg: '#c9a86c', textColor: '#2d2520' }
   },
   {
     id: 'prod_5',
@@ -235,7 +239,8 @@ const mockProducts = [
     sales: 145,
     brief: '十大香型之一，清雅细长似幽谷芝兰',
     cover: '',
-    imageUrl: ''
+    imageUrl: '',
+    imageTag: { text: '芝兰香', bg: '#8b7355', textColor: '#ffffff' }
   },
   {
     id: 'prod_6',
@@ -263,7 +268,8 @@ const mockProducts = [
     sales: 98,
     brief: '馥郁桂花甜香，甜而不腻，花果香型经典',
     cover: '',
-    imageUrl: ''
+    imageUrl: '',
+    imageTag: { text: '桂花香', bg: '#d4883c', textColor: '#ffffff' }
   },
   {
     id: 'prod_7',
@@ -291,7 +297,8 @@ const mockProducts = [
     sales: 76,
     brief: '又名通天香，稀缺香型，入口微辣回甘迅猛',
     cover: '',
-    imageUrl: ''
+    imageUrl: '',
+    imageTag: { text: '姜花香', bg: '#a0452e', textColor: '#ffffff' }
   },
   {
     id: 'prod_8',
@@ -319,7 +326,8 @@ const mockProducts = [
     sales: 289,
     brief: '蜜兰香二春，经典风味性价比之选',
     cover: '',
-    imageUrl: ''
+    imageUrl: '',
+    imageTag: { text: '蜜兰香', bg: '#d4a017', textColor: '#ffffff' }
   },
   {
     id: 'prod_9',
@@ -347,7 +355,8 @@ const mockProducts = [
     sales: 178,
     brief: '黄栀香型二春，栀子花香，入门实惠之选',
     cover: '',
-    imageUrl: ''
+    imageUrl: '',
+    imageTag: { text: '黄栀香', bg: '#e6b422', textColor: '#ffffff' }
   },
   {
     id: 'prod_10',
@@ -375,7 +384,8 @@ const mockProducts = [
     sales: 98,
     brief: '乌岽古树高山版，鸭屎香顶级之作',
     cover: '',
-    imageUrl: ''
+    imageUrl: '',
+    imageTag: { text: '银花香', bg: '#9b8b6e', textColor: '#ffffff' }
   },
 
   // ===== 特惠茶（cat_special）10个 =====
@@ -405,7 +415,8 @@ const mockProducts = [
     sales: 234,
     brief: '精拣茶叶，品质优良，价格实惠',
     cover: '',
-    imageUrl: ''
+    imageUrl: '',
+    imageTag: { text: '特惠', bg: '#e74c3c', textColor: '#ffffff' }
   },
   {
     id: 'prod_12',
@@ -433,7 +444,8 @@ const mockProducts = [
     sales: 367,
     brief: '碎茶装袋，经济实惠，日常饮用好选择',
     cover: '',
-    imageUrl: ''
+    imageUrl: '',
+    imageTag: { text: '特惠', bg: '#e74c3c', textColor: '#ffffff' }
   },
   {
     id: 'prod_13',
@@ -461,7 +473,8 @@ const mockProducts = [
     sales: 156,
     brief: '春茶精拣茶头，春韵十足，实惠之选',
     cover: '',
-    imageUrl: ''
+    imageUrl: '',
+    imageTag: { text: '特惠', bg: '#e74c3c', textColor: '#ffffff' }
   },
   {
     id: 'prod_14',
@@ -489,7 +502,8 @@ const mockProducts = [
     sales: 123,
     brief: '蜜兰香风味茶头，经典花香实惠之选',
     cover: '',
-    imageUrl: ''
+    imageUrl: '',
+    imageTag: { text: '特惠', bg: '#e74c3c', textColor: '#ffffff' }
   },
   {
     id: 'prod_15',
@@ -517,7 +531,8 @@ const mockProducts = [
     sales: 201,
     brief: '春茶碎茶茶包，春韵不减经济实惠',
     cover: '',
-    imageUrl: ''
+    imageUrl: '',
+    imageTag: { text: '特惠', bg: '#e74c3c', textColor: '#ffffff' }
   },
   {
     id: 'prod_16',
@@ -545,7 +560,8 @@ const mockProducts = [
     sales: 167,
     brief: '鸭屎香风味茶包，银花香清甜实惠',
     cover: '',
-    imageUrl: ''
+    imageUrl: '',
+    imageTag: { text: '特惠', bg: '#e74c3c', textColor: '#ffffff' }
   },
   {
     id: 'prod_17',
@@ -573,7 +589,8 @@ const mockProducts = [
     sales: 89,
     brief: '二春精拣茶头，电焙工艺，超值实惠',
     cover: '',
-    imageUrl: ''
+    imageUrl: '',
+    imageTag: { text: '特惠', bg: '#e74c3c', textColor: '#ffffff' }
   },
   {
     id: 'prod_18',
@@ -601,7 +618,8 @@ const mockProducts = [
     sales: 134,
     brief: '二春碎茶茶包，价格最实惠的口粮茶',
     cover: '',
-    imageUrl: ''
+    imageUrl: '',
+    imageTag: { text: '特惠', bg: '#e74c3c', textColor: '#ffffff' }
   },
   {
     id: 'prod_19',
@@ -629,7 +647,8 @@ const mockProducts = [
     sales: 67,
     brief: '1000g大份装茶头，单价更低更实惠',
     cover: '',
-    imageUrl: ''
+    imageUrl: '',
+    imageTag: { text: '特惠', bg: '#e74c3c', textColor: '#ffffff' }
   },
   {
     id: 'prod_20',
@@ -657,7 +676,8 @@ const mockProducts = [
     sales: 92,
     brief: '1000g大份装茶包，口粮茶首选',
     cover: '',
-    imageUrl: ''
+    imageUrl: '',
+    imageTag: { text: '特惠', bg: '#e74c3c', textColor: '#ffffff' }
   },
 
   // ===== 农产品（cat_farm）10个（预留，显示敬请期待） =====

@@ -264,23 +264,157 @@
           </el-form-item>
           
           <el-form-item label="详情图集">
-            <el-upload
-              class="gallery-upload"
-              action="/api/admin/upload/product"
-              :headers="uploadHeaders"
-              :on-success="handleGallerySuccess"
-              :on-remove="handleGalleryRemove"
-              :on-error="handleUploadError"
-              :before-upload="beforeImageUpload"
-              :limit="9"
-              :file-list="galleryFileList"
-              list-type="picture-card"
-            >
-              <i class="el-icon-plus"></i>
-            </el-upload>
-            <div class="el-upload__tip">可上传多张详情图片，最多 9 张</div>
+            <div class="gallery-container">
+              <div 
+                v-for="(image, index) in productForm.images" 
+                :key="index" 
+                class="gallery-item"
+              >
+                <div class="gallery-image-wrapper">
+                  <img :src="image.url" class="gallery-image" />
+                  <!-- 标签预览 -->
+                  <div 
+                    v-if="image.tag && image.tag.text" 
+                    class="image-tag-preview"
+                    :style="{
+                      backgroundColor: image.tag.bgColor || '#d4a017',
+                      color: image.tag.textColor || '#ffffff'
+                    }"
+                  >
+                    {{ image.tag.text }}
+                  </div>
+                  <!-- 删除按钮 -->
+                  <div class="image-delete-btn" @click="handleGalleryImageRemove(index)">
+                    <i class="el-icon-delete"></i>
+                  </div>
+                </div>
+                <div class="gallery-item-actions">
+                  <el-button 
+                    size="mini" 
+                    type="text"
+                    @click="openTagConfig(index)"
+                  >
+                    {{ image.tag && image.tag.text ? '编辑标签' : '添加标签' }}
+                  </el-button>
+                </div>
+              </div>
+              
+              <!-- 上传按钮 -->
+              <el-upload
+                v-if="productForm.images.length < 9"
+                class="gallery-upload-btn"
+                action="/api/admin/upload/product"
+                :headers="uploadHeaders"
+                :on-success="handleGallerySuccess"
+                :on-error="handleUploadError"
+                :before-upload="beforeImageUpload"
+                :show-file-list="false"
+              >
+                <div class="upload-placeholder">
+                  <i class="el-icon-plus"></i>
+                </div>
+              </el-upload>
+            </div>
+            <div class="el-upload__tip">可上传多张详情图片，最多 9 张，点击"添加标签"可为图片添加标签</div>
           </el-form-item>
         </div>
+        
+        <!-- 图片标签配置弹窗 -->
+        <el-dialog 
+          title="图片标签配置" 
+          :visible.sync="tagConfigVisible" 
+          width="480px"
+          :close-on-click-modal="false"
+        >
+          <div class="tag-config-form">
+            <el-form label-width="100px">
+              <el-form-item label="显示标签">
+                <el-switch 
+                  v-model="tagConfigForm.showTag" 
+                  active-color="#c9a86c"
+                ></el-switch>
+                <span class="form-hint" style="margin-left: 10px;">开启后将在图片上显示标签</span>
+              </el-form-item>
+              
+              <template v-if="tagConfigForm.showTag">
+                <el-form-item label="标签文字">
+                  <el-input 
+                    v-model="tagConfigForm.text" 
+                    placeholder="请输入标签文字"
+                    maxlength="4"
+                    show-word-limit
+                    style="width: 200px;"
+                  ></el-input>
+                </el-form-item>
+                
+                <el-form-item label="背景颜色">
+                  <div class="color-picker-row">
+                    <el-color-picker 
+                      v-model="tagConfigForm.bgColor" 
+                      :predefine="predefineColors"
+                    ></el-color-picker>
+                    <span class="color-value">{{ tagConfigForm.bgColor }}</span>
+                  </div>
+                  <div class="preset-colors">
+                    <span 
+                      v-for="color in predefineColors" 
+                      :key="color"
+                      class="preset-color-item"
+                      :style="{ backgroundColor: color }"
+                      @click="tagConfigForm.bgColor = color"
+                    ></span>
+                  </div>
+                </el-form-item>
+                
+                <el-form-item label="文字颜色">
+                  <div class="color-picker-row">
+                    <el-color-picker 
+                      v-model="tagConfigForm.textColor" 
+                      :predefine="textColorOptions"
+                    ></el-color-picker>
+                    <span class="color-value">{{ tagConfigForm.textColor }}</span>
+                  </div>
+                  <div class="preset-colors">
+                    <span 
+                      v-for="color in textColorOptions" 
+                      :key="color"
+                      class="preset-color-item"
+                      :style="{ backgroundColor: color }"
+                      @click="tagConfigForm.textColor = color"
+                    ></span>
+                  </div>
+                </el-form-item>
+                
+                <el-form-item label="效果预览">
+                  <div class="tag-preview-box">
+                    <div class="preview-image-wrapper">
+                      <img 
+                        v-if="currentTagImage" 
+                        :src="currentTagImage" 
+                        class="preview-image" 
+                      />
+                      <div 
+                        v-if="tagConfigForm.text"
+                        class="preview-tag"
+                        :style="{
+                          backgroundColor: tagConfigForm.bgColor,
+                          color: tagConfigForm.textColor
+                        }"
+                      >
+                        {{ tagConfigForm.text }}
+                      </div>
+                    </div>
+                  </div>
+                </el-form-item>
+              </template>
+            </el-form>
+          </div>
+          
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="tagConfigVisible = false">取消</el-button>
+            <el-button type="primary" @click="saveTagConfig">保存</el-button>
+          </span>
+        </el-dialog>
 
         <!-- 标签与属性 -->
         <div class="section-block">
@@ -437,7 +571,40 @@ export default {
       coverFileList: [],
       galleryFileList: [],
       tagInputVisible: false,
-      tagInputValue: ''
+      tagInputValue: '',
+      
+      // 图片标签配置
+      tagConfigVisible: false,
+      tagConfigIndex: -1, // 当前编辑的图片索引
+      tagConfigForm: {
+        showTag: false,
+        text: '',
+        bgColor: '#d4a017',
+        textColor: '#ffffff'
+      },
+      
+      // 预设背景颜色
+      predefineColors: [
+        '#d4a017', // 琥珀金
+        '#9b8b6e', // 银灰
+        '#e6b422', // 栀子黄
+        '#8b7355', // 兰花紫
+        '#c9a86c', // 杏仁棕
+        '#d4883c', // 桂花橙
+        '#a0452e', // 姜花红
+        '#e74c3c', // 特惠红
+        '#2d2520'  // 新品黑
+      ],
+      
+      // 预设文字颜色
+      textColorOptions: [
+        '#ffffff', // 白色
+        '#000000', // 黑色
+        '#f5f5dc', // 米白
+        '#ffd700', // 金色
+        '#ff6b6b', // 浅红
+        '#4ecdc4'  // 青色
+      ]
     }
   },
   
@@ -453,6 +620,14 @@ export default {
       const dancongCategory = this.categoryOptions.find(c => c.label === '单枞茶')
       if (!dancongCategory) return false
       return this.productForm.categoryId === dancongCategory.value
+    },
+    
+    // 当前编辑标签的图片URL
+    currentTagImage() {
+      if (this.tagConfigIndex >= 0 && this.productForm.images[this.tagConfigIndex]) {
+        return this.productForm.images[this.tagConfigIndex].url
+      }
+      return ''
     }
   },
   
@@ -523,24 +698,34 @@ export default {
         .then(response => {
           if (response.code === 0 && response.data) {
             const data = response.data
+            
+            // 处理图片数据，兼容新旧格式
+            let images = []
+            if (data.images && data.images.length > 0) {
+              images = data.images.map(item => {
+                // 如果是字符串（旧格式），转换为对象格式
+                if (typeof item === 'string') {
+                  return { url: item, tag: null }
+                }
+                // 如果是对象（新格式），直接使用
+                return item
+              })
+            }
+            
             this.productForm = {
               ...this.productForm,
               ...data,
               packaging: data.packaging || [],
               tags: data.tags || [],
-              images: data.images || []
+              images: images
             }
             
             // 设置图片文件列表
             if (data.imageUrl) {
               this.coverFileList = [{ url: data.imageUrl }]
             }
-            if (data.images && data.images.length > 0) {
-              this.galleryFileList = data.images.map((url, index) => ({
-                name: `gallery-${index + 1}`,
-                url: url
-              }))
-            }
+            // galleryFileList 不再需要，但保留兼容性
+            this.galleryFileList = []
           } else {
             this.$message.error(response.message || '获取商品详情失败')
           }
@@ -573,7 +758,11 @@ export default {
     
     handleGallerySuccess(response, file, fileList) {
       if (response.code === 0) {
-        this.productForm.images.push(response.data.url)
+        // 使用新的数据结构，图片为对象
+        this.productForm.images.push({
+          url: response.data.url,
+          tag: null // 初始无标签
+        })
       } else {
         this.$message.error(response.message || '上传失败')
       }
@@ -600,12 +789,59 @@ export default {
       return true
     },
     
-    handleGalleryRemove(file, fileList) {
-      const urlToRemove = file.url || (file.response && file.response.data && file.response.data.url)
-      const index = this.productForm.images.findIndex(url => url === urlToRemove)
-      if (index !== -1) {
-        this.productForm.images.splice(index, 1)
+    handleGalleryImageRemove(index) {
+      this.productForm.images.splice(index, 1)
+    },
+    
+    // 打开标签配置弹窗
+    openTagConfig(index) {
+      this.tagConfigIndex = index
+      const image = this.productForm.images[index]
+      
+      if (image.tag && image.tag.text) {
+        // 已有标签，填充表单
+        this.tagConfigForm = {
+          showTag: true,
+          text: image.tag.text,
+          bgColor: image.tag.bgColor || '#d4a017',
+          textColor: image.tag.textColor || '#ffffff'
+        }
+      } else {
+        // 无标签，重置表单
+        this.tagConfigForm = {
+          showTag: false,
+          text: '',
+          bgColor: '#d4a017',
+          textColor: '#ffffff'
+        }
       }
+      
+      this.tagConfigVisible = true
+    },
+    
+    // 保存标签配置
+    saveTagConfig() {
+      if (this.tagConfigIndex < 0) return
+      
+      if (this.tagConfigForm.showTag) {
+        if (!this.tagConfigForm.text.trim()) {
+          this.$message.warning('请输入标签文字')
+          return
+        }
+        
+        // 设置标签
+        this.$set(this.productForm.images[this.tagConfigIndex], 'tag', {
+          text: this.tagConfigForm.text.trim(),
+          bgColor: this.tagConfigForm.bgColor,
+          textColor: this.tagConfigForm.textColor
+        })
+      } else {
+        // 清除标签
+        this.$set(this.productForm.images[this.tagConfigIndex], 'tag', null)
+      }
+      
+      this.tagConfigVisible = false
+      this.$message.success('标签配置已保存')
     },
     
     // 标签管理
@@ -792,6 +1028,165 @@ $tea-primary-light: #b8862d;
   ::v-deep .el-upload-list--picture-card .el-upload-list__item {
     width: 120px;
     height: 120px;
+  }
+}
+
+// 图片画廊容器
+.gallery-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.gallery-item {
+  width: 120px;
+}
+
+.gallery-image-wrapper {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border: 1px solid #dcdfe6;
+  border-radius: 6px;
+  overflow: hidden;
+  
+  &:hover {
+    .image-delete-btn {
+      opacity: 1;
+    }
+  }
+}
+
+.gallery-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-tag-preview {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  padding: 2px 8px;
+  font-size: 12px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.image-delete-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 24px;
+  height: 24px;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s;
+  border-radius: 0 6px 0 4px;
+  
+  &:hover {
+    background: rgba(0, 0, 0, 0.7);
+  }
+}
+
+.gallery-item-actions {
+  margin-top: 6px;
+  text-align: center;
+}
+
+.gallery-upload-btn {
+  ::v-deep .el-upload {
+    width: 120px;
+    height: 120px;
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    
+    &:hover {
+      border-color: $tea-primary;
+    }
+  }
+}
+
+.upload-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8c939d;
+  font-size: 28px;
+}
+
+// 标签配置弹窗样式
+.tag-config-form {
+  .color-picker-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .color-value {
+    font-size: 13px;
+    color: #606266;
+    font-family: monospace;
+  }
+  
+  .preset-colors {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  
+  .preset-color-item {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+    
+    &:hover {
+      transform: scale(1.1);
+      border-color: #409eff;
+    }
+  }
+  
+  .tag-preview-box {
+    width: 200px;
+    height: 150px;
+    background: #f5f7fa;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  
+  .preview-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .preview-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .preview-tag {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 4px 12px;
+    font-size: 14px;
+    border-radius: 4px;
+    font-weight: 500;
   }
 }
 

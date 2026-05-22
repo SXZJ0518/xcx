@@ -76,8 +76,12 @@
               <view class="p-image">
                 <image src="{{product.imageUrl || product.cover}}" mode="aspectFill" lazy-load />
                 <view class="p-overlay"></view>
-                <view class="p-tag-special" wx:if="{{item.id === 'cat_special'}}">特惠</view>
-                <view class="p-tag-new" wx:elif="{{product.isNew}}">新</view>
+                <!-- 动态图片标签 -->
+                <view
+                  class="p-tag-dynamic"
+                  wx:if="{{product.imageTag}}"
+                  style="background: {{product.imageTag.bg}}; color: {{product.imageTag.textColor}};"
+                >{{product.imageTag.text}}</view>
               </view>
               <view class="p-info">
                 <text class="p-name">{{product.name}}</text>
