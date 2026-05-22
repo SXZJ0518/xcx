@@ -10,9 +10,10 @@ Page({
     allProducts: [],
     groupedProducts: {},
     currentCategory: 'cat_normal',
-    sectionTopList: [],
+    sectionOffsets: [],
     isLoading: false,
-    isRefreshing: false
+    isRefreshing: false,
+    _scrollTop: 0
   },
 
   onLoad(options) {
@@ -22,9 +23,7 @@ Page({
     this.loadAllData()
   },
 
-  onShow() {
-    // 不重复加载
-  },
+  onShow() {},
 
   /**
    * 加载所有数据并按分类分组
@@ -40,7 +39,6 @@ Page({
       const allProducts = (res && res.list) || []
       const cats = categories || []
 
-      // 按分类分组
       const grouped = {}
       cats.forEach(cat => {
         grouped[cat.id] = allProducts.filter(p => p.categoryId === cat.id)
@@ -54,8 +52,8 @@ Page({
         isRefreshing: false
       })
 
-      // 计算每个分类区块的位置（延迟确保DOM渲染完成）
-      setTimeout(() => this.calcSectionTops(), 300)
+      // 延迟计算每个区块在滚动容器内的偏移量
+      setTimeout(() => this.calcSectionOffsets(), 500)
     } catch (err) {
       console.error('加载数据失败:', err)
       this.setData({ isLoading: false, isRefreshing: false })
@@ -63,21 +61,36 @@ Page({
   },
 
   /**
-   * 计算每个分类区块的top位置
+   * 计算每个分类区块在滚动容器内的绝对偏移量
+   * 关键：用 scrollOffset 获取当前滚动位置，加上 boundingClientRect 得到绝对位置
    */
-  calcSectionTops() {
+  calcSectionOffsets() {
     const query = wx.createSelectorQuery()
+    // 获取滚动容器的当前滚动位置
+    query.select('.product-scroll').scrollOffset()
+    // 获取每个分类区块的视口位置
     this.data.categories.forEach(cat => {
       query.select('#section-' + cat.id).boundingClientRect()
     })
     query.exec(res => {
-      const tops = []
-      res.forEach((rect, i) => {
+      if (!res || res.length < 2) return
+
+      const scrollOffset = res[0] ? res[0].scrollTop : 0
+      const offsets = []
+
+      for (let i = 0; i < this.data.categories.length; i++) {
+        const rect = res[i + 1]
         if (rect) {
-          tops.push({ id: this.data.categories[i].id, top: rect.top })
+          // 绝对偏移 = 当前滚动位置 + 区块视口top
+          offsets.push({
+            id: this.data.categories[i].id,
+            offset: scrollOffset + rect.top
+          })
         }
-      })
-      this.setData({ sectionTopList: tops })
+      }
+
+      this.setData({ sectionOffsets: offsets })
+      console.log('分类区块偏移量:', offsets)
     })
   },
 
@@ -86,17 +99,16 @@ Page({
    */
   onScroll(e) {
     const scrollTop = e.detail.scrollTop
-    const tops = this.data.sectionTopList
+    const offsets = this.data.sectionOffsets
 
-    if (!tops || tops.length === 0) return
+    if (!offsets || offsets.length === 0) return
 
-    // 搜索栏高度约112rpx ≈ 56px
-    const offset = 56
-    let current = tops[0].id
+    // 滚动到哪个区块的范围内就高亮哪个
+    let current = offsets[0].id
 
-    for (let i = tops.length - 1; i >= 0; i--) {
-      if (scrollTop + offset >= tops[i].top) {
-        current = tops[i].id
+    for (let i = offsets.length - 1; i >= 0; i--) {
+      if (scrollTop >= offsets[i].offset - 10) {
+        current = offsets[i].id
         break
       }
     }
@@ -111,19 +123,14 @@ Page({
    */
   switchCategory(e) {
     const cat = e.currentTarget.dataset.cat
-    if (cat === 'cat_farm') {
-      // 农产品也可以滚动过去
-    }
-
     this.setData({ currentCategory: cat })
 
-    // 滚动到对应区块
     const query = wx.createSelectorQuery()
     query.select('#section-' + cat).boundingClientRect()
     query.select('.product-scroll').scrollOffset()
     query.exec(res => {
       if (res[0] && res[1]) {
-        const targetTop = res[0].top + res[1].scrollTop - 56 // 减去搜索栏高度
+        const targetTop = res[0].top + res[1].scrollTop - 10
         this.setData({ _scrollTop: targetTop })
       }
     })
@@ -146,41 +153,22 @@ Page({
     this.setData({ currentCategory: cat })
   },
 
-  /**
-   * 搜索栏点击
-   */
   onSearchTap() {
     wx.showToast({ title: '搜索功能暂未开放', icon: 'none' })
   },
 
-  /**
-   * 跳转商品详情
-   */
   goToDetail(e) {
     const id = e.currentTarget.dataset.id
-    wx.navigateTo({
-      url: `/pages/product/detail/detail?id=${id}`
-    })
+    wx.navigateTo({ url: '/pages/product/detail/detail?id=' + id })
   },
 
-  /**
-   * 下拉刷新
-   */
   onPullDownRefresh() {
     this.setData({ isRefreshing: true })
     this.loadAllData()
   },
 
-  /**
-   * 上拉加载更多（暂不需要，因为一次性加载了全部）
-   */
-  loadMore() {
-    // 当前一次性加载所有商品，无需分页
-  },
+  loadMore() {},
 
-  /**
-   * 分享
-   */
   onShareAppMessage() {
     return {
       title: '凤凰单枞 · 茶品',
