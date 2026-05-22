@@ -40,7 +40,8 @@
       scroll-y
       enhanced
       show-scrollbar="{{false}}"
-      bindscroll="onScroll"
+      scroll-into-view="{{scrollIntoView}}"
+      scroll-with-animation
       bindscrolltolower="loadMore"
       refresher-enabled="{{true}}"
       bindrefresherrefresh="onPullDownRefresh"
@@ -53,7 +54,6 @@
           class="category-section"
           wx:for="{{categories}}"
           wx:key="id"
-          wx:if="{{item.id !== 'cat_farm'}}"
           id="section-{{item.id}}"
         >
           <!-- 分类标题 -->
@@ -103,19 +103,6 @@
           </view>
 
           <!-- 分类之间的间距 -->
-          <view class="section-gap"></view>
-        </view>
-
-        <!-- 农产品区块（敬请期待） -->
-        <view class="category-section" id="section-cat_farm" wx:if="{{categories.length > 0}}">
-          <view class="section-header">
-            <view class="section-mark"></view>
-            <text class="section-title">农产品</text>
-            <text class="section-desc">敬请期待</text>
-          </view>
-          <view class="coming-soon">
-            <text class="coming-soon-text">更多山间好物，即将上线</text>
-          </view>
           <view class="section-gap"></view>
         </view>
 

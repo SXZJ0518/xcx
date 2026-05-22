@@ -1,6 +1,7 @@
 /**
  * 茶品列表页 - 整页连续滚动，左侧导航自动高亮
- * 纯展示，无支付
+ * 用 IntersectionObserver 监听区块可见性
+ * 用 scroll-into-view 实现点击导航跳转
  */
 const api = require('../../../utils/api')
 
@@ -10,11 +11,12 @@ Page({
     allProducts: [],
     groupedProducts: {},
     currentCategory: 'cat_normal',
-    sectionOffsets: [],
+    scrollIntoView: '',
     isLoading: false,
-    isRefreshing: false,
-    _scrollTop: 0
+    isRefreshing: false
   },
+
+  _observers: [],
 
   onLoad(options) {
     if (options && options.aromaName) {
@@ -23,7 +25,11 @@ Page({
     this.loadAllData()
   },
 
-  onShow() {},
+  onUnload() {
+    // 清理所有观察器
+    this._observers.forEach(obs => obs.disconnect())
+    this._observers = []
+  },
 
   /**
    * 加载所有数据并按分类分组
@@ -52,8 +58,8 @@ Page({
         isRefreshing: false
       })
 
-      // 延迟计算每个区块在滚动容器内的偏移量
-      setTimeout(() => this.calcSectionOffsets(), 500)
+      // 数据渲染后，设置 IntersectionObserver
+      setTimeout(() => this.setupObservers(), 500)
     } catch (err) {
       console.error('加载数据失败:', err)
       this.setData({ isLoading: false, isRefreshing: false })
@@ -61,79 +67,49 @@ Page({
   },
 
   /**
-   * 计算每个分类区块在滚动容器内的绝对偏移量
-   * 关键：用 scrollOffset 获取当前滚动位置，加上 boundingClientRect 得到绝对位置
+   * 用 IntersectionObserver 监听每个分类区块的可见性
+   * 当区块进入视口时，自动高亮左侧导航
    */
-  calcSectionOffsets() {
-    const query = wx.createSelectorQuery()
-    // 获取滚动容器的当前滚动位置
-    query.select('.product-scroll').scrollOffset()
-    // 获取每个分类区块的视口位置
+  setupObservers() {
+    // 先清理旧的
+    this._observers.forEach(obs => obs.disconnect())
+    this._observers = []
+
     this.data.categories.forEach(cat => {
-      query.select('#section-' + cat.id).boundingClientRect()
-    })
-    query.exec(res => {
-      if (!res || res.length < 2) return
+      const observer = wx.createIntersectionObserver(this, {
+        thresholds: [0.1, 0.5],
+        observeAll: false
+      })
 
-      const scrollOffset = res[0] ? res[0].scrollTop : 0
-      const offsets = []
-
-      for (let i = 0; i < this.data.categories.length; i++) {
-        const rect = res[i + 1]
-        if (rect) {
-          // 绝对偏移 = 当前滚动位置 + 区块视口top
-          offsets.push({
-            id: this.data.categories[i].id,
-            offset: scrollOffset + rect.top
-          })
+      observer.relativeToViewport({ top: -60 }) // 减去搜索栏高度
+      observer.observe('#section-' + cat.id, (res) => {
+        // 当区块可见面积超过10%时，高亮对应导航
+        if (res.intersectionRatio > 0.1) {
+          if (this.data.currentCategory !== cat.id) {
+            this.setData({ currentCategory: cat.id })
+          }
         }
-      }
+      })
 
-      this.setData({ sectionOffsets: offsets })
-      console.log('分类区块偏移量:', offsets)
+      this._observers.push(observer)
     })
   },
 
   /**
-   * 滚动事件 - 自动高亮当前分类
-   */
-  onScroll(e) {
-    const scrollTop = e.detail.scrollTop
-    const offsets = this.data.sectionOffsets
-
-    if (!offsets || offsets.length === 0) return
-
-    // 滚动到哪个区块的范围内就高亮哪个
-    let current = offsets[0].id
-
-    for (let i = offsets.length - 1; i >= 0; i--) {
-      if (scrollTop >= offsets[i].offset - 10) {
-        current = offsets[i].id
-        break
-      }
-    }
-
-    if (current !== this.data.currentCategory) {
-      this.setData({ currentCategory: current })
-    }
-  },
-
-  /**
-   * 点击左侧导航 - 滚动到对应分类
+   * 点击左侧导航 - 用 scroll-into-view 滚动到对应区块
    */
   switchCategory(e) {
     const cat = e.currentTarget.dataset.cat
-    this.setData({ currentCategory: cat })
 
-    const query = wx.createSelectorQuery()
-    query.select('#section-' + cat).boundingClientRect()
-    query.select('.product-scroll').scrollOffset()
-    query.exec(res => {
-      if (res[0] && res[1]) {
-        const targetTop = res[0].top + res[1].scrollTop - 10
-        this.setData({ _scrollTop: targetTop })
-      }
+    this.setData({
+      currentCategory: cat,
+      scrollIntoView: 'section-' + cat
     })
+
+    // 滚动完成后清除 scrollIntoView，避免影响后续滚动
+    setTimeout(() => {
+      this.setData({ scrollIntoView: '' })
+    }, 500)
   },
 
   /**
