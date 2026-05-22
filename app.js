@@ -8,12 +8,28 @@ App({
     systemInfo: null,
     navBarHeight: 44,
     headerHeight: 64,
-    safeBottomHeight: 0
+    safeBottomHeight: 0,
+    cloudEnv: 'cloud1-d2gzj9p633865ea93'
   },
   
   onLaunch() {
+    // 初始化云开发
+    this.initCloud()
     // 获取系统信息
     this.getSystemInfo()
+  },
+  
+  // 初始化云开发
+  initCloud() {
+    if (!wx.cloud) {
+      console.error('请使用 2.2.3 或以上的基础库以使用云能力')
+    } else {
+      wx.cloud.init({
+        env: this.globalData.cloudEnv,
+        traceUser: true
+      })
+      console.log('云开发初始化成功，环境ID:', this.globalData.cloudEnv)
+    }
   },
   
   // 获取系统信息

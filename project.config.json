@@ -63,5 +63,7 @@
   "simulatorType": "wechat",
   "simulatorPluginLibVersion": {},
   "srcMiniprogramRoot": "",
-  "isLatestProduct": false
+  "isLatestProduct": false,
+  "cloudfunctionRoot": "cloudfunctions/",
+  "cloudfunctionTemplateRoot": "cloudfunctionTemplate/"
 }
