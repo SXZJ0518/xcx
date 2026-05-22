@@ -1,115 +1,152 @@
+<!-- 
+  首页 - 凤凰单枞
+  设计：侘寂茶美学 | 留白即呼吸
+-->
 <view class="page">
 
-  <!-- ========== 1. Hero 大图区域（全屏500rpx） ========== -->
+  <!-- ========== 1. HERO 大字报式 ========== -->
   <view class="hero">
-    <view class="hero-bg"></view>
+    <view class="hero-bg">
+      <view class="hero-grain"></view>
+      <view class="hero-ring hero-ring-1"></view>
+      <view class="hero-ring hero-ring-2"></view>
+      <view class="hero-leaf hero-leaf-tl"></view>
+      <view class="hero-leaf hero-leaf-br"></view>
+    </view>
     <view class="hero-content">
+      <view class="hero-kicker">
+        <text class="hero-dot">·</text>
+        <text>潮州凤凰山</text>
+      </view>
       <text class="hero-brand">{{siteConfig.brandName || '凤凰单枞'}}</text>
+      <view class="hero-divider"></view>
       <text class="hero-slogan">{{siteConfig.slogan || '一丛一味 · 百丛百香'}}</text>
-      <text class="hero-sub">专注凤凰单枞 · 源自潮州凤凰山</text>
+      <view class="hero-scroll-hint">
+        <view class="hero-scroll-line"></view>
+      </view>
     </view>
   </view>
 
   <!-- ========== 2. 热销推荐 ========== -->
-  <view class="section" wx:if="{{hotProducts.length > 0}}">
-    <view class="section-header">
-      <text class="section-title">热销推荐</text>
-      <view class="section-more" bindtap="goToProducts">
-        <text>查看全部</text>
-        <text class="arrow-right"> →</text>
+  <view class="section section-products" wx:if="{{hotProducts.length > 0}}">
+    <view class="sec-head">
+      <view class="sec-head-left">
+        <view class="sec-mark"></view>
+        <text class="sec-title">热销推荐</text>
+      </view>
+      <view class="sec-head-right" bindtap="goToProducts">
+        <text>看全部</text>
+        <text class="sec-arrow">&#8250;</text>
       </view>
     </view>
+
     <view class="product-grid">
       <view
-        class="product-card"
+        class="p-card"
         wx:for="{{hotProducts}}"
         wx:key="id"
         bindtap="goToDetail"
         data-id="{{item.id}}"
       >
-        <view class="product-image">
-          <image src="{{item.imageUrl || item.cover || '/images/banner/banner1.jpg'}}" mode="aspectFill" lazy-load="true"></image>
-          <view class="product-tag hot" wx:if="{{item.isHot}}">热销</view>
-          <view class="product-tag" wx:elif="{{item.isNew}}">新品</view>
+        <view class="p-img">
+          <image src="{{item.imageUrl || item.cover}}" mode="aspectFill" lazy-load />
+          <view class="p-badge-new" wx:if="{{item.isNew}}">NEW</view>
+          <view class="p-badge-hot" wx:elif="{{item.isHot}}">热</view>
+          <view class="p-img-overlay"></view>
         </view>
-        <view class="product-info">
-          <text class="product-name">{{item.name}}</text>
-          <view class="product-aroma-tag" wx:if="{{item.categoryName}}">
-            <text>{{item.categoryName}}</text>
+
+        <view class="p-body">
+          <view class="p-row-top">
+            <text class="p-name">{{item.name}}</text>
+            <view class="p-aroma" wx:if="{{item.aromaName}}">{{item.aromaName}}</view>
           </view>
-          <view class="product-meta">
-            <text class="product-price">¥{{item.price}}</text>
-            <text class="product-spec">{{item.weight}}</text>
-          </view>
-          <view class="product-tags" wx:if="{{item.tags && item.tags.length > 0}}">
-            <text class="tag-item" wx:for="{{item.tags}}" wx:for-item="tag" wx:key="*this" wx:if="{{index < 2}}">{{tag}}</text>
+          <view class="p-row-bottom">
+            <view class="p-price-box">
+              <text class="p-symbol">¥</text>
+              <text class="p-price">{{item.price}}</text>
+              <text class="p-original" wx:if="{{item.originalPrice}}">¥{{item.originalPrice}}</text>
+            </view>
+            <text class="p-weight">{{item.weight}}</text>
           </view>
         </view>
       </view>
     </view>
   </view>
 
-  <!-- ========== 3. 香型快览（横向滚动） ========== -->
-  <view class="section" wx:if="{{aromaTypes.length > 0}}">
-    <view class="section-header">
-      <text class="section-title">十大香型</text>
-      <view class="section-more" bindtap="goToDiscover">
-        <text>查看全部</text>
-        <text class="arrow-right"> →</text>
+  <!-- ========== 3. 香型快览 - 横向滚动 ========== -->
+  <view class="section section-aromas" wx:if="{{aromaTypes.length > 0}}">
+    <view class="sec-head">
+      <view class="sec-head-left">
+        <view class="sec-mark"></view>
+        <text class="sec-title">十大香型</text>
+        <text class="sec-subtitle">一丛一味</text>
+      </view>
+      <view class="sec-head-right" bindtap="goToDiscover">
+        <text>看全部</text>
+        <text class="sec-arrow">&#8250;</text>
       </view>
     </view>
-    <scroll-view class="aroma-scroll" scroll-x="true" enhanced="true" show-scrollbar="false">
+
+    <scroll-view class="aroma-scroll" scroll-x enhanced show-scrollbar="{{false}}">
       <view class="aroma-list">
         <view
-          class="aroma-item"
+          class="a-card a-card-{{index}}"
           wx:for="{{aromaTypes}}"
           wx:key="id"
           bindtap="goToDiscover"
+          style="--card-bg: {{item._bg || '#e8e0d5'}}; --card-fg: {{item._fg || '#2d2520'}}"
         >
-          <view class="aroma-icon-wrap">
-            <view class="aroma-icon"></view>
+          <view class="a-emoji-wrap">
+            <text class="a-emoji">{{item._emoji || '🍃'}}</text>
           </view>
-          <text class="aroma-name">{{item.name}}</text>
-          <text class="aroma-desc">{{item.desc}}</text>
+          <text class="a-name">{{item.name}}</text>
+          <text class="a-desc">{{item.desc || item.aromaFeature}}</text>
         </view>
       </view>
     </scroll-view>
   </view>
 
-  <!-- ========== 4. 品牌一句话 ========== -->
+  <!-- ========== 4. 品牌箴言 ========== -->
   <view class="brand-quote" wx:if="{{siteConfig.about}}">
-    <view class="brand-quote-inner">
-      <view class="brand-quote-line"></view>
-      <text class="brand-quote-text">{{siteConfig.about.length > 30 ? siteConfig.about.substring(0, 30) + '...' : siteConfig.about}}</text>
-      <view class="brand-quote-line"></view>
+    <view class="bq-wrap">
+      <view class="bq-mark bq-mark-l">"</view>
+      <text class="bq-text">{{siteConfig.about}}</text>
+      <view class="bq-mark bq-mark-r">"</view>
     </view>
   </view>
 
-  <!-- ========== 5. 底部 CTA 区域 ========== -->
-  <view class="cta-section">
-    <view class="cta-btn primary" bindtap="goToProducts">
-      <text class="cta-text">探索更多茶品</text>
-      <text class="cta-arrow"> →</text>
-    </view>
-    <view class="cta-btn secondary" bindtap="goToDiscover">
-      <text class="cta-text">了解茶文化</text>
-      <text class="cta-arrow"> →</text>
-    </view>
-  </view>
-
-  <!-- ========== 6. 联系客服区域 ========== -->
-  <view class="contact-section">
-    <view class="contact-btn" wx:if="{{siteConfig.wechat}}" bindtap="copyWechat">
-      <view class="contact-icon-wrap">
-        <view class="contact-icon"></view>
+  <!-- ========== 5. CTA ========== -->
+  <view class="cta">
+    <view class="cta-btn" bindtap="goToProducts">
+      <text class="cta-label">探索更多茶品</text>
+      <view class="cta-arrow-wrap">
+        <text class="cta-arrow">→</text>
       </view>
-      <text class="contact-text">联系客服 · 复制微信号</text>
     </view>
-    <view class="contact-simple" wx:else>
-      <text class="contact-text-simple">联系客服</text>
+    <view class="cta-extra" bindtap="goToDiscover">
+      <text>了解茶文化</text>
     </view>
   </view>
 
-  <!-- 底部留白 -->
+  <!-- ========== 6. 联系 ========== -->
+  <view class="contact" wx:if="{{siteConfig.wechat}}">
+    <view class="contact-card" bindtap="copyWechat">
+      <view class="contact-avatar">
+        <view class="contact-avatar-inner">
+          <text class="contact-avatar-letter">客</text>
+        </view>
+      </view>
+      <view class="contact-info">
+        <text class="contact-title">茶事咨询</text>
+        <text class="contact-hint">点击复制微信号</text>
+      </view>
+      <view class="contact-action">
+        <text class="contact-action-text">复制</text>
+      </view>
+    </view>
+  </view>
+  <view class="contact-placeholder" wx:elif="{{!siteConfig.wechat}}"></view>
+
+  <!-- ========== 底部留白 ========== -->
   <view class="footer-space"></view>
 </view>
