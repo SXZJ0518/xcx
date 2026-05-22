@@ -1,6 +1,7 @@
 {
-  "enablePullDownRefresh": true,
-  "backgroundTextStyle": "dark",
-  "navigationBarTitleText": "茶叶商城",
-  "usingComponents": {}
+  "usingComponents": {
+    "search-bar": "/components/search-bar/index"
+  },
+  "navigationBarTitleText": "凤凰单枞",
+  "enablePullDownRefresh": true
 }

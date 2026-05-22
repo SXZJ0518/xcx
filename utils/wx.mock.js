@@ -77,11 +77,12 @@ const mockCategories = [
   }
 ]
 
-// ========== 产品数据 ==========
+// ========== 产品数据（茶叶） ==========
 const mockProducts = [
   // 黄栀香系
   {
     id: 'prod_1',
+    type: 'tea',
     name: '凤凰单枞·黄栀香 高山',
     brief: '海拔800米以上，花香清雅持久',
     cover: '',
@@ -111,6 +112,7 @@ const mockProducts = [
   },
   {
     id: 'prod_2',
+    type: 'tea',
     name: '凤凰单枞·黄栀香 中山',
     brief: '海拔500-800米，性价比之选',
     cover: '',
@@ -140,6 +142,7 @@ const mockProducts = [
   // 蜜兰香系
   {
     id: 'prod_3',
+    type: 'tea',
     name: '凤凰单枞·蜜兰香 特级',
     brief: '蜜香浓郁带兰花韵，受众最广',
     cover: '',
@@ -169,6 +172,7 @@ const mockProducts = [
   },
   {
     id: 'prod_4',
+    type: 'tea',
     name: '凤凰单枞·蜜兰香 一级',
     brief: '蜜香明显，日常品饮首选',
     cover: '',
@@ -198,6 +202,7 @@ const mockProducts = [
   // 芝兰香
   {
     id: 'prod_5',
+    type: 'tea',
     name: '凤凰单枞·芝兰香',
     brief: '幽兰香气，清高持久',
     cover: '',
@@ -227,6 +232,7 @@ const mockProducts = [
   // 桂花香
   {
     id: 'prod_6',
+    type: 'tea',
     name: '凤凰单枞·桂花香',
     brief: '桂花香气明显，清甜高雅',
     cover: '',
@@ -256,6 +262,7 @@ const mockProducts = [
   // 玉兰香
   {
     id: 'prod_7',
+    type: 'tea',
     name: '凤凰单枞·玉兰香',
     brief: '高扬奔放，酷似玉兰花',
     cover: '',
@@ -285,6 +292,7 @@ const mockProducts = [
   // 肉桂香
   {
     id: 'prod_8',
+    type: 'tea',
     name: '凤凰单枞·肉桂香',
     brief: '肉桂辛香，霸气浓烈',
     cover: '',
@@ -313,6 +321,7 @@ const mockProducts = [
   // 杏仁香
   {
     id: 'prod_9',
+    type: 'tea',
     name: '凤凰单枞·杏仁香',
     brief: '杏仁果香，喉韵深远',
     cover: '',
@@ -341,6 +350,7 @@ const mockProducts = [
   // 姜花香
   {
     id: 'prod_10',
+    type: 'tea',
     name: '凤凰单枞·姜花香（通天香）',
     brief: '辛辣似姜花，香气冲天',
     cover: '',
@@ -366,6 +376,82 @@ const mockProducts = [
     representative: '通天香单丛、姜花香单丛',
     qualityFeature: '入口微辣，回甘迅猛，年底"返春"回香更佳',
     description: '姜花香是凤凰单枞中最独特的香型之一，又名"通天香"。带有生姜的辛辣感，但并不刺激，反而增添了层次感，入口微辣，回甘迅猛，年底"返春"回香更佳。'
+  }
+]
+
+// ========== 蜂蜜商品数据 ==========
+const mockHoneyProducts = [
+  {
+    id: 'honey_1',
+    type: 'honey',
+    name: '凤凰山荔枝蜜',
+    brief: '岭南荔枝花开，蜜中上品',
+    cover: '',
+    imageUrl: '',
+    images: [],
+    price: 128,
+    originalPrice: 168,
+    weight: '500g',
+    origin: '广东潮州凤凰山',
+    flowerSource: '荔枝花',
+    harvestTime: '每年4-5月',
+    status: 1,
+    tags: ['纯天然', '零添加', '岭南特产'],
+    description: '采自凤凰山周边荔枝花海，花期短暂，产量稀少。蜜色琥珀，入口清甜带荔枝果香，回味悠长，是岭南地区最具代表性的蜂蜜品种。适合冲水饮用，也可搭配单枞茶调饮。'
+  },
+  {
+    id: 'honey_2',
+    type: 'honey',
+    name: '凤凰山龙眼蜜',
+    brief: '龙眼花蜜，甘润滋补',
+    cover: '',
+    imageUrl: '',
+    images: [],
+    price: 118,
+    originalPrice: 158,
+    weight: '500g',
+    origin: '广东潮州凤凰山',
+    flowerSource: '龙眼花',
+    harvestTime: '每年3-4月',
+    status: 1,
+    tags: ['纯天然', '零添加', '滋补佳品'],
+    description: '凤凰山龙眼蜜，蜜色深琥珀，质地浓稠，带有龙眼花特有的甘甜香气。口感醇厚，回味悠长，具有滋补养颜之效，尤其适合秋冬季节食用。'
+  },
+  {
+    id: 'honey_3',
+    type: 'honey',
+    name: '凤凰山百花蜜',
+    brief: '百花开尽，一蜜浓缩',
+    cover: '',
+    imageUrl: '',
+    images: [],
+    price: 98,
+    originalPrice: 138,
+    weight: '500g',
+    origin: '广东潮州凤凰山',
+    flowerSource: '百花（混合花蜜）',
+    harvestTime: '每年春夏季',
+    status: 1,
+    tags: ['纯天然', '零添加', '日常首选'],
+    description: '凤凰山百花蜜，采集于春夏季百花盛开之时，融合多种花蜜精华。蜜色金黄，香气馥郁，口感层次丰富，是日常养生的首选蜜品。可冲饮、佐餐、搭配茶饮。'
+  },
+  {
+    id: 'honey_4',
+    type: 'honey',
+    name: '凤凰山冬蜜',
+    brief: '冬日结晶，珍贵稀有',
+    cover: '',
+    imageUrl: '',
+    images: [],
+    price: 158,
+    originalPrice: 198,
+    weight: '500g',
+    origin: '广东潮州凤凰山',
+    flowerSource: '鸭脚木（鹅掌柴）',
+    harvestTime: '每年11-12月',
+    status: 1,
+    tags: ['纯天然', '零添加', '珍贵稀有', '结晶蜜'],
+    description: '冬蜜是凤凰山最珍贵的蜜种，采自冬季鸭脚木花（鹅掌柴）。蜜色浅黄，低温下易结晶，口感细腻绵柔，带有独特的清凉甘甜。冬蜜产量极低，具有清热润燥之效，是送礼佳品。'
   }
 ]
 
@@ -407,47 +493,122 @@ const mockKnowledge = [
   }
 ]
 
+// ========== 站点配置 ==========
+const mockSiteConfig = {
+  brandName: '凤凰单枞',
+  slogan: '一丛一味 百丛百香',
+  wechat: 'fenghuang_dancong',
+  phone: '13800138000',
+  about: '凤凰单枞，产于广东省潮州市凤凰山脉，是中国乌龙茶中的极品。凤凰山海拔千米以上，终年云雾缭绕，土壤肥沃，是茶树生长的绝佳之地。我们世代居住于凤凰山，传承百年制茶技艺，坚持手工采摘、传统炭焙，只为呈现每一丛茶树最本真的花果香韵。"一丛一味，百丛百香"——每一株茶树都有自己独特的香气密码，这正是凤凰单枞最迷人的地方。我们用心做好每一泡茶，让更多人品味到来自凤凰山的自然馈赠。',
+  address: '广东省潮州市凤凰镇'
+}
+
 // ========== 数据获取函数 ==========
 function getMockData(action, params) {
   switch (action) {
-    case 'getCategoryList':
-      return mockCategories
+    // 首页数据
+    case 'getHomeData':
+      return {
+        banners: mockBanners,
+        hotProducts: mockProducts.filter(p => p.isHot && p.status === 1).slice(0, 6),
+        categories: mockCategories.filter(c => c.status === 1),
+        honeyProducts: mockHoneyProducts.filter(h => h.status === 1),
+        siteConfig: mockSiteConfig
+      }
 
+    // 分类列表
+    case 'getCategoryList':
+      return mockCategories.filter(c => c.status === 1)
+
+    // 轮播图
     case 'getBannerList':
       return mockBanners
 
+    // 商品列表（支持 type/categoryId/keyword/分页）
     case 'getProductList': {
-      let products = [...mockProducts].filter(p => p.status === 1)
-      if (params && params.categoryId) {
-        products = products.filter(p => p.categoryId === params.categoryId)
+      let allProducts = [
+        ...mockProducts.map(p => ({ ...p, type: p.type || 'tea' })),
+        ...mockHoneyProducts
+      ].filter(p => p.status === 1)
+
+      // 按类型筛选
+      if (params && params.type) {
+        allProducts = allProducts.filter(p => p.type === params.type)
       }
+
+      // 按分类筛选
+      if (params && params.categoryId) {
+        allProducts = allProducts.filter(p => p.categoryId === params.categoryId)
+      }
+
+      // 按关键词搜索
       if (params && params.keyword) {
         const kw = params.keyword.toLowerCase()
-        products = products.filter(p => p.name.toLowerCase().includes(kw) || (p.tags && p.tags.some(t => t.includes(kw))))
+        allProducts = allProducts.filter(p =>
+          p.name.toLowerCase().includes(kw) ||
+          (p.tags && p.tags.some(t => t.includes(kw))) ||
+          (p.brief && p.brief.toLowerCase().includes(kw))
+        )
       }
-      return { list: products, total: products.length }
+
+      // 分页处理
+      const page = (params && params.page) || 1
+      const pageSize = (params && params.pageSize) || 20
+      const start = (page - 1) * pageSize
+      const list = allProducts.slice(start, start + pageSize)
+
+      return { list, total: allProducts.length, page, pageSize }
     }
 
-    case 'getProductDetail':
-      return mockProducts.find(p => p.id === (params && params.id)) || mockProducts[0]
+    // 商品详情（同时支持茶叶和蜂蜜）
+    case 'getProductDetail': {
+      const id = params && params.id
+      const teaProduct = mockProducts.find(p => p.id === id)
+      if (teaProduct) return { ...teaProduct, type: teaProduct.type || 'tea' }
+      const honeyProduct = mockHoneyProducts.find(h => h.id === id)
+      if (honeyProduct) return honeyProduct
+      return mockProducts[0]
+    }
 
+    // 搜索商品
     case 'searchProducts': {
       const keyword = (params && params.keyword) || ''
-      const results = mockProducts.filter(p => p.status === 1 && (p.name.includes(keyword) || (p.tags && p.tags.some(t => t.includes(keyword)))))
+      const allSearchable = [
+        ...mockProducts.map(p => ({ ...p, type: p.type || 'tea' })),
+        ...mockHoneyProducts
+      ].filter(p => p.status === 1)
+      const results = allSearchable.filter(p =>
+        p.name.includes(keyword) ||
+        (p.tags && p.tags.some(t => t.includes(keyword))) ||
+        (p.brief && p.brief.includes(keyword))
+      )
       return { list: results, total: results.length }
     }
 
+    // 热门商品
     case 'getHotProducts':
       return mockProducts.filter(p => p.isHot && p.status === 1).slice(0, 6)
 
+    // 新品
     case 'getNewProducts':
       return mockProducts.filter(p => p.isNew && p.status === 1).slice(0, 6)
 
-    case 'getKnowledgeList':
-      return { list: mockKnowledge, total: mockKnowledge.length }
+    // 茶知识列表
+    case 'getKnowledgeList': {
+      const kPage = (params && params.page) || 1
+      const kPageSize = (params && params.pageSize) || 20
+      const kStart = (kPage - 1) * kPageSize
+      const kList = mockKnowledge.slice(kStart, kStart + kPageSize)
+      return { list: kList, total: mockKnowledge.length, page: kPage, pageSize: kPageSize }
+    }
 
+    // 茶知识详情
     case 'getKnowledgeDetail':
       return mockKnowledge.find(k => k.id === (params && params.id)) || mockKnowledge[0]
+
+    // 站点配置
+    case 'getSiteConfig':
+      return mockSiteConfig
 
     default:
       return null
@@ -457,7 +618,9 @@ function getMockData(action, params) {
 module.exports = {
   mockCategories,
   mockProducts,
+  mockHoneyProducts,
   mockBanners,
   mockKnowledge,
+  mockSiteConfig,
   getMockData
 }

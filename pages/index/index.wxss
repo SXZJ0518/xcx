@@ -1,27 +1,39 @@
-/* 东方禅意美学 · 凤凰单枞 */
+/* ============================================================
+   首页样式 - 东方禅意美学
+   主色 #c9a86c | 背景 #f5f0e8 | 文字 #2d2520
+   ============================================================ */
 
 .page {
   min-height: 100vh;
   background: #f5f0e8;
 }
 
-/* ========== Hero 品牌大图 ========== */
+/* ========== 1. Hero 大图区域 ========== */
 .hero {
   position: relative;
-  height: 520rpx;
+  width: 100%;
+  height: 500rpx;
   overflow: hidden;
 }
 
-.hero-bg {
+.hero-bg-image {
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-bg-fallback {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background: linear-gradient(135deg, #1a1a1a 0%, #2d2520 50%, #3d3530 100%);
 }
 
-.hero-bg::after {
+.hero-bg-fallback::after {
   content: '';
   position: absolute;
   top: 0;
@@ -30,6 +42,22 @@
   bottom: 0;
   background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="%23c9a86c" stroke-width="0.3" opacity="0.15"/><circle cx="50" cy="50" r="30" fill="none" stroke="%23c9a86c" stroke-width="0.2" opacity="0.1"/></svg>') center/200rpx repeat;
   opacity: 0.6;
+}
+
+/* 半透明渐变遮罩 */
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(26, 26, 26, 0.1) 0%,
+    rgba(26, 26, 26, 0.3) 40%,
+    rgba(26, 26, 26, 0.7) 100%
+  );
+  z-index: 1;
 }
 
 .hero-content {
@@ -49,18 +77,19 @@
   color: #c9a86c;
   letter-spacing: 24rpx;
   margin-bottom: 20rpx;
+  text-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.3);
 }
 
 .hero-slogan {
   font-size: 28rpx;
-  color: #a09080;
+  color: rgba(255, 255, 255, 0.85);
   letter-spacing: 8rpx;
-  margin-bottom: 30rpx;
+  margin-bottom: 24rpx;
 }
 
 .hero-desc {
   font-size: 22rpx;
-  color: #706050;
+  color: rgba(255, 255, 255, 0.55);
   letter-spacing: 4rpx;
 }
 
@@ -70,42 +99,36 @@
 }
 
 .section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 30rpx;
 }
 
 .section-title {
-  display: block;
   font-size: 36rpx;
   font-weight: 500;
   color: #2d2520;
   letter-spacing: 4rpx;
-  margin-bottom: 12rpx;
-}
-
-.section-subtitle {
-  display: block;
-  font-size: 24rpx;
-  color: #8b7355;
-  letter-spacing: 2rpx;
 }
 
 .section-more {
   display: flex;
   align-items: center;
-  margin-top: 16rpx;
 }
 
 .section-more text {
   font-size: 24rpx;
+  color: #8b7355;
+}
+
+.section-more .arrow-right {
+  margin-left: 8rpx;
+  font-size: 28rpx;
   color: #c9a86c;
 }
 
-.section-more .arrow {
-  margin-left: 8rpx;
-  transition: transform 0.3s;
-}
-
-/* ========== 十大香型横向滚动 ========== */
+/* ========== 2. 香型快览横向滚动 ========== */
 .aroma-scroll {
   width: 100%;
   white-space: nowrap;
@@ -122,7 +145,7 @@
   align-items: center;
   width: 160rpx;
   margin-right: 24rpx;
-  padding: 30rpx 16rpx;
+  padding: 30rpx 16rpx 24rpx;
   background: #fff;
   border-radius: 16rpx;
   box-shadow: 0 4rpx 20rpx rgba(45, 37, 32, 0.06);
@@ -133,12 +156,19 @@
   transform: scale(0.96);
 }
 
-.aroma-icon {
+.aroma-icon-wrap {
   width: 64rpx;
   height: 64rpx;
   border-radius: 50%;
   margin-bottom: 16rpx;
+  overflow: hidden;
+}
+
+.aroma-icon {
+  width: 100%;
+  height: 100%;
   background: linear-gradient(135deg, #c9a86c, #a08050);
+  border-radius: 50%;
 }
 
 .aroma-name {
@@ -154,9 +184,13 @@
   text-align: center;
   white-space: normal;
   line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-/* ========== 产品网格 ========== */
+/* ========== 3. 热销推荐网格 ========== */
 .product-grid {
   display: flex;
   flex-wrap: wrap;
@@ -182,6 +216,7 @@
   width: 100%;
   height: 280rpx;
   background: #f0ebe0;
+  overflow: hidden;
 }
 
 .product-image image {
@@ -198,6 +233,11 @@
   border-radius: 20rpx;
   font-size: 20rpx;
   color: #fff;
+  letter-spacing: 2rpx;
+}
+
+.product-tag.hot {
+  background: #b8860b;
 }
 
 .product-info {
@@ -242,89 +282,204 @@
   color: #a09080;
 }
 
-/* ========== 品牌故事 ========== */
-.story-section {
-  padding: 60rpx 40rpx;
+/* ========== 4. 农产推荐（蜂蜜） ========== */
+.honey-section {
+  background: linear-gradient(180deg, #f5f0e8 0%, #faf5eb 50%, #f5f0e8 100%);
+}
+
+.honey-title {
+  color: #8b6914;
+}
+
+.honey-more text {
+  color: #8b6914;
+}
+
+.honey-more .arrow-right {
+  color: #d4a017;
+}
+
+.honey-scroll {
+  width: 100%;
+  white-space: nowrap;
+}
+
+.honey-list {
+  display: inline-flex;
+  padding: 10rpx 0;
+}
+
+.honey-card {
+  display: inline-flex;
+  flex-direction: column;
+  width: 240rpx;
+  margin-right: 24rpx;
   background: #fff;
-  margin: 30rpx 0;
+  border-radius: 16rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 20rpx rgba(139, 105, 20, 0.08);
+  border: 1rpx solid rgba(212, 160, 23, 0.15);
+  transition: transform 0.3s;
 }
 
-.story-content {
-  max-width: 600rpx;
-  margin: 0 auto;
-  text-align: center;
+.honey-card:active {
+  transform: scale(0.96);
 }
 
-.story-title {
+.honey-image {
+  width: 100%;
+  height: 200rpx;
+  background: #faf0d7;
+  overflow: hidden;
+}
+
+.honey-image image {
+  width: 100%;
+  height: 100%;
+}
+
+.honey-info {
+  padding: 20rpx;
+}
+
+.honey-name {
   display: block;
-  font-size: 36rpx;
+  font-size: 24rpx;
   font-weight: 500;
   color: #2d2520;
-  letter-spacing: 6rpx;
-  margin-bottom: 40rpx;
+  margin-bottom: 8rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.story-text {
+.honey-price {
   display: block;
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #d4a017;
+}
+
+/* ========== 5. 品牌一句话 ========== */
+.brand-quote {
+  padding: 60rpx 40rpx;
+}
+
+.brand-quote-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.brand-quote-line {
+  width: 60rpx;
+  height: 2rpx;
+  background: #c9a86c;
+  margin-bottom: 30rpx;
+}
+
+.brand-quote-line:last-child {
+  margin-top: 30rpx;
+  margin-bottom: 0;
+}
+
+.brand-quote-text {
   font-size: 26rpx;
   color: #5a5045;
   line-height: 2;
-  margin-bottom: 20rpx;
-  text-align: justify;
-}
-
-/* ========== 联系我们 ========== */
-.contact-section {
-  padding: 40rpx 30rpx;
-}
-
-.contact-card {
-  background: linear-gradient(135deg, #2d2520 0%, #3d3530 100%);
-  border-radius: 20rpx;
-  padding: 50rpx 40rpx;
   text-align: center;
+  letter-spacing: 2rpx;
+  max-width: 560rpx;
 }
 
-.contact-title {
-  display: block;
-  font-size: 32rpx;
-  font-weight: 500;
-  color: #c9a86c;
-  letter-spacing: 4rpx;
-  margin-bottom: 16rpx;
+/* ========== 6. 底部 CTA ========== */
+.cta-section {
+  padding: 20rpx 60rpx 50rpx;
+  display: flex;
+  justify-content: center;
 }
 
-.contact-desc {
-  display: block;
-  font-size: 24rpx;
-  color: #a09080;
-  margin-bottom: 40rpx;
-}
-
-.contact-btn {
-  display: inline-flex;
+.cta-btn {
+  display: flex;
   align-items: center;
   justify-content: center;
-  padding: 24rpx 60rpx;
+  padding: 28rpx 60rpx;
   background: #c9a86c;
   border-radius: 50rpx;
-  border: none;
+  box-shadow: 0 8rpx 24rpx rgba(201, 168, 108, 0.3);
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.contact-btn::after {
-  border: none;
+.cta-btn:active {
+  transform: scale(0.97);
+  box-shadow: 0 4rpx 12rpx rgba(201, 168, 108, 0.2);
 }
 
-.contact-btn text {
+.cta-text {
   font-size: 28rpx;
   color: #2d2520;
+  font-weight: 500;
+  letter-spacing: 4rpx;
 }
 
-.btn-icon {
-  margin-right: 12rpx;
+.cta-arrow {
+  font-size: 32rpx;
+  color: #2d2520;
+  margin-left: 12rpx;
+}
+
+/* ========== 7. 联系客服浮动区域 ========== */
+.contact-float {
+  padding: 0 30rpx 40rpx;
+}
+
+.contact-float-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24rpx 40rpx;
+  background: linear-gradient(135deg, #2d2520 0%, #3d3530 100%);
+  border-radius: 50rpx;
+  transition: transform 0.3s;
+}
+
+.contact-float:active .contact-float-inner {
+  transform: scale(0.97);
+}
+
+.contact-float-icon {
+  width: 36rpx;
+  height: 36rpx;
+  margin-right: 16rpx;
+}
+
+.icon-wechat {
+  width: 36rpx;
+  height: 36rpx;
+  background: #c9a86c;
+  border-radius: 50%;
+  position: relative;
+}
+
+.icon-wechat::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20rpx;
+  height: 16rpx;
+  border: 2rpx solid #2d2520;
+  border-radius: 50%;
+}
+
+.contact-float-text {
+  font-size: 26rpx;
+  color: #c9a86c;
+  letter-spacing: 2rpx;
 }
 
 /* ========== 底部留白 ========== */
 .footer-space {
-  height: 60rpx;
+  height: 80rpx;
 }

@@ -1,24 +1,46 @@
 <view class="page">
-  <!-- 品牌大图 Hero -->
+
+  <!-- ========== 1. Hero 大图区域 ========== -->
   <view class="hero">
-    <view class="hero-bg"></view>
+    <!-- 背景图 -->
+    <image
+      wx:if="{{banners.length > 0 && banners[0].imageUrl}}"
+      class="hero-bg-image"
+      src="{{banners[0].imageUrl}}"
+      mode="aspectFill"
+    ></image>
+    <view wx:else class="hero-bg-fallback"></view>
+    <!-- 半透明渐变遮罩 -->
+    <view class="hero-overlay"></view>
+    <!-- 品牌内容 -->
     <view class="hero-content">
-      <text class="hero-brand">凤凰单枞</text>
-      <text class="hero-slogan">一丛一味 · 百丛百香</text>
-      <text class="hero-desc">潮州凤凰山 · 高山炭焙 · 传统工艺</text>
+      <text class="hero-brand">{{siteConfig.brandName || '凤凰单枞'}}</text>
+      <text class="hero-slogan">{{siteConfig.slogan || '一丛一味 · 百丛百香'}}</text>
+      <text class="hero-desc">{{siteConfig.desc || '潮州凤凰山 · 高山炭焙 · 传统工艺'}}</text>
     </view>
   </view>
 
-  <!-- 十大香型入口 -->
-  <view class="section">
+  <!-- ========== 2. 香型快览（横向滚动） ========== -->
+  <view class="section" wx:if="{{categories.length > 0}}">
     <view class="section-header">
       <text class="section-title">十大香型</text>
-      <text class="section-subtitle">凤凰单枞以香型著称，每种香型皆有独特韵味</text>
+      <view class="section-more" bindtap="goToProducts">
+        <text>查看全部</text>
+        <text class="arrow-right">→</text>
+      </view>
     </view>
     <scroll-view class="aroma-scroll" scroll-x="true" enhanced="true" show-scrollbar="false">
       <view class="aroma-list">
-        <view class="aroma-item" wx:for="{{categories}}" wx:key="id" bindtap="goCategory" data-id="{{item.id}}">
-          <view class="aroma-icon aroma-{{item.id}}"></view>
+        <view
+          class="aroma-item"
+          wx:for="{{categories}}"
+          wx:key="id"
+          bindtap="goToCategory"
+          data-id="{{item.id}}"
+        >
+          <view class="aroma-icon-wrap">
+            <view class="aroma-icon"></view>
+          </view>
           <text class="aroma-name">{{item.name}}</text>
           <text class="aroma-desc">{{item.desc}}</text>
         </view>
@@ -26,20 +48,27 @@
     </scroll-view>
   </view>
 
-  <!-- 热销推荐 -->
+  <!-- ========== 3. 热销推荐 ========== -->
   <view class="section" wx:if="{{hotProducts.length > 0}}">
     <view class="section-header">
-      <text class="section-title">茶品推荐</text>
-      <view class="section-more" bindtap="goProductList">
-        <text>查看全部</text>
-        <text class="arrow">→</text>
+      <text class="section-title">热销推荐</text>
+      <view class="section-more" bindtap="goToProducts">
+        <text>更多</text>
+        <text class="arrow-right">→</text>
       </view>
     </view>
     <view class="product-grid">
-      <view class="product-card" wx:for="{{hotProducts}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
+      <view
+        class="product-card"
+        wx:for="{{hotProducts}}"
+        wx:key="id"
+        bindtap="goToProductDetail"
+        data-id="{{item.id}}"
+      >
         <view class="product-image">
-          <image src="{{item.imageUrl || '/images/tea-placeholder.png'}}" mode="aspectFill" lazy-load="true"></image>
+          <image src="{{item.imageUrl || '/images/banner/banner1.jpg'}}" mode="aspectFill" lazy-load="true"></image>
           <view class="product-tag" wx:if="{{item.isNew}}">新品</view>
+          <view class="product-tag hot" wx:elif="{{item.isHot}}">热销</view>
         </view>
         <view class="product-info">
           <text class="product-name">{{item.name}}</text>
@@ -53,25 +82,60 @@
     </view>
   </view>
 
-  <!-- 品牌故事 -->
-  <view class="story-section">
-    <view class="story-content">
-      <text class="story-title">关于凤凰单枞</text>
-      <text class="story-text">凤凰单枞，产于广东省潮州市凤凰山，是乌龙茶中的极品。因"一丛一味、百丛百香"而得名，每株茶树皆有独特香气。</text>
-      <text class="story-text">凤凰山海拔千米以上，云雾缭绕，土壤肥沃，得天独厚的自然环境孕育出品质卓越的单枞茶。</text>
-      <text class="story-text">传统炭焙工艺，慢火细烘，保留茶叶本真香气，成就一杯好茶。</text>
+  <!-- ========== 4. 农产推荐（蜂蜜） ========== -->
+  <view class="section honey-section" wx:if="{{honeyProducts.length > 0}}">
+    <view class="section-header">
+      <text class="section-title honey-title">山间农产</text>
+      <view class="section-more honey-more">
+        <text>更多</text>
+        <text class="arrow-right">→</text>
+      </view>
+    </view>
+    <scroll-view class="honey-scroll" scroll-x="true" enhanced="true" show-scrollbar="false">
+      <view class="honey-list">
+        <view
+          class="honey-card"
+          wx:for="{{honeyProducts}}"
+          wx:key="id"
+          bindtap="goToProductDetail"
+          data-id="{{item.id}}"
+        >
+          <view class="honey-image">
+            <image src="{{item.imageUrl || ''}}" mode="aspectFill" lazy-load="true"></image>
+          </view>
+          <view class="honey-info">
+            <text class="honey-name">{{item.name}}</text>
+            <text class="honey-price">¥{{item.price}}</text>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- ========== 5. 品牌一句话 ========== -->
+  <view class="brand-quote" wx:if="{{siteConfig.brandStory}}">
+    <view class="brand-quote-inner">
+      <view class="brand-quote-line"></view>
+      <text class="brand-quote-text">{{siteConfig.brandStory}}</text>
+      <view class="brand-quote-line"></view>
     </view>
   </view>
 
-  <!-- 联系我们 -->
-  <view class="contact-section">
-    <view class="contact-card">
-      <text class="contact-title">品茶咨询</text>
-      <text class="contact-desc">添加微信，了解更多茶品信息</text>
-      <button class="contact-btn" bindtap="copyWechat">
-        <text class="btn-icon">📱</text>
-        <text>复制微信号</text>
-      </button>
+  <!-- ========== 6. 底部 CTA ========== -->
+  <view class="cta-section">
+    <view class="cta-btn" bindtap="goToProducts">
+      <text class="cta-text">查看全部产品</text>
+      <text class="cta-arrow">→</text>
+    </view>
+  </view>
+
+  <!-- ========== 7. 联系客服浮动区域 ========== -->
+  <view class="contact-float" bindtap="copyWechat">
+    <view class="contact-float-inner">
+      <view class="contact-float-icon">
+        <view class="icon-wechat"></view>
+      </view>
+      <text class="contact-float-text">联系客服 · 复制微信号</text>
     </view>
   </view>
 

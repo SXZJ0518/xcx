@@ -1,13 +1,13 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/category/category",
     "pages/product/list/list",
+    "pages/culture/culture",
+    "pages/profile/profile",
     "pages/product/detail/detail",
-    "pages/search/search",
-    "pages/about/about",
     "pages/tea-knowledge/list/list",
-    "pages/tea-knowledge/detail/detail"
+    "pages/tea-knowledge/detail/detail",
+    "pages/search/search"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -19,8 +19,8 @@
   "tabBar": {
     "color": "#8b7355",
     "selectedColor": "#c9a86c",
-    "backgroundColor": "#1a1a1a",
-    "borderStyle": "black",
+    "backgroundColor": "#f5f0e8",
+    "borderStyle": "white",
     "list": [
       {
         "pagePath": "pages/index/index",
@@ -29,20 +29,20 @@
         "selectedIconPath": "images/tabbar/home-active.png"
       },
       {
-        "pagePath": "pages/category/category",
-        "text": "香型",
+        "pagePath": "pages/product/list/list",
+        "text": "产品",
         "iconPath": "images/tabbar/category.png",
         "selectedIconPath": "images/tabbar/category-active.png"
       },
       {
-        "pagePath": "pages/product/list/list",
-        "text": "茶品",
+        "pagePath": "pages/culture/culture",
+        "text": "茶文化",
         "iconPath": "images/tabbar/cart.png",
         "selectedIconPath": "images/tabbar/cart-active.png"
       },
       {
-        "pagePath": "pages/about/about",
-        "text": "关于",
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
         "iconPath": "images/tabbar/user.png",
         "selectedIconPath": "images/tabbar/user-active.png"
       }

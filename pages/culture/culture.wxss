@@ -1,0 +1,250 @@
+/* 茶文化页 - 东方禅意 */
+
+.page {
+  min-height: 100vh;
+  background: #f5f0e8;
+}
+
+/* ========== Hero Banner ========== */
+.hero {
+  position: relative;
+  height: 440rpx;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #2d2520 0%, #3d3530 100%);
+}
+
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="%23c9a86c" stroke-width="0.3" opacity="0.12"/><circle cx="50" cy="50" r="28" fill="none" stroke="%23c9a86c" stroke-width="0.2" opacity="0.08"/></svg>') center/180rpx repeat;
+  opacity: 0.6;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 60rpx 40rpx;
+}
+
+.hero-title {
+  font-size: 52rpx;
+  font-weight: 300;
+  color: #c9a86c;
+  letter-spacing: 12rpx;
+  margin-bottom: 20rpx;
+}
+
+.hero-slogan {
+  font-size: 24rpx;
+  color: #a09080;
+  letter-spacing: 6rpx;
+}
+
+/* ========== 通用 Section ========== */
+.section {
+  padding: 50rpx 30rpx;
+}
+
+.section-header {
+  margin-bottom: 36rpx;
+}
+
+.section-title-bar {
+  width: 6rpx;
+  height: 32rpx;
+  background: #c9a86c;
+  border-radius: 3rpx;
+  margin-bottom: 16rpx;
+}
+
+.section-title {
+  display: block;
+  font-size: 36rpx;
+  font-weight: 500;
+  color: #2d2520;
+  letter-spacing: 4rpx;
+  margin-bottom: 12rpx;
+}
+
+.section-subtitle {
+  display: block;
+  font-size: 24rpx;
+  color: #8b7355;
+  letter-spacing: 2rpx;
+}
+
+/* ========== 十大香型网格 ========== */
+.category-grid {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -12rpx;
+}
+
+.category-card {
+  width: calc(50% - 24rpx);
+  margin: 0 12rpx 24rpx;
+  padding: 30rpx 24rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  box-shadow: 0 4rpx 20rpx rgba(45, 37, 32, 0.06);
+  transition: transform 0.3s;
+  box-sizing: border-box;
+}
+
+.category-card:active {
+  transform: scale(0.97);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12rpx;
+}
+
+.card-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #2d2520;
+  letter-spacing: 4rpx;
+}
+
+.card-arrow {
+  font-size: 28rpx;
+  color: #c9a86c;
+  opacity: 0.6;
+}
+
+.card-desc {
+  display: block;
+  font-size: 22rpx;
+  color: #8b7355;
+  margin-bottom: 16rpx;
+  line-height: 1.5;
+}
+
+.card-aroma {
+  display: block;
+  font-size: 20rpx;
+  color: #a09080;
+  line-height: 1.6;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+/* ========== 茶知识列表 ========== */
+.knowledge-section {
+  background: #fff;
+  margin: 20rpx 0;
+}
+
+.knowledge-list {
+  padding: 0;
+}
+
+.knowledge-item {
+  display: flex;
+  align-items: center;
+  padding: 30rpx 0;
+  border-bottom: 1rpx solid #e8e0d5;
+  transition: background 0.2s;
+}
+
+.knowledge-item:last-child {
+  border-bottom: none;
+}
+
+.knowledge-item:active {
+  background: #faf6ee;
+}
+
+.knowledge-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-right: 20rpx;
+}
+
+.knowledge-title {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #2d2520;
+  margin-bottom: 10rpx;
+  line-height: 1.5;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.knowledge-summary {
+  display: block;
+  font-size: 24rpx;
+  color: #5a5045;
+  line-height: 1.6;
+  margin-bottom: 14rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.knowledge-meta {
+  display: flex;
+  align-items: center;
+}
+
+.knowledge-views {
+  font-size: 20rpx;
+  color: #a09080;
+  margin-right: 24rpx;
+}
+
+.knowledge-time {
+  font-size: 20rpx;
+  color: #a09080;
+}
+
+.knowledge-arrow {
+  font-size: 30rpx;
+  color: #c9a86c;
+  opacity: 0.5;
+  flex-shrink: 0;
+}
+
+/* ========== 空状态 ========== */
+.empty-tip {
+  padding: 60rpx 0;
+  text-align: center;
+}
+
+.empty-text {
+  font-size: 26rpx;
+  color: #a09080;
+}
+
+/* ========== 底部留白 ========== */
+.footer-space {
+  height: 60rpx;
+}

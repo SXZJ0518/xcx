@@ -1,42 +1,109 @@
 <view class="page">
-  <!-- 页面标题 -->
-  <view class="page-header">
-    <text class="page-title">茶品</text>
-    <text class="page-subtitle">高山炭焙 · 传统工艺</text>
+
+  <!-- ========== 1. 顶部搜索栏 ========== -->
+  <view class="search-bar-wrap" bindtap="goToSearch">
+    <view class="search-bar-inner">
+      <view class="search-icon">
+        <view class="icon-search-dot"></view>
+        <view class="icon-search-line"></view>
+      </view>
+      <text class="search-placeholder">搜索茶品、香型...</text>
+    </view>
   </view>
 
-  <!-- 香型筛选 -->
-  <scroll-view class="filter-scroll" scroll-x="true" enhanced="true" show-scrollbar="false">
-    <view class="filter-list">
-      <view class="filter-item {{currentCategory === '' ? 'active' : ''}}" bindtap="filterCategory" data-id="">全部</view>
-      <view class="filter-item {{currentCategory === item.id ? 'active' : ''}}" wx:for="{{categories}}" wx:key="id" bindtap="filterCategory" data-id="{{item.id}}">
-        {{item.name}}
-      </view>
-    </view>
-  </scroll-view>
+  <!-- ========== 2. 分类标签栏 ========== -->
+  <!-- 第一行：商品类型切换 -->
+  <view class="type-tabs">
+    <view
+      class="type-tab {{currentType === 'tea' ? 'active' : ''}}"
+      bindtap="switchType"
+      data-type="tea"
+    >单枞茶</view>
+    <view
+      class="type-tab {{currentType === 'honey' ? 'active' : ''}}"
+      bindtap="switchType"
+      data-type="honey"
+    >蜂蜜</view>
+  </view>
 
-  <!-- 商品列表 -->
-  <view class="product-list">
-    <view class="product-card" wx:for="{{products}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
+  <!-- 第二行：香型分类（选中单枞茶时显示） -->
+  <view class="category-tabs" wx:if="{{currentType === 'tea' && categories.length > 0}}">
+    <scroll-view class="category-scroll" scroll-x="true" enhanced="true" show-scrollbar="false">
+      <view class="category-list">
+        <view
+          class="category-tab {{currentCategory === 'all' ? 'active' : ''}}"
+          bindtap="switchCategory"
+          data-id="all"
+        >全部</view>
+        <view
+          class="category-tab {{currentCategory === item.id ? 'active' : ''}}"
+          wx:for="{{categories}}"
+          wx:key="id"
+          bindtap="switchCategory"
+          data-id="{{item.id}}"
+        >{{item.name}}</view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- ========== 3. 商品网格（2列） ========== -->
+  <view class="product-grid" wx:if="{{products.length > 0}}">
+    <view
+      class="product-card"
+      wx:for="{{products}}"
+      wx:key="id"
+      bindtap="goToDetail"
+      data-id="{{item.id}}"
+    >
       <view class="product-image">
-        <image src="{{item.imageUrl || '/images/tea-placeholder.png'}}" mode="aspectFill" lazy-load="true"></image>
-        <view class="product-tag" wx:if="{{item.isNew}}">新品</view>
+        <image src="{{item.imageUrl || '/images/banner/banner1.jpg'}}" mode="aspectFill" lazy-load="true"></image>
+        <!-- 标签 -->
+        <view class="product-tags" wx:if="{{item.tags && item.tags.length > 0}}">
+          <text class="product-tag" wx:if="{{item.isNew}}">新品</text>
+          <text class="product-tag hot" wx:elif="{{item.isHot}}">热销</text>
+        </view>
       </view>
       <view class="product-info">
         <text class="product-name">{{item.name}}</text>
         <text class="product-brief">{{item.brief}}</text>
+        <view class="product-tags-row" wx:if="{{item.tags && item.tags.length > 0}}">
+          <text class="product-label" wx:for="{{item.tags}}" wx:for-item="tag" wx:key="*this" wx:if="{{index < 2}}">{{tag}}</text>
+        </view>
         <view class="product-meta">
-          <text class="product-price">¥{{item.price}}</text>
+          <view class="product-price-group">
+            <text class="product-price">¥{{item.price}}</text>
+            <text class="product-original-price" wx:if="{{item.originalPrice && item.originalPrice > item.price}}">¥{{item.originalPrice}}</text>
+          </view>
           <text class="product-weight">{{item.weight}}</text>
         </view>
       </view>
     </view>
   </view>
 
-  <!-- 空状态 -->
-  <view class="empty-state" wx:if="{{!loading && products.length === 0}}">
-    <text class="empty-icon">🍵</text>
-    <text class="empty-text">暂无茶品</text>
+  <!-- ========== 4. 空状态提示 ========== -->
+  <view class="empty-state" wx:if="{{!isLoading && products.length === 0}}">
+    <view class="empty-icon-wrap">
+      <view class="empty-cup"></view>
+    </view>
+    <text class="empty-text">暂无相关茶品</text>
+    <text class="empty-hint">换个分类看看吧</text>
+  </view>
+
+  <!-- ========== 5. 加载状态 ========== -->
+  <view class="loading-state" wx:if="{{isLoading}}">
+    <view class="loading-dots">
+      <view class="loading-dot"></view>
+      <view class="loading-dot"></view>
+      <view class="loading-dot"></view>
+    </view>
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <!-- 没有更多提示 -->
+  <view class="no-more" wx:if="{{!isLoading && products.length > 0 && !hasMore}}">
+    <view class="no-more-line"></view>
+    <text class="no-more-text">没有更多了</text>
+    <view class="no-more-line"></view>
   </view>
 
   <!-- 底部留白 -->

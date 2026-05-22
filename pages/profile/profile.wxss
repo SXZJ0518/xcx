@@ -1,0 +1,259 @@
+/* 我的页面 - 东方禅意 */
+
+.page {
+  min-height: 100vh;
+  background: #f5f0e8;
+}
+
+/* ========== 用户头部 ========== */
+.user-header {
+  position: relative;
+  height: 380rpx;
+  overflow: hidden;
+}
+
+.user-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #2d2520 0%, #3d3530 100%);
+}
+
+.user-bg::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="%23c9a86c" stroke-width="0.3" opacity="0.1"/></svg>') center/160rpx repeat;
+  opacity: 0.5;
+}
+
+.user-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 40rpx;
+}
+
+.avatar-wrap {
+  width: 140rpx;
+  height: 140rpx;
+  border-radius: 50%;
+  border: 4rpx solid rgba(201, 168, 108, 0.4);
+  overflow: hidden;
+  margin-bottom: 20rpx;
+  background: #3d3530;
+}
+
+.avatar {
+  width: 100%;
+  height: 100%;
+}
+
+.nickname {
+  font-size: 34rpx;
+  font-weight: 500;
+  color: #c9a86c;
+  letter-spacing: 6rpx;
+  margin-bottom: 10rpx;
+}
+
+.user-desc {
+  font-size: 22rpx;
+  color: #a09080;
+  letter-spacing: 4rpx;
+}
+
+/* ========== 联系方式卡片 ========== */
+.contact-card {
+  margin: -40rpx 30rpx 0;
+  position: relative;
+  z-index: 3;
+  background: #fff;
+  border-radius: 20rpx;
+  box-shadow: 0 8rpx 30rpx rgba(45, 37, 32, 0.08);
+  overflow: hidden;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  padding: 30rpx 30rpx;
+  transition: background 0.2s;
+}
+
+.contact-item:active {
+  background: #faf6ee;
+}
+
+.contact-item + .contact-item {
+  border-top: 1rpx solid #e8e0d5;
+}
+
+.contact-icon-wrap {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 24rpx;
+  flex-shrink: 0;
+}
+
+.wechat-icon {
+  background: linear-gradient(135deg, #07c160, #06ad56);
+}
+
+.phone-icon {
+  background: linear-gradient(135deg, #c9a86c, #a08050);
+}
+
+.contact-icon-text {
+  font-size: 28rpx;
+  color: #fff;
+  font-weight: 500;
+}
+
+.contact-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-label {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #2d2520;
+  margin-bottom: 6rpx;
+}
+
+.contact-value {
+  font-size: 24rpx;
+  color: #8b7355;
+}
+
+.contact-action {
+  padding: 12rpx 28rpx;
+  background: #f5f0e8;
+  border-radius: 30rpx;
+  flex-shrink: 0;
+}
+
+.action-text {
+  font-size: 24rpx;
+  color: #c9a86c;
+  font-weight: 500;
+}
+
+/* ========== 功能菜单 ========== */
+.menu-card {
+  margin: 30rpx 30rpx 0;
+  background: #fff;
+  border-radius: 20rpx;
+  box-shadow: 0 4rpx 20rpx rgba(45, 37, 32, 0.06);
+  overflow: hidden;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 34rpx 30rpx;
+  transition: background 0.2s;
+  background: transparent;
+  border: none;
+  line-height: 1.6;
+  text-align: left;
+}
+
+.menu-item::after {
+  border: none;
+}
+
+.menu-item:active {
+  background: #faf6ee;
+}
+
+.menu-item + .menu-item {
+  border-top: 1rpx solid #e8e0d5;
+}
+
+.menu-btn {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.menu-left {
+  display: flex;
+  align-items: center;
+}
+
+.menu-icon {
+  width: 44rpx;
+  height: 44rpx;
+  border-radius: 10rpx;
+  margin-right: 24rpx;
+  flex-shrink: 0;
+}
+
+.about-icon {
+  background: linear-gradient(135deg, #c9a86c, #a08050);
+}
+
+.culture-icon {
+  background: linear-gradient(135deg, #6b8e5a, #4a6b3a);
+}
+
+.share-icon {
+  background: linear-gradient(135deg, #5a7a9b, #3a5a7b);
+}
+
+.menu-label {
+  font-size: 28rpx;
+  color: #2d2520;
+  letter-spacing: 2rpx;
+}
+
+.menu-arrow {
+  font-size: 30rpx;
+  color: #c9a86c;
+  opacity: 0.5;
+}
+
+/* ========== 品牌底部 ========== */
+.brand-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 80rpx 30rpx 60rpx;
+}
+
+.brand-name {
+  font-size: 32rpx;
+  font-weight: 500;
+  color: #2d2520;
+  letter-spacing: 6rpx;
+  margin-bottom: 12rpx;
+}
+
+.brand-address {
+  font-size: 24rpx;
+  color: #8b7355;
+  letter-spacing: 2rpx;
+  margin-bottom: 16rpx;
+}
+
+.brand-copyright {
+  font-size: 22rpx;
+  color: #a09080;
+  letter-spacing: 4rpx;
+}

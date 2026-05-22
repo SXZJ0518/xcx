@@ -1,0 +1,57 @@
+<view class="page">
+  <!-- 顶部 Banner -->
+  <view class="hero">
+    <view class="hero-bg"></view>
+    <view class="hero-content">
+      <text class="hero-title">一丛一味 百丛百香</text>
+      <text class="hero-slogan">{{siteConfig.slogan || '潮州凤凰山 · 高山炭焙 · 传统工艺'}}</text>
+    </view>
+  </view>
+
+  <!-- 十大香型 -->
+  <view class="section">
+    <view class="section-header">
+      <view class="section-title-bar"></view>
+      <text class="section-title">十大香型</text>
+      <text class="section-subtitle">凤凰单枞以香型著称，每种香型皆有独特韵味</text>
+    </view>
+    <view class="category-grid">
+      <view class="category-card" wx:for="{{categories}}" wx:key="id" bindtap="goToCategoryProducts" data-id="{{item.id}}">
+        <view class="card-header">
+          <text class="card-name">{{item.name}}</text>
+          <text class="card-arrow">→</text>
+        </view>
+        <text class="card-desc">{{item.desc}}</text>
+        <text class="card-aroma">{{item.aromaFeature}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 茶知识 -->
+  <view class="section knowledge-section">
+    <view class="section-header">
+      <view class="section-title-bar"></view>
+      <text class="section-title">茶知识</text>
+      <text class="section-subtitle">品茶有道，学无止境</text>
+    </view>
+    <view class="knowledge-list">
+      <view class="knowledge-item" wx:for="{{knowledgeList}}" wx:key="id" bindtap="goToKnowledgeDetail" data-id="{{item.id}}">
+        <view class="knowledge-content">
+          <text class="knowledge-title">{{item.title}}</text>
+          <text class="knowledge-summary">{{item.summary}}</text>
+          <view class="knowledge-meta">
+            <text class="knowledge-views">{{item.views}} 阅读</text>
+            <text class="knowledge-time">{{item.createTime}}</text>
+          </view>
+        </view>
+        <text class="knowledge-arrow">→</text>
+      </view>
+    </view>
+    <view class="empty-tip" wx:if="{{knowledgeList.length === 0}}">
+      <text class="empty-text">暂无茶知识文章</text>
+    </view>
+  </view>
+
+  <!-- 底部留白 -->
+  <view class="footer-space"></view>
+</view>
