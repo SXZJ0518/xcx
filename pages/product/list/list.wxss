@@ -1,6 +1,5 @@
 /* ============================================================
-   茶品列表页样式 - 左侧垂直导航 + 右侧商品列表
-   设计：侧边栏导航，当前分类高亮
+   茶品列表页样式 - 整页连续滚动，左侧导航自动高亮
    ============================================================ */
 
 page {
@@ -83,10 +82,10 @@ page {
   overflow: hidden;
 }
 
-/* ==================== 左侧导航 ==================== */
+/* ==================== 左侧导航（固定） ==================== */
 .side-nav {
   width: 180rpx;
-  height: 100%;
+  flex-shrink: 0;
   background: var(--paper);
   border-right: 1rpx solid rgba(201, 168, 108, 0.1);
 }
@@ -103,7 +102,6 @@ page {
   background: var(--white);
 }
 
-/* 左侧高亮线 */
 .nav-line {
   position: absolute;
   left: 0;
@@ -128,7 +126,6 @@ page {
   font-weight: 500;
 }
 
-/* 特惠角标 */
 .nav-badge {
   flex-shrink: 0;
   width: 32rpx;
@@ -143,21 +140,59 @@ page {
   justify-content: center;
 }
 
-/* ==================== 右侧商品列表 ==================== */
+/* ==================== 右侧滚动区域 ==================== */
 .product-scroll {
   flex: 1;
   height: 100%;
   background: var(--cream);
 }
 
-.product-list {
+.product-scroll-inner {
   padding: var(--gap);
 }
 
-/* 商品卡片 - 横向布局 */
+/* ==================== 分类区块 ==================== */
+.category-section {
+  margin-bottom: 0;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 0 24rpx;
+}
+
+.section-mark {
+  width: 6rpx;
+  height: 28rpx;
+  background: var(--gold);
+  border-radius: 3rpx;
+  margin-right: 14rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: 4rpx;
+}
+
+.section-desc {
+  font-size: 22rpx;
+  color: var(--bark);
+  margin-left: 16rpx;
+  letter-spacing: 2rpx;
+}
+
+/* ==================== 商品卡片 ==================== */
+.section-products {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+
 .p-card {
   display: flex;
-  margin-bottom: var(--gap);
   background: var(--white);
   border-radius: var(--radius);
   overflow: hidden;
@@ -169,7 +204,6 @@ page {
   transform: scale(0.99);
 }
 
-/* 图片区 */
 .p-image {
   position: relative;
   width: 240rpx;
@@ -191,7 +225,6 @@ page {
   pointer-events: none;
 }
 
-/* 角标 */
 .p-tag-special {
   position: absolute;
   top: 0;
@@ -218,7 +251,6 @@ page {
   letter-spacing: 2rpx;
 }
 
-/* 信息区 */
 .p-info {
   flex: 1;
   display: flex;
@@ -242,7 +274,6 @@ page {
   margin-bottom: 12rpx;
 }
 
-/* 香型标签 */
 .p-aroma-row {
   margin-bottom: 16rpx;
 }
@@ -257,7 +288,6 @@ page {
   letter-spacing: 2rpx;
 }
 
-/* 价格区 */
 .p-price-row {
   display: flex;
   align-items: baseline;
@@ -298,44 +328,41 @@ page {
   border-radius: 8rpx;
 }
 
-/* ==================== 空状态 ==================== */
-.empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 160rpx 40rpx;
+/* ==================== 分类间距 ==================== */
+.section-gap {
+  height: 40rpx;
+  background: transparent;
 }
 
-.empty-icon {
-  width: 120rpx;
-  height: 120rpx;
-  margin-bottom: 32rpx;
+/* ==================== 空状态 ==================== */
+.section-empty {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 60rpx 0;
 }
 
-/* CSS茶叶 */
-.empty-leaf {
-  width: 60rpx;
-  height: 100rpx;
-  background: var(--gold);
-  border-radius: 50% 0 50% 0;
-  opacity: 0.15;
-  transform: rotate(-15deg);
-}
-
-.empty-title {
-  font-size: 32rpx;
-  color: var(--earth);
-  margin-bottom: 12rpx;
-  letter-spacing: 4rpx;
-}
-
-.empty-hint {
+.section-empty-text {
   font-size: 24rpx;
   color: var(--bark);
   letter-spacing: 2rpx;
+}
+
+/* ==================== 敬请期待 ==================== */
+.coming-soon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80rpx 0;
+  border: 2rpx dashed rgba(201, 168, 108, 0.2);
+  border-radius: var(--radius);
+  margin-bottom: 20rpx;
+}
+
+.coming-soon-text {
+  font-size: 26rpx;
+  color: var(--bark);
+  letter-spacing: 4rpx;
 }
 
 /* ==================== 加载更多 ==================== */
@@ -367,21 +394,7 @@ page {
   50% { opacity: 1; transform: scale(1.2); }
 }
 
-/* ==================== 没有更多 ==================== */
-.no-more {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 40rpx 0;
-}
-
-.no-more text {
-  font-size: 22rpx;
-  color: var(--bark);
-  letter-spacing: 2rpx;
-}
-
 /* ==================== 底部留白 ==================== */
 .list-footer {
-  height: 40rpx;
+  height: 60rpx;
 }

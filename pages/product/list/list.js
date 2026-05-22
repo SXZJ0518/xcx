@@ -1,38 +1,138 @@
 /**
- * 茶品列表页 - 左侧垂直导航 + 右侧商品列表
+ * 茶品列表页 - 整页连续滚动，左侧导航自动高亮
  * 纯展示，无支付
  */
 const api = require('../../../utils/api')
 
 Page({
   data: {
-    products: [],
     categories: [],
+    allProducts: [],
+    groupedProducts: {},
     currentCategory: 'cat_normal',
-    keyword: '',
-    page: 1,
-    hasMore: true,
+    sectionTopList: [],
     isLoading: false,
     isRefreshing: false
   },
 
   onLoad(options) {
-    // 从发现页跳转带 aromaName 参数
     if (options && options.aromaName) {
       this.filterByAromaName(options.aromaName)
     }
-    this.loadCategories()
+    this.loadAllData()
   },
 
   onShow() {
-    this.refreshList()
+    // 不重复加载
+  },
+
+  /**
+   * 加载所有数据并按分类分组
+   */
+  async loadAllData() {
+    this.setData({ isLoading: true })
+    try {
+      const [categories, res] = await Promise.all([
+        api.getCategoryList(),
+        api.getProductList({ page: 1, pageSize: 100 })
+      ])
+
+      const allProducts = (res && res.list) || []
+      const cats = categories || []
+
+      // 按分类分组
+      const grouped = {}
+      cats.forEach(cat => {
+        grouped[cat.id] = allProducts.filter(p => p.categoryId === cat.id)
+      })
+
+      this.setData({
+        categories: cats,
+        allProducts,
+        groupedProducts: grouped,
+        isLoading: false,
+        isRefreshing: false
+      })
+
+      // 计算每个分类区块的位置（延迟确保DOM渲染完成）
+      setTimeout(() => this.calcSectionTops(), 300)
+    } catch (err) {
+      console.error('加载数据失败:', err)
+      this.setData({ isLoading: false, isRefreshing: false })
+    }
+  },
+
+  /**
+   * 计算每个分类区块的top位置
+   */
+  calcSectionTops() {
+    const query = wx.createSelectorQuery()
+    this.data.categories.forEach(cat => {
+      query.select('#section-' + cat.id).boundingClientRect()
+    })
+    query.exec(res => {
+      const tops = []
+      res.forEach((rect, i) => {
+        if (rect) {
+          tops.push({ id: this.data.categories[i].id, top: rect.top })
+        }
+      })
+      this.setData({ sectionTopList: tops })
+    })
+  },
+
+  /**
+   * 滚动事件 - 自动高亮当前分类
+   */
+  onScroll(e) {
+    const scrollTop = e.detail.scrollTop
+    const tops = this.data.sectionTopList
+
+    if (!tops || tops.length === 0) return
+
+    // 搜索栏高度约112rpx ≈ 56px
+    const offset = 56
+    let current = tops[0].id
+
+    for (let i = tops.length - 1; i >= 0; i--) {
+      if (scrollTop + offset >= tops[i].top) {
+        current = tops[i].id
+        break
+      }
+    }
+
+    if (current !== this.data.currentCategory) {
+      this.setData({ currentCategory: current })
+    }
+  },
+
+  /**
+   * 点击左侧导航 - 滚动到对应分类
+   */
+  switchCategory(e) {
+    const cat = e.currentTarget.dataset.cat
+    if (cat === 'cat_farm') {
+      // 农产品也可以滚动过去
+    }
+
+    this.setData({ currentCategory: cat })
+
+    // 滚动到对应区块
+    const query = wx.createSelectorQuery()
+    query.select('#section-' + cat).boundingClientRect()
+    query.select('.product-scroll').scrollOffset()
+    query.exec(res => {
+      if (res[0] && res[1]) {
+        const targetTop = res[0].top + res[1].scrollTop - 56 // 减去搜索栏高度
+        this.setData({ _scrollTop: targetTop })
+      }
+    })
   },
 
   /**
    * 根据香型名称筛选
    */
   filterByAromaName(aromaName) {
-    // 映射香型到分类
     const aromaToCategory = {
       '蜜兰香': 'cat_normal',
       '鸭屎香': 'cat_normal',
@@ -44,92 +144,6 @@ Page({
     }
     const cat = aromaToCategory[aromaName] || 'cat_normal'
     this.setData({ currentCategory: cat })
-  },
-
-  /**
-   * 刷新列表
-   */
-  refreshList() {
-    this.setData({
-      products: [],
-      page: 1,
-      hasMore: true
-    })
-    this.loadProducts()
-  },
-
-  /**
-   * 加载分类列表
-   */
-  async loadCategories() {
-    try {
-      const categories = await api.getCategoryList()
-      this.setData({ categories: categories || [] })
-    } catch (err) {
-      console.error('加载分类失败:', err)
-    }
-  },
-
-  /**
-   * 加载商品列表
-   */
-  async loadProducts() {
-    if (this.data.isLoading || !this.data.hasMore) return
-
-    this.setData({ isLoading: true })
-
-    try {
-      const params = {
-        categoryId: this.data.currentCategory,
-        page: this.data.page,
-        pageSize: 20
-      }
-
-      if (this.data.keyword) {
-        params.keyword = this.data.keyword
-      }
-
-      const res = await api.getProductList(params)
-      const list = (res && res.list) || []
-
-      const newProducts = this.data.page === 1 ? list : this.data.products.concat(list)
-      const hasMore = list.length >= 20
-
-      this.setData({
-        products: newProducts,
-        page: this.data.page + 1,
-        hasMore,
-        isLoading: false,
-        isRefreshing: false
-      })
-    } catch (err) {
-      console.error('加载商品失败:', err)
-      this.setData({
-        isLoading: false,
-        isRefreshing: false
-      })
-    }
-  },
-
-  /**
-   * 切换分类
-   */
-  switchCategory(e) {
-    const cat = e.currentTarget.dataset.cat
-    if (cat === this.data.currentCategory) return
-
-    if (cat === 'cat_farm') {
-      wx.showToast({ title: '敬请期待', icon: 'none' })
-      return
-    }
-
-    this.setData({
-      currentCategory: cat,
-      products: [],
-      page: 1,
-      hasMore: true
-    })
-    this.loadProducts()
   },
 
   /**
@@ -154,14 +168,14 @@ Page({
    */
   onPullDownRefresh() {
     this.setData({ isRefreshing: true })
-    this.refreshList()
+    this.loadAllData()
   },
 
   /**
-   * 上拉加载更多
+   * 上拉加载更多（暂不需要，因为一次性加载了全部）
    */
-  onReachBottom() {
-    this.loadProducts()
+  loadMore() {
+    // 当前一次性加载所有商品，无需分页
   },
 
   /**
