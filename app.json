@@ -1,31 +1,24 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/cart/cart",
-    "pages/user/user",
-    "pages/search/index",
-    "pages/about/about",
-    "pages/policy/policy",
+    "pages/discover/discover",
     "pages/product/list/list",
     "pages/product/detail/detail",
-    "pages/order/list/list",
-    "pages/order/detail/detail",
-    "pages/history/index",
-    "important/pages/tea-knowledge/index",
-    "important/pages/tea-knowledge/detail",
-    "important/pages/ar-preview/index"
+    "pages/profile/profile",
+    "pages/tea-knowledge/detail/detail",
+    "pages/about/about"
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "茶叶小程序",
+    "navigationBarBackgroundColor": "#f5f0e8",
+    "navigationBarTitleText": "凤凰单枞",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
-    "color": "#999",
-    "selectedColor": "#9c6e21",
-    "backgroundColor": "#fff",
-    "borderStyle": "black",
+    "color": "#8b7355",
+    "selectedColor": "#c9a86c",
+    "backgroundColor": "#f5f0e8",
+    "borderStyle": "white",
     "list": [
       {
         "pagePath": "pages/index/index",
@@ -34,19 +27,19 @@
         "selectedIconPath": "images/tabbar/home-active.png"
       },
       {
+        "pagePath": "pages/discover/discover",
+        "text": "发现",
+        "iconPath": "images/tabbar/discover.png",
+        "selectedIconPath": "images/tabbar/discover-active.png"
+      },
+      {
         "pagePath": "pages/product/list/list",
-        "text": "分类",
+        "text": "茶品",
         "iconPath": "images/tabbar/category.png",
         "selectedIconPath": "images/tabbar/category-active.png"
       },
       {
-        "pagePath": "pages/cart/cart",
-        "text": "购物车",
-        "iconPath": "images/tabbar/cart.png",
-        "selectedIconPath": "images/tabbar/cart-active.png"
-      },
-      {
-        "pagePath": "pages/user/user",
+        "pagePath": "pages/profile/profile",
         "text": "我的",
         "iconPath": "images/tabbar/user.png",
         "selectedIconPath": "images/tabbar/user-active.png"
