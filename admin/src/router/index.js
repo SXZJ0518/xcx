@@ -39,38 +39,58 @@ export const constantRoutes = [
       }
     ]
   },
-  // 商品管理（展示配置）
+  // 商品管理
   {
     path: '/product',
     component: Layout,
-    redirect: '/product/list',
+    redirect: '/product/index',
     name: 'Product',
-    meta: { title: '茶品管理', icon: 'el-icon-goods' },
+    meta: { title: '商品管理', icon: 'el-icon-goods' },
     children: [
       {
-        path: 'list',
+        path: 'index',
         name: 'ProductList',
-        component: () => import('@/views/product/list'),
-        meta: { title: '茶品列表', icon: 'el-icon-s-order' }
+        component: () => import('@/views/product/index'),
+        meta: { title: '商品列表', icon: 'el-icon-s-order' }
       },
       {
-        path: 'add',
-        name: 'ProductAdd',
-        component: () => import('@/views/product/add'),
-        meta: { title: '添加茶品', icon: 'el-icon-plus' }
-      },
-      {
-        path: 'edit/:id',
-        name: 'ProductEdit',
-        component: () => import('@/views/product/edit'),
-        meta: { title: '编辑茶品', icon: 'el-icon-edit' },
+        path: 'detail',
+        name: 'ProductDetail',
+        component: () => import('@/views/product/detail'),
+        meta: { title: '商品详情', icon: 'el-icon-edit' },
         hidden: true
-      },
+      }
+    ]
+  },
+  // 分类管理
+  {
+    path: '/category',
+    component: Layout,
+    redirect: '/category/index',
+    name: 'Category',
+    meta: { title: '分类管理', icon: 'el-icon-menu' },
+    children: [
       {
-        path: 'category',
-        name: 'Category',
-        component: () => import('@/views/category/list'),
-        meta: { title: '香型管理', icon: 'el-icon-menu' }
+        path: 'index',
+        name: 'CategoryList',
+        component: () => import('@/views/category/index'),
+        meta: { title: '分类列表', icon: 'el-icon-folder' }
+      }
+    ]
+  },
+  // 香型管理
+  {
+    path: '/aroma',
+    component: Layout,
+    redirect: '/aroma/index',
+    name: 'Aroma',
+    meta: { title: '香型管理', icon: 'el-icon-collection-tag' },
+    children: [
+      {
+        path: 'index',
+        name: 'AromaList',
+        component: () => import('@/views/aroma/index'),
+        meta: { title: '香型列表', icon: 'el-icon-s-flag' }
       }
     ]
   },
@@ -78,28 +98,38 @@ export const constantRoutes = [
   {
     path: '/knowledge',
     component: Layout,
-    redirect: '/knowledge/list',
+    redirect: '/knowledge/index',
     name: 'Knowledge',
     meta: { title: '茶知识管理', icon: 'el-icon-reading' },
     children: [
       {
-        path: 'list',
+        path: 'index',
         name: 'KnowledgeList',
-        component: () => import('@/views/knowledge/list'),
+        component: () => import('@/views/knowledge/index'),
         meta: { title: '文章列表', icon: 'el-icon-document' }
       },
       {
-        path: 'add',
-        name: 'KnowledgeAdd',
-        component: () => import('@/views/knowledge/form'),
-        meta: { title: '添加文章', icon: 'el-icon-plus' }
-      },
-      {
-        path: 'edit/:id',
-        name: 'KnowledgeEdit',
-        component: () => import('@/views/knowledge/form'),
-        meta: { title: '编辑文章', icon: 'el-icon-edit' },
+        path: 'detail',
+        name: 'KnowledgeDetail',
+        component: () => import('@/views/knowledge/detail'),
+        meta: { title: '文章详情', icon: 'el-icon-edit' },
         hidden: true
+      }
+    ]
+  },
+  // 站点设置
+  {
+    path: '/settings',
+    component: Layout,
+    redirect: '/settings/index',
+    name: 'Settings',
+    meta: { title: '站点设置', icon: 'el-icon-setting' },
+    children: [
+      {
+        path: 'index',
+        name: 'SettingsIndex',
+        component: () => import('@/views/settings/index'),
+        meta: { title: '站点设置', icon: 'el-icon-s-tools' }
       }
     ]
   },
