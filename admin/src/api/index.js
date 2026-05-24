@@ -103,16 +103,16 @@ function handleAromaRequest(url, method, data, params) {
 
 function mockAdminAromaList() {
   return [
-    { _id: 'aroma_1', name: '黄栀香', aromaFeature: '栀子花清甜芬芳，高扬持久，尾调带熟蜜桃甜香', representative: '宋种东方红、贡香、老仙翁', qualityFeature: '汤色金黄，滋味甘醇鲜爽，回甘力强，耐冲泡' },
-    { _id: 'aroma_2', name: '芝兰香', aromaFeature: '清雅细长，似幽谷芝兰', representative: '八仙过海、宋种芝兰香', qualityFeature: '汤色橙黄明亮，滋味鲜爽甘醇，山韵明显' },
-    { _id: 'aroma_3', name: '蜜兰香', aromaFeature: '蜜甜+兰香，番薯般甜润', representative: '香番薯、大庵蜜兰', qualityFeature: '甜润耐泡，"蜜韵"突出，饮后满口生香' },
-    { _id: 'aroma_4', name: '桂花香', aromaFeature: '馥郁桂花甜香，甜而不腻', representative: '桂花香单丛', qualityFeature: '条索紧卷纤细，汤色金黄明亮，山韵独特' },
-    { _id: 'aroma_5', name: '玉兰香', aromaFeature: '高扬奔放，酷似玉兰花', representative: '金玉兰、娘仔伞', qualityFeature: '香气清幽持久，滋味醇厚' },
-    { _id: 'aroma_6', name: '姜花香', aromaFeature: '辛辣似姜花（通天香）', representative: '通天香单丛', qualityFeature: '入口微辣，回甘迅猛，年底"返春"回香更佳' },
-    { _id: 'aroma_7', name: '夜来香', aromaFeature: '浓郁夜来花香', representative: '夜来香单丛', qualityFeature: '香气独特，辨识度高' },
-    { _id: 'aroma_8', name: '杏仁香', aromaFeature: '淡淡果仁香，回甘有力', representative: '杏仁香单丛', qualityFeature: '条索紧直纤细，灰褐色，韵味独特' },
-    { _id: 'aroma_9', name: '肉桂香', aromaFeature: '桂皮香+花果香复合', representative: '肉桂香单丛', qualityFeature: '滋味醇厚，有独特"桂韵"' },
-    { _id: 'aroma_10', name: '银花香（鸭屎香）', aromaFeature: '金银花+奶香+杏仁香，层次分明', representative: '坪坑头银花香、大乌叶银花香', qualityFeature: '香气层次丰富，回甘持久，山韵明显' }
+    { _id: 'aroma_1', id: 'aroma_1', name: '黄栀香', aromaFeature: '栀子花清甜芬芳，高扬持久，尾调带熟蜜桃甜香', representative: '宋种东方红、贡香、老仙翁', qualityFeature: '汤色金黄，滋味甘醇鲜爽，回甘力强，耐冲泡' },
+    { _id: 'aroma_2', id: 'aroma_2', name: '芝兰香', aromaFeature: '清雅细长，似幽谷芝兰', representative: '八仙过海、宋种芝兰香', qualityFeature: '汤色橙黄明亮，滋味鲜爽甘醇，山韵明显' },
+    { _id: 'aroma_3', id: 'aroma_3', name: '蜜兰香', aromaFeature: '蜜甜+兰香，番薯般甜润', representative: '香番薯、大庵蜜兰', qualityFeature: '甜润耐泡，"蜜韵"突出，饮后满口生香' },
+    { _id: 'aroma_4', id: 'aroma_4', name: '桂花香', aromaFeature: '馥郁桂花甜香，甜而不腻', representative: '桂花香单丛', qualityFeature: '条索紧卷纤细，汤色金黄明亮，山韵独特' },
+    { _id: 'aroma_5', id: 'aroma_5', name: '玉兰香', aromaFeature: '高扬奔放，酷似玉兰花', representative: '金玉兰、娘仔伞', qualityFeature: '香气清幽持久，滋味醇厚' },
+    { _id: 'aroma_6', id: 'aroma_6', name: '姜花香', aromaFeature: '辛辣似姜花（通天香）', representative: '通天香单丛', qualityFeature: '入口微辣，回甘迅猛，年底"返春"回香更佳' },
+    { _id: 'aroma_7', id: 'aroma_7', name: '夜来香', aromaFeature: '浓郁夜来花香', representative: '夜来香单丛', qualityFeature: '香气独特，辨识度高' },
+    { _id: 'aroma_8', id: 'aroma_8', name: '杏仁香', aromaFeature: '淡淡果仁香，回甘有力', representative: '杏仁香单丛', qualityFeature: '条索紧直纤细，灰褐色，韵味独特' },
+    { _id: 'aroma_9', id: 'aroma_9', name: '肉桂香', aromaFeature: '桂皮香+花果香复合', representative: '肉桂香单丛', qualityFeature: '滋味醇厚，有独特"桂韵"' },
+    { _id: 'aroma_10', id: 'aroma_10', name: '银花香（鸭屎香）', aromaFeature: '金银花+奶香+杏仁香，层次分明', representative: '坪坑头银花香、大乌叶银花香', qualityFeature: '香气层次丰富，回甘持久，山韵明显' }
   ]
 }
 
@@ -175,9 +175,9 @@ function handleCategoryRequest(url, method, data, params) {
 
 function mockAdminCategoryList() {
   return [
-    { _id: 'cat_normal', name: '单枞茶', icon: '', sort: 1, status: true, description: '凤凰单枞精选茶品' },
-    { _id: 'cat_special', name: '特惠茶', icon: '', sort: 2, status: true, description: '茶头茶包，经济实惠' },
-    { _id: 'cat_farm', name: '农产品', icon: '', sort: 3, status: false, description: '凤凰山农特产品（待上架）' }
+    { _id: 'cat_normal', id: 'cat_normal', name: '单枞茶', icon: '', sort: 1, status: true, description: '凤凰单枞精选茶品' },
+    { _id: 'cat_special', id: 'cat_special', name: '特惠茶', icon: '', sort: 2, status: true, description: '茶头茶包，经济实惠' },
+    { _id: 'cat_farm', id: 'cat_farm', name: '农产品', icon: '', sort: 3, status: true, description: '凤凰山农特产品' }
   ]
 }
 

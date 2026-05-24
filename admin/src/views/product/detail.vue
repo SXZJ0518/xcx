@@ -651,7 +651,7 @@ export default {
         .then(response => {
           if (response.code === 0) {
             this.categoryOptions = (response.data || []).map(item => ({
-              value: item.id,
+              value: item.id || item._id,
               label: item.name
             }))
           }
