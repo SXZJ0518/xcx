@@ -67,8 +67,9 @@
           <div slot="header">热门页面 TOP10</div>
           <el-table :data="hotPages" size="small">
             <el-table-column type="index" width="50" label="#" />
-            <el-table-column prop="page" label="页面" show-overflow-tooltip />
+            <el-table-column prop="name" label="页面" />
             <el-table-column prop="count" label="访问次数" width="100" sortable />
+            <el-table-column prop="uv" label="访客数" width="80" sortable />
           </el-table>
         </el-card>
       </el-col>
@@ -77,8 +78,10 @@
           <div slot="header">热门商品 TOP10</div>
           <el-table :data="hotProducts" size="small">
             <el-table-column type="index" width="50" label="#" />
-            <el-table-column prop="name" label="商品" show-overflow-tooltip />
+            <el-table-column prop="name" label="商品" />
+            <el-table-column prop="aroma" label="香型" width="120" />
             <el-table-column prop="count" label="浏览次数" width="100" sortable />
+            <el-table-column prop="uv" label="访客数" width="80" sortable />
           </el-table>
         </el-card>
       </el-col>
@@ -101,18 +104,25 @@ export default {
       },
       chartType: 'pv',
       hotPages: [
-        { page: '/pages/index/index', count: 120 },
-        { page: '/pages/product/list/list', count: 89 },
-        { page: '/pages/product/detail/detail', count: 76 },
-        { page: '/pages/discover/discover', count: 45 },
-        { page: '/pages/profile/profile', count: 38 }
+        { name: '首页', count: 120, uv: 85 },
+        { name: '茶品列表', count: 89, uv: 62 },
+        { name: '商品详情', count: 76, uv: 54 },
+        { name: '发现（十大香型）', count: 45, uv: 38 },
+        { name: '我的', count: 38, uv: 30 },
+        { name: '茶知识', count: 22, uv: 18 },
+        { name: '关于我们', count: 15, uv: 12 }
       ],
       hotProducts: [
-        { name: '蜜兰香', count: 56 },
-        { name: '大乌叶', count: 48 },
-        { name: '鸭屎香·高山', count: 42 },
-        { name: '姜花香（通天香）', count: 35 },
-        { name: '杏仁香·锯朵仔', count: 28 }
+        { name: '蜜兰香', aroma: '蜜兰香', count: 56, uv: 42 },
+        { name: '大乌叶', aroma: '黄栀香', count: 48, uv: 35 },
+        { name: '鸭屎香·高山', aroma: '银花香（鸭屎香）', count: 42, uv: 30 },
+        { name: '姜花香（通天香）', aroma: '姜花香', count: 35, uv: 25 },
+        { name: '杏仁香·锯朵仔', aroma: '杏仁香', count: 28, uv: 20 },
+        { name: '蜜兰香·二春', aroma: '蜜兰香', count: 22, uv: 16 },
+        { name: '大乌叶·二春', aroma: '黄栀香', count: 18, uv: 14 },
+        { name: '桂花香单丛', aroma: '桂花香', count: 15, uv: 11 },
+        { name: '锯朵仔·二春', aroma: '杏仁香', count: 12, uv: 9 },
+        { name: '黄栀香·桂花香', aroma: '桂花香', count: 10, uv: 8 }
       ],
       chart: null
     }

@@ -18,11 +18,10 @@
 
   <!-- 登录卡片 -->
   <view class="login-card">
-    <!-- 微信授权登录 -->
     <view class="login-section">
       <view class="section-title">
         <view class="title-line"></view>
-        <text>微信快捷登录</text>
+        <text>微信登录</text>
         <view class="title-line"></view>
       </view>
       <button class="wx-login-btn" open-type="getPhoneNumber" bindgetphonenumber="onGetPhoneNumber">
@@ -32,35 +31,6 @@
       <button class="wx-auth-btn" bindtap="onWechatAuth">
         <view class="btn-icon">💬</view>
         <text class="btn-text">微信授权登录</text>
-      </button>
-    </view>
-
-    <!-- 分割线 -->
-    <view class="divider">
-      <view class="divider-line"></view>
-      <text class="divider-text">或</text>
-      <view class="divider-line"></view>
-    </view>
-
-    <!-- 手机号登录 -->
-    <view class="login-section">
-      <view class="section-title">
-        <view class="title-line"></view>
-        <text>手机号登录</text>
-        <view class="title-line"></view>
-      </view>
-      <view class="input-row">
-        <text class="input-label">+86</text>
-        <input class="input-phone" type="number" placeholder="请输入手机号" maxlength="11" value="{{phone}}" bindinput="onPhoneInput" />
-      </view>
-      <view class="input-row">
-        <input class="input-code" type="number" placeholder="请输入验证码" maxlength="6" value="{{code}}" bindinput="onCodeInput" />
-        <view class="code-btn {{canSendCode ? '' : 'disabled'}}" bindtap="sendCode">
-          <text>{{codeText}}</text>
-        </view>
-      </view>
-      <button class="phone-login-btn {{canLogin ? '' : 'disabled'}}" bindtap="onPhoneLogin">
-        <text>登录</text>
       </button>
     </view>
   </view>
