@@ -1,35 +1,54 @@
 /**
- * 管理后台 API 代理服务
+ * 管理后台 API 代理 + 静态文件服务
  * 
- * 作用：架在你的 Windows 服务器上，接收 Vercel 后台请求，
- *       通过 CloudBase SDK 直连云函数（不需要开通 HTTP 访问，免费）
+ * 同时提供：
+ * 1. /mall      → API 代理（直连云函数）
+ * 2. /           → 管理后台页面（admin/dist）
  * 
  * 启动：npm install && node index.js
+ * 访问：http://你的服务器IP:3000
  */
 const express = require('express')
 const cors = require('cors')
+const path = require('path')
 const tcb = require('@cloudbase/node-sdk')
 
 const app = express()
 app.use(cors({ origin: '*' }))
 app.use(express.json({ limit: '10mb' }))
 
-// 初始化云开发（使用环境变量配置密钥）
+// 初始化云开发
 const cloudApp = tcb.init({
   env: process.env.TCB_ENV || 'cloud1-d2gzj9p633865ea93',
   secretId: process.env.TCB_SECRET_ID,
   secretKey: process.env.TCB_SECRET_KEY
 })
 
-// 健康检查
-app.get('/health', async (req, res) => {
-  if (!process.env.TCB_SECRET_ID) {
-    return res.json({ status: 'error', message: '请配置 TCB_SECRET_ID 和 TCB_SECRET_KEY 环境变量' })
+// ============ 静态文件（管理后台页面） ============
+// 把 admin/dist 文件夹复制到 server/public/
+app.use(express.static(path.join(__dirname, 'public'), {
+  maxAge: '1h',
+  setHeaders(res, filePath) {
+    // SPA 路由回退：所有 .html 文件不缓存
+    if (filePath.endsWith('.html')) {
+      res.setHeader('Cache-Control', 'no-cache')
+    }
   }
-  res.json({ status: 'ok', env: process.env.TCB_ENV })
+}))
+
+// SPA fallback：所有非 API / 非静态文件请求都返回 index.html
+app.get(/^\/(?!mall|health).*/, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'))
 })
 
-// 转发所有 API 请求到 mall 云函数
+// ============ API 代理 ============
+
+// 健康检查
+app.get('/health', async (req, res) => {
+  res.json({ status: 'ok', env: process.env.TCB_ENV || 'cloud1-d2gzj9p633865ea93' })
+})
+
+// 转发到 mall 云函数
 app.all('/mall', async (req, res) => {
   const { action, params } = req.body
   const start = Date.now()
@@ -56,9 +75,9 @@ const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
   console.log(`
 =================================
-  管理后台 API 代理已启动
-  端口: ${PORT}
-  环境: ${process.env.TCB_ENV || 'cloud1-d2gzj9p633865ea93'}
+  管理后台已启动
+  地址: http://localhost:${PORT}
+  API:  http://localhost:${PORT}/mall
 =================================
 `)
 })
