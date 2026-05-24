@@ -20,6 +20,8 @@ exports.main = async (event, context) => {
     } else if (action === 'reset') {
       await clearDatabase()
       return await initDatabase()
+    } else if (action === 'cleanSamples') {
+      return await cleanSamples()
     }
     return {
       code: 0,
@@ -56,11 +58,13 @@ async function initDatabase() {
   // 6. 初始化管理员
   results.admins = await initAdmins()
   
-  // 7. 初始化商品
-  results.products = await initProducts(results.categories)
+  // 7. 初始化商品（不再自动插入示例，由管理员从后台手动上架）
+  // results.products = await initProducts(results.categories)
+  results.products = { message: '商品由管理员手动上架，已跳过示例数据' }
   
-  // 8. 初始化茶知识
-  results.knowledge = await initKnowledge()
+  // 8. 初始化茶知识（不再自动插入示例）
+  // results.knowledge = await initKnowledge()
+  results.knowledge = { message: '知识文章由管理员手动添加，已跳过示例数据' }
   
   return {
     code: 0,
@@ -160,6 +164,39 @@ async function initCategories() {
   }
   
   return created
+}
+
+// 清除示例商品和茶知识（保留分类、香型等框架数据）
+async function cleanSamples() {
+  const result = { products: 0, knowledge: 0 }
+  
+  // 删除所有商品
+  try {
+    const productsRes = await db.collection('products').get()
+    for (const doc of productsRes.data) {
+      await db.collection('products').doc(doc._id).remove()
+    }
+    result.products = productsRes.data.length
+  } catch (error) {
+    console.error('删除商品失败:', error)
+  }
+  
+  // 删除所有茶知识
+  try {
+    const knowledgeRes = await db.collection('knowledge').get()
+    for (const doc of knowledgeRes.data) {
+      await db.collection('knowledge').doc(doc._id).remove()
+    }
+    result.knowledge = knowledgeRes.data.length
+  } catch (error) {
+    console.error('删除茶知识失败:', error)
+  }
+  
+  return {
+    code: 0,
+    message: `已清除 ${result.products} 件示例商品和 ${result.knowledge} 篇茶知识文章，分类/香型/配置等框架数据已保留`,
+    data: result
+  }
 }
 
 // 初始化香型
