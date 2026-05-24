@@ -4,30 +4,51 @@
 -->
 <view class="page">
 
-  <!-- ========== 1. HERO 大字报式 ========== -->
-  <view class="hero">
-    <view class="hero-bg">
-      <view class="hero-grain"></view>
-      <view class="hero-ring hero-ring-1"></view>
-      <view class="hero-ring hero-ring-2"></view>
-      <view class="hero-leaf hero-leaf-tl"></view>
-      <view class="hero-leaf hero-leaf-br"></view>
+  <!-- ========== 1. 轮播图 ========== -->
+  <view class="banner-section" wx:if="{{banners.length > 0}}">
+    <swiper
+      class="banner-swiper"
+      indicator-dots="{{true}}"
+      autoplay="{{true}}"
+      interval="{{4000}}"
+      duration="{{500}}"
+      circular="{{true}}"
+      indicator-color="rgba(255,255,255,0.4)"
+      indicator-active-color="#c9a86c"
+    >
+      <swiper-item
+        wx:for="{{banners}}"
+        wx:key="id"
+        bindtap="onBannerTap"
+        data-link="{{item.link}}"
+      >
+        <image class="banner-image" src="{{item.imageUrl || item.image}}" mode="aspectFill" lazy-load />
+        <view class="banner-overlay"></view>
+        <view class="banner-content" wx:if="{{item.title}}">
+          <text class="banner-title">{{item.title}}</text>
+          <text class="banner-desc" wx:if="{{item.description}}">{{item.description}}</text>
+        </view>
+      </swiper-item>
+    </swiper>
+  </view>
+
+  <!-- ========== 2. 茶知识入口 ========== -->
+  <view class="knowledge-entry" bindtap="goToKnowledge">
+    <view class="ke-left">
+      <view class="ke-icon-wrap">
+        <text class="ke-icon">📖</text>
+      </view>
+      <view class="ke-text">
+        <text class="ke-title">茶知识</text>
+        <text class="ke-desc">品茶文化 · 冲泡技巧 · 茶道美学</text>
+      </view>
     </view>
-    <view class="hero-content">
-      <view class="hero-kicker">
-        <text class="hero-dot">·</text>
-        <text>潮州凤凰山</text>
-      </view>
-      <text class="hero-brand">{{siteConfig.brandName || '凤凰单枞'}}</text>
-      <view class="hero-divider"></view>
-      <text class="hero-slogan">{{siteConfig.slogan || '一丛一味 · 百丛百香'}}</text>
-      <view class="hero-scroll-hint">
-        <view class="hero-scroll-line"></view>
-      </view>
+    <view class="ke-right">
+      <text class="ke-arrow">阅读全文 ›</text>
     </view>
   </view>
 
-  <!-- ========== 2. 热销推荐 ========== -->
+  <!-- ========== 3. 热销推荐 ========== -->
   <view class="section section-products" wx:if="{{hotProducts.length > 0}}">
     <view class="sec-head">
       <view class="sec-head-left">
@@ -36,7 +57,7 @@
       </view>
       <view class="sec-head-right" bindtap="goToProducts">
         <text>看全部</text>
-        <text class="sec-arrow">&#8250;</text>
+        <text class="sec-arrow">›</text>
       </view>
     </view>
 
@@ -73,7 +94,7 @@
     </view>
   </view>
 
-  <!-- ========== 3. 香型快览 - 横向滚动 ========== -->
+  <!-- ========== 4. 十大香型 ========== -->
   <view class="section section-aromas" wx:if="{{aromaTypes.length > 0}}">
     <view class="sec-head">
       <view class="sec-head-left">
@@ -83,7 +104,7 @@
       </view>
       <view class="sec-head-right" bindtap="goToDiscover">
         <text>看全部</text>
-        <text class="sec-arrow">&#8250;</text>
+        <text class="sec-arrow">›</text>
       </view>
     </view>
 
@@ -123,29 +144,49 @@
         <text class="cta-arrow">→</text>
       </view>
     </view>
-    <view class="cta-extra" bindtap="goToDiscover">
-      <text>了解茶文化</text>
-    </view>
   </view>
 
-  <!-- ========== 6. 联系 ========== -->
-  <view class="contact" wx:if="{{siteConfig.wechat}}">
-    <view class="contact-card" bindtap="copyWechat">
-      <view class="contact-avatar">
-        <view class="contact-avatar-inner">
-          <text class="contact-avatar-letter">客</text>
-        </view>
+  <!-- ========== 6. 联系我们 ========== -->
+  <view class="contact">
+    <view class="contact-card" bindtap="showContactModal">
+      <view class="contact-icon-wrap">
+        <text class="contact-icon">💬</text>
       </view>
       <view class="contact-info">
-        <text class="contact-title">茶事咨询</text>
-        <text class="contact-hint">点击复制微信号</text>
+        <text class="contact-title">联系我们</text>
+        <text class="contact-wechat">微信号：{{wechatNumber}}</text>
       </view>
-      <view class="contact-action">
+      <view class="contact-action" catchtap="copyWechat">
         <text class="contact-action-text">复制</text>
       </view>
     </view>
   </view>
-  <view class="contact-placeholder" wx:elif="{{!siteConfig.wechat}}"></view>
+
+  <!-- ========== 联系弹窗 ========== -->
+  <view class="modal-mask" wx:if="{{showModal}}" bindtap="hideContactModal">
+    <view class="modal-box" catchtap="">
+      <view class="modal-header">
+        <text class="modal-title">添加微信</text>
+        <text class="modal-close" bindtap="hideContactModal">✕</text>
+      </view>
+      <view class="modal-body">
+        <view class="modal-wechat-row">
+          <text class="modal-label">微信号</text>
+          <text class="modal-wechat">{{wechatNumber}}</text>
+        </view>
+        <view class="modal-copy-btn" catchtap="copyWechat">
+          <text class="modal-copy-text">复制微信号</text>
+        </view>
+        <!-- 二维码图片 -->
+        <view class="modal-qrcode-wrap" wx:if="{{wechatQrcode}}">
+          <image class="modal-qrcode" src="{{wechatQrcode}}" mode="widthFix" show-menu-by-longpress="{{true}}" />
+        </view>
+      </view>
+      <view class="modal-footer">
+        <text class="modal-hint">长按下方图片扫码添加微信</text>
+      </view>
+    </view>
+  </view>
 
   <!-- ========== 底部留白 ========== -->
   <view class="footer-space"></view>

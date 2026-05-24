@@ -1,2 +1,46 @@
 <!--pages/tea-knowledge/detail/detail.wxml-->
-<text>pages/tea-knowledge/detail/detail.wxml</text>
+<view class="page">
+  <!-- 加载中 -->
+  <view class="loading-wrap" wx:if="{{loading}}">
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <!-- 文章内容 -->
+  <view class="article" wx:elif="{{article}}">
+    <!-- 文章头部 -->
+    <view class="article-header">
+      <view class="article-meta">
+        <text class="article-category" wx:if="{{article.category}}">{{article.category}}</text>
+        <text class="article-date" wx:if="{{article.createTime}}">{{article.createTime}}</text>
+        <text class="article-views" wx:if="{{article.views}}">{{article.views}} 阅读</text>
+      </view>
+      <text class="article-title">{{article.title}}</text>
+      <view class="article-divider"></view>
+    </view>
+
+    <!-- 文章正文（rich-text 渲染 HTML） -->
+    <view class="article-body">
+      <rich-text nodes="{{article.content}}" class="rich-content"></rich-text>
+    </view>
+
+    <!-- 底部操作栏 -->
+    <view class="article-footer">
+      <view class="footer-action" bindtap="goBack">
+        <text class="action-icon">←</text>
+        <text class="action-text">返回</text>
+      </view>
+      <button class="footer-action share-btn" open-type="share">
+        <text class="action-icon">↗</text>
+        <text class="action-text">分享文章</text>
+      </button>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-wrap" wx:else>
+    <text class="empty-text">文章不存在</text>
+  </view>
+
+  <!-- 底部留白 -->
+  <view class="footer-space"></view>
+</view>

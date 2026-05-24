@@ -1,0 +1,29 @@
+<view class="page">
+  <!-- 空状态 -->
+  <view class="empty-wrap" wx:if="{{isEmpty}}">
+    <view class="empty-icon">📭</view>
+    <text class="empty-text">暂无收藏</text>
+    <text class="empty-hint">去茶品页发现喜欢的茶吧</text>
+  </view>
+
+  <!-- 收藏列表 -->
+  <view class="fav-list" wx:else>
+    <view
+      class="fav-item"
+      wx:for="{{list}}"
+      wx:key="id"
+      bindtap="goToProduct"
+      data-id="{{item.id}}"
+    >
+      <image class="fav-image" src="{{item.imageUrl || '/images/tea-placeholder.png'}}" mode="aspectFill" lazy-load />
+      <view class="fav-info">
+        <text class="fav-name">{{item.name}}</text>
+        <text class="fav-aroma" wx:if="{{item.aromaName}}">{{item.aromaName}}</text>
+        <text class="fav-price">¥{{item.price}}</text>
+      </view>
+      <view class="fav-remove" catchtap="removeFavorite" data-id="{{item.id}}">
+        <text class="fav-remove-icon">🗑</text>
+      </view>
+    </view>
+  </view>
+</view>

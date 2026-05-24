@@ -24,7 +24,10 @@ Page({
     hotProducts: [],
     aromaTypes: [],
     siteConfig: {},
-    loading: true
+    loading: true,
+    wechatNumber: 'tea_fenghuang', // 写死微信号，可在此处修改
+    wechatQrcode: '', // 微信二维码图片路径，留空则不显示
+    showModal: false
   },
 
   onLoad() {
@@ -85,12 +88,59 @@ Page({
     wx.switchTab({ url: '/pages/discover/discover' })
   },
 
-  copyWechat() {
-    const wechat = this.data.siteConfig.wechat || ''
-    if (!wechat) {
-      wx.showToast({ title: '暂无微信号', icon: 'none' })
-      return
+  /**
+   * 跳转到发现页的茶知识区域
+   */
+  goToKnowledge() {
+    const app = getApp()
+    app.globalData._scrollToKnowledge = true
+    wx.switchTab({ url: '/pages/discover/discover' })
+  },
+
+  /**
+   * 轮播图点击
+   */
+  onBannerTap(e) {
+    const link = e.currentTarget.dataset.link
+    if (!link) return
+
+    // 处理不同类型的链接
+    if (link.startsWith('/pages/product/detail')) {
+      // 商品详情页
+      const url = link.replace('/pages/product/detail', '/pages/product/detail/detail')
+      wx.navigateTo({ url })
+    } else if (link.startsWith('/pages/product/list')) {
+      // 商品列表页 - 跳转到茶品tab
+      wx.switchTab({ url: '/pages/product/list/list' })
+    } else if (link.startsWith('/pages/discover')) {
+      // 发现页
+      wx.switchTab({ url: '/pages/discover/discover' })
+    } else if (link.startsWith('/pages/')) {
+      // 其他内部页面
+      if (link.includes('index')) {
+        // 首页不处理
+        return
+      }
+      wx.navigateTo({ url: link })
     }
+  },
+
+  /**
+   * 显示联系弹窗
+   */
+  showContactModal() {
+    this.setData({ showModal: true })
+  },
+
+  /**
+   * 隐藏联系弹窗
+   */
+  hideContactModal() {
+    this.setData({ showModal: false })
+  },
+
+  copyWechat() {
+    const wechat = this.data.wechatNumber
     wx.setClipboardData({
       data: wechat,
       success: () => wx.showToast({ title: '已复制微信号', icon: 'success' })

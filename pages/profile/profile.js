@@ -1,16 +1,23 @@
 /**
  * 我的页面 - 凤凰单枞展示型小程序
- * 东方禅意风格
+ * 东方禅意 × 现代质感
  */
 const api = require('../../utils/api')
+const favorites = require('../../utils/favorites')
 
 Page({
   data: {
-    siteConfig: {}
+    siteConfig: {},
+    favoriteCount: 0
   },
 
   onLoad() {
     this.loadSiteConfig()
+  },
+
+  onShow() {
+    // 每次显示时刷新收藏数
+    this.setData({ favoriteCount: favorites.getCount() })
   },
 
   /**
@@ -23,6 +30,13 @@ Page({
     } catch (err) {
       console.error('加载配置失败:', err)
     }
+  },
+
+  /**
+   * 跳转到我的收藏
+   */
+  goToFavorites() {
+    wx.navigateTo({ url: '/pages/profile/favorites/favorites' })
   },
 
   /**
@@ -62,6 +76,24 @@ Page({
           icon: 'none'
         })
       }
+    })
+  },
+
+  /**
+   * 跳转到关于我们（弹出半屏弹窗）
+   */
+  goToAbout() {
+    const about = this.data.siteConfig.about || ''
+    if (!about) {
+      wx.showToast({ title: '暂无品牌介绍', icon: 'none' })
+      return
+    }
+    wx.showModal({
+      title: this.data.siteConfig.brandName || '凤凰单枞',
+      content: about,
+      showCancel: false,
+      confirmText: '我知道了',
+      confirmColor: '#c9a86c'
     })
   },
 

@@ -1,80 +1,121 @@
 <view class="page">
 
-  <!-- ========== 1. 用户区域 ========== -->
+  <!-- ========== 1. 顶部用户区域 ========== -->
   <view class="user-header">
-    <view class="user-bg"></view>
+    <view class="user-bg">
+      <view class="user-bg-grain"></view>
+      <view class="user-bg-circle user-bg-circle-1"></view>
+      <view class="user-bg-circle user-bg-circle-2"></view>
+      <view class="user-bg-circle user-bg-circle-3"></view>
+    </view>
     <view class="user-content">
       <view class="avatar-wrap">
         <view class="avatar-default">
-          <view class="avatar-icon"></view>
+          <view class="avatar-icon">
+            <view class="avatar-head"></view>
+            <view class="avatar-body"></view>
+          </view>
         </view>
+        <view class="avatar-ring"></view>
       </view>
       <text class="nickname">茶友</text>
-      <text class="user-desc">品茶悟道，静心修行</text>
+      <text class="user-desc">品茶悟道 · 静心修行</text>
+    </view>
+    <!-- 底部弧形过渡 -->
+    <view class="header-curve"></view>
+  </view>
+
+  <!-- ========== 2. 品牌故事卡片 ========== -->
+  <view class="story-card" wx:if="{{siteConfig.about}}">
+    <view class="story-header">
+      <view class="story-deco"></view>
+      <text class="story-title">品牌故事</text>
+      <view class="story-deco"></view>
+    </view>
+    <text class="story-text">{{siteConfig.about}}</text>
+    <view class="story-footer">
+      <view class="story-divider"></view>
+      <text class="story-slogan">{{siteConfig.slogan || '一丛一味 · 百丛百香'}}</text>
     </view>
   </view>
 
-  <!-- ========== 2. 联系方式卡片（有微信号或电话才显示） ========== -->
-  <view class="contact-card" wx:if="{{siteConfig.wechat || siteConfig.phone}}">
-    <!-- 微信号 -->
-    <view class="contact-item" wx:if="{{siteConfig.wechat}}" bindtap="copyWechat">
-      <view class="contact-icon-wrap wechat-icon">
-        <text class="contact-icon-text">微</text>
-      </view>
-      <view class="contact-info">
-        <text class="contact-label">微信号</text>
-        <text class="contact-value">{{siteConfig.wechat}}</text>
-      </view>
-      <view class="contact-action">
-        <text class="action-text">复制</text>
-      </view>
-    </view>
-
-    <!-- 电话 -->
-    <view class="contact-item" wx:if="{{siteConfig.phone}}" bindtap="callPhone">
-      <view class="contact-icon-wrap phone-icon">
-        <text class="contact-icon-text">电</text>
-      </view>
-      <view class="contact-info">
-        <text class="contact-label">电话</text>
-        <text class="contact-value">{{siteConfig.phone}}</text>
-      </view>
-      <view class="contact-action">
-        <text class="action-text">拨打</text>
-      </view>
-    </view>
-  </view>
-
-  <!-- ========== 3. 功能列表 ========== -->
+  <!-- ========== 4. 功能菜单 ========== -->
   <view class="menu-card">
-    <!-- 关于我们 -->
-    <view class="menu-item" wx:if="{{siteConfig.about}}">
+    <view class="menu-item" bindtap="goToFavorites">
       <view class="menu-left">
-        <view class="menu-icon about-icon"></view>
-        <text class="menu-label">关于我们</text>
+        <view class="menu-icon-wrap fav-bg">
+          <text class="menu-icon-text">藏</text>
+        </view>
+        <view class="menu-text-wrap">
+          <text class="menu-label">我的收藏</text>
+          <text class="menu-desc">{{favoriteCount > 0 ? '已收藏 ' + favoriteCount + ' 款茶品' : '暂无收藏'}}</text>
+        </view>
       </view>
-      <text class="menu-arrow">→</text>
+      <view class="menu-arrow-wrap">
+        <text class="menu-arrow">›</text>
+      </view>
     </view>
 
-    <!-- 品牌故事展示区域 -->
-    <view class="about-content" wx:if="{{siteConfig.about}}">
-      <text class="about-text">{{siteConfig.about}}</text>
+    <view class="menu-item" bindtap="goToAbout">
+      <view class="menu-left">
+        <view class="menu-icon-wrap about-bg">
+          <text class="menu-icon-text">源</text>
+        </view>
+        <view class="menu-text-wrap">
+          <text class="menu-label">关于我们</text>
+          <text class="menu-desc">了解凤凰单枞的故事</text>
+        </view>
+      </view>
+      <view class="menu-arrow-wrap">
+        <text class="menu-arrow">›</text>
+      </view>
     </view>
 
-    <!-- 分享给朋友 -->
-    <button class="menu-item menu-btn" open-type="share">
+    <view class="menu-item menu-item-share">
+      <button class="share-trigger" open-type="share"></button>
       <view class="menu-left">
-        <view class="menu-icon share-icon"></view>
-        <text class="menu-label">分享给朋友</text>
+        <view class="menu-icon-wrap share-bg">
+          <text class="menu-icon-text">享</text>
+        </view>
+        <view class="menu-text-wrap">
+          <text class="menu-label">分享给朋友</text>
+          <text class="menu-desc">把好茶推荐给更多人</text>
+        </view>
       </view>
-      <text class="menu-arrow">→</text>
-    </button>
+      <view class="menu-arrow-wrap">
+        <text class="menu-arrow">›</text>
+      </view>
+    </view>
   </view>
 
-  <!-- ========== 4. 底部品牌信息 ========== -->
-  <view class="brand-footer">
-    <text class="brand-name">{{siteConfig.brandName || '凤凰单枞'}}</text>
-    <text class="brand-address">{{siteConfig.address || '广东省潮州市凤凰镇'}}</text>
-    <text class="brand-version">v1.0.0</text>
+  <!-- ========== 5. 联系信息卡片 ========== -->
+  <view class="info-card" wx:if="{{siteConfig.address || siteConfig.phone}}">
+    <view class="info-row" wx:if="{{siteConfig.address}}">
+      <text class="info-label">📍 产地</text>
+      <text class="info-value">{{siteConfig.address}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">📦 发货地</text>
+      <text class="info-value">广东 · 汕头</text>
+    </view>
+    <view class="info-row" wx:if="{{siteConfig.phone}}">
+      <text class="info-label">📞 电话</text>
+      <text class="info-value">{{siteConfig.phone}}</text>
+    </view>
+    <view class="info-row" wx:if="{{siteConfig.wechat}}">
+      <text class="info-label">💬 微信</text>
+      <text class="info-value">{{siteConfig.wechat}}</text>
+    </view>
   </view>
+
+  <!-- ========== 6. 底部 ========== -->
+  <view class="page-footer">
+    <view class="footer-brand">
+      <view class="footer-brand-dot"></view>
+      <text class="footer-brand-name">{{siteConfig.brandName || '凤凰单枞'}}</text>
+      <view class="footer-brand-dot"></view>
+    </view>
+    <text class="footer-version">v1.0.0</text>
+  </view>
+
 </view>

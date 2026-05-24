@@ -5,6 +5,7 @@
     "pages/product/list/list",
     "pages/product/detail/detail",
     "pages/profile/profile",
+    "pages/profile/favorites/favorites",
     "pages/tea-knowledge/detail/detail",
     "pages/about/about"
   ],

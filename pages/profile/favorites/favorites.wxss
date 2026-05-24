@@ -1,0 +1,115 @@
+/* 收藏列表页 */
+.page {
+  min-height: 100vh;
+  background: #f5f0e8;
+  padding: 20rpx 0;
+}
+
+/* 空状态 */
+.empty-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 200rpx;
+}
+
+.empty-icon {
+  font-size: 100rpx;
+  margin-bottom: 30rpx;
+}
+
+.empty-text {
+  font-size: 30rpx;
+  color: #8b7355;
+  letter-spacing: 4rpx;
+  margin-bottom: 12rpx;
+}
+
+.empty-hint {
+  font-size: 24rpx;
+  color: #b0a090;
+  letter-spacing: 2rpx;
+}
+
+/* 收藏列表 */
+.fav-list {
+  padding: 0 24rpx;
+}
+
+.fav-item {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 20rpx 24rpx;
+  margin-bottom: 16rpx;
+  box-shadow: 0 4rpx 20rpx rgba(45, 37, 32, 0.05);
+  transition: transform 0.2s;
+}
+
+.fav-item:active {
+  transform: scale(0.98);
+}
+
+.fav-image {
+  width: 140rpx;
+  height: 140rpx;
+  border-radius: 12rpx;
+  flex-shrink: 0;
+  background: #e8e0d5;
+}
+
+.fav-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-left: 20rpx;
+  margin-right: 16rpx;
+  overflow: hidden;
+}
+
+.fav-name {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #2d2520;
+  letter-spacing: 2rpx;
+  margin-bottom: 6rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fav-aroma {
+  font-size: 22rpx;
+  color: #8b7355;
+  margin-bottom: 8rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fav-price {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #b8860b;
+}
+
+.fav-remove {
+  width: 56rpx;
+  height: 56rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #f5f0e8;
+}
+
+.fav-remove:active {
+  background: #f0e0d0;
+}
+
+.fav-remove-icon {
+  font-size: 28rpx;
+}

@@ -122,8 +122,8 @@ const mockProducts = [
     isHot: true,
     sales: 342,
     brief: '凤凰单枞最受欢迎的香型，蜜香馥郁，回甘悠长',
-    cover: '',
-    imageUrl: '',
+    cover: 'https://picsum.photos/seed/nongchan8/600/600',
+    imageUrl: 'https://picsum.photos/seed/nongchan7/600/600',
     imageTag: { text: '蜜兰香', bg: '#d4a017', textColor: '#ffffff' }
   },
   {
@@ -151,8 +151,8 @@ const mockProducts = [
     isHot: true,
     sales: 528,
     brief: '名字接地气，香气高雅，金银花奶香杏仁香层次丰富',
-    cover: '',
-    imageUrl: '',
+    cover: 'https://picsum.photos/seed/nongchan6/600/600',
+    imageUrl: 'https://picsum.photos/seed/nongchan5/600/600',
     imageTag: { text: '银花香', bg: '#9b8b6e', textColor: '#ffffff' }
   },
   {
@@ -180,8 +180,8 @@ const mockProducts = [
     isHot: true,
     sales: 456,
     brief: '黄栀香型代表，栀子花香清雅，性价比之选',
-    cover: '',
-    imageUrl: '',
+    cover: 'https://picsum.photos/seed/nongchan4/600/600',
+    imageUrl: 'https://picsum.photos/seed/nongchan3/600/600',
     imageTag: { text: '黄栀香', bg: '#e6b422', textColor: '#ffffff' }
   },
   {
@@ -209,8 +209,8 @@ const mockProducts = [
     isHot: false,
     sales: 189,
     brief: '杏仁香型代表，天然果仁香，辨识度极高',
-    cover: '',
-    imageUrl: '',
+    cover: 'https://picsum.photos/seed/nongchan2/600/600',
+    imageUrl: 'https://picsum.photos/seed/nongchan1/600/600',
     imageTag: { text: '杏仁香', bg: '#c9a86c', textColor: '#2d2520' }
   },
   {
@@ -238,8 +238,8 @@ const mockProducts = [
     isHot: false,
     sales: 145,
     brief: '十大香型之一，清雅细长似幽谷芝兰',
-    cover: '',
-    imageUrl: '',
+    cover: 'https://picsum.photos/seed/fengmi2/600/600',
+    imageUrl: 'https://picsum.photos/seed/fengmi1/600/600',
     imageTag: { text: '芝兰香', bg: '#8b7355', textColor: '#ffffff' }
   },
   {
@@ -267,8 +267,8 @@ const mockProducts = [
     isHot: false,
     sales: 98,
     brief: '馥郁桂花甜香，甜而不腻，花果香型经典',
-    cover: '',
-    imageUrl: '',
+    cover: 'https://picsum.photos/seed/chabao4/600/600',
+    imageUrl: 'https://picsum.photos/seed/chatou6/600/600',
     imageTag: { text: '桂花香', bg: '#d4883c', textColor: '#ffffff' }
   },
   {
@@ -296,8 +296,8 @@ const mockProducts = [
     isHot: false,
     sales: 76,
     brief: '又名通天香，稀缺香型，入口微辣回甘迅猛',
-    cover: '',
-    imageUrl: '',
+    cover: 'https://picsum.photos/seed/chabao3/600/600',
+    imageUrl: 'https://picsum.photos/seed/chatou5/600/600',
     imageTag: { text: '姜花香', bg: '#a0452e', textColor: '#ffffff' }
   },
   {
@@ -325,8 +325,8 @@ const mockProducts = [
     isHot: true,
     sales: 289,
     brief: '蜜兰香二春，经典风味性价比之选',
-    cover: '',
-    imageUrl: '',
+    cover: 'https://picsum.photos/seed/chabao2/600/600',
+    imageUrl: 'https://picsum.photos/seed/chatou4/600/600',
     imageTag: { text: '蜜兰香', bg: '#d4a017', textColor: '#ffffff' }
   },
   {
@@ -354,8 +354,8 @@ const mockProducts = [
     isHot: false,
     sales: 178,
     brief: '黄栀香型二春，栀子花香，入门实惠之选',
-    cover: '',
-    imageUrl: '',
+    cover: 'https://picsum.photos/seed/chatou3/600/600',
+    imageUrl: 'https://picsum.photos/seed/chatou2/600/600',
     imageTag: { text: '黄栀香', bg: '#e6b422', textColor: '#ffffff' }
   },
   {
@@ -383,15 +383,16 @@ const mockProducts = [
     isHot: true,
     sales: 98,
     brief: '乌岽古树高山版，鸭屎香顶级之作',
-    cover: '',
-    imageUrl: '',
+    cover: 'https://picsum.photos/seed/chabao1/600/600',
+    imageUrl: 'https://picsum.photos/seed/chatou1/600/600',
     imageTag: { text: '银花香', bg: '#9b8b6e', textColor: '#ffffff' }
   },
 
   // ===== 特惠茶（cat_special）10个 =====
+  // 茶头1-5
   {
     id: 'prod_11',
-    name: '茶头',
+    name: '茶头1',
     categoryId: 'cat_special',
     categoryName: '特惠茶',
     aromaName: '',
@@ -414,42 +415,13 @@ const mockProducts = [
     isHot: false,
     sales: 234,
     brief: '精拣茶叶，品质优良，价格实惠',
-    cover: '',
-    imageUrl: '',
+    cover: 'https://picsum.photos/seed/yashixiang2/600/600',
+    imageUrl: 'https://picsum.photos/seed/dawuye2/600/600',
     imageTag: { text: '特惠', bg: '#e74c3c', textColor: '#ffffff' }
   },
   {
     id: 'prod_12',
-    name: '茶包',
-    categoryId: 'cat_special',
-    categoryName: '特惠茶',
-    aromaName: '',
-    aromaFeature: '',
-    price: 38,
-    originalPrice: 58,
-    weight: '500g',
-    packTypes: ['袋装'],
-    origin: '潮州凤凰山',
-    altitude: '800m',
-    roast: '炭焙',
-    season: '春茶',
-    brewTemp: '95-100℃',
-    brewTime: '15-20秒/泡',
-    brewCount: '可冲泡5-7次',
-    description: '茶叶运输中自然碎裂的小颗粒，装袋饮用，经济实惠。',
-    tags: ['碎茶', '实惠', '袋装', '日常'],
-    status: 1,
-    isNew: false,
-    isHot: false,
-    sales: 367,
-    brief: '碎茶装袋，经济实惠，日常饮用好选择',
-    cover: '',
-    imageUrl: '',
-    imageTag: { text: '特惠', bg: '#e74c3c', textColor: '#ffffff' }
-  },
-  {
-    id: 'prod_13',
-    name: '茶头·春茶',
+    name: '茶头2',
     categoryId: 'cat_special',
     categoryName: '特惠茶',
     aromaName: '',
@@ -472,100 +444,13 @@ const mockProducts = [
     isHot: false,
     sales: 156,
     brief: '春茶精拣茶头，春韵十足，实惠之选',
-    cover: '',
-    imageUrl: '',
+    cover: 'https://picsum.photos/seed/guihuaxiang1/600/600',
+    imageUrl: 'https://picsum.photos/seed/zhilanxiang1/600/600',
     imageTag: { text: '特惠', bg: '#e74c3c', textColor: '#ffffff' }
   },
   {
-    id: 'prod_14',
-    name: '茶头·蜜兰',
-    categoryId: 'cat_special',
-    categoryName: '特惠茶',
-    aromaName: '蜜兰香',
-    aromaFeature: '',
-    price: 98,
-    originalPrice: 148,
-    weight: '500g',
-    packTypes: ['袋装'],
-    origin: '潮州凤凰山',
-    altitude: '800m',
-    roast: '炭焙',
-    season: '春茶',
-    brewTemp: '95-100℃',
-    brewTime: '10-15秒/泡',
-    brewCount: '可冲泡6-8次',
-    description: '蜜兰香茶头，带有蜜兰香的经典风味，精拣出品，价格实惠，是蜜兰香爱好者的经济选择。',
-    tags: ['精拣', '蜜兰香', '实惠'],
-    status: 1,
-    isNew: false,
-    isHot: false,
-    sales: 123,
-    brief: '蜜兰香风味茶头，经典花香实惠之选',
-    cover: '',
-    imageUrl: '',
-    imageTag: { text: '特惠', bg: '#e74c3c', textColor: '#ffffff' }
-  },
-  {
-    id: 'prod_15',
-    name: '茶包·春茶',
-    categoryId: 'cat_special',
-    categoryName: '特惠茶',
-    aromaName: '',
-    aromaFeature: '',
-    price: 48,
-    originalPrice: 68,
-    weight: '500g',
-    packTypes: ['袋装'],
-    origin: '潮州凤凰山',
-    altitude: '800m',
-    roast: '炭焙',
-    season: '春茶',
-    brewTemp: '95-100℃',
-    brewTime: '15-20秒/泡',
-    brewCount: '可冲泡5-7次',
-    description: '春茶碎茶茶包，精选春茶中自然碎裂的茶叶，春韵不减，经济实惠，适合日常大量饮用。',
-    tags: ['碎茶', '春茶', '实惠'],
-    status: 1,
-    isNew: false,
-    isHot: false,
-    sales: 201,
-    brief: '春茶碎茶茶包，春韵不减经济实惠',
-    cover: '',
-    imageUrl: '',
-    imageTag: { text: '特惠', bg: '#e74c3c', textColor: '#ffffff' }
-  },
-  {
-    id: 'prod_16',
-    name: '茶包·鸭屎香',
-    categoryId: 'cat_special',
-    categoryName: '特惠茶',
-    aromaName: '银花香',
-    aromaFeature: '',
-    price: 58,
-    originalPrice: 88,
-    weight: '500g',
-    packTypes: ['袋装'],
-    origin: '潮州凤凰山',
-    altitude: '800m',
-    roast: '炭焙',
-    season: '春茶',
-    brewTemp: '95-100℃',
-    brewTime: '15-20秒/泡',
-    brewCount: '可冲泡5-7次',
-    description: '鸭屎香碎茶茶包，保留银花香的经典风味，金银花清甜，经济实惠，鸭屎香爱好者的日常口粮茶。',
-    tags: ['碎茶', '鸭屎香', '实惠'],
-    status: 1,
-    isNew: false,
-    isHot: false,
-    sales: 167,
-    brief: '鸭屎香风味茶包，银花香清甜实惠',
-    cover: '',
-    imageUrl: '',
-    imageTag: { text: '特惠', bg: '#e74c3c', textColor: '#ffffff' }
-  },
-  {
-    id: 'prod_17',
-    name: '茶头·二春',
+    id: 'prod_13',
+    name: '茶头3',
     categoryId: 'cat_special',
     categoryName: '特惠茶',
     aromaName: '',
@@ -588,42 +473,13 @@ const mockProducts = [
     isHot: false,
     sales: 89,
     brief: '二春精拣茶头，电焙工艺，超值实惠',
-    cover: '',
-    imageUrl: '',
+    cover: 'https://picsum.photos/seed/nongchan6/600/600',
+    imageUrl: 'https://picsum.photos/seed/nongchan5/600/600',
     imageTag: { text: '特惠', bg: '#e74c3c', textColor: '#ffffff' }
   },
   {
-    id: 'prod_18',
-    name: '茶包·二春',
-    categoryId: 'cat_special',
-    categoryName: '特惠茶',
-    aromaName: '',
-    aromaFeature: '',
-    price: 28,
-    originalPrice: 48,
-    weight: '500g',
-    packTypes: ['袋装'],
-    origin: '潮州凤凰山',
-    altitude: '600m',
-    roast: '电焙',
-    season: '二春',
-    brewTemp: '95-100℃',
-    brewTime: '15-20秒/泡',
-    brewCount: '可冲泡4-6次',
-    description: '二春碎茶茶包，电焙工艺，价格最实惠。适合日常大量饮用，经济型口粮茶首选。',
-    tags: ['碎茶', '二春', '实惠'],
-    status: 1,
-    isNew: false,
-    isHot: false,
-    sales: 134,
-    brief: '二春碎茶茶包，价格最实惠的口粮茶',
-    cover: '',
-    imageUrl: '',
-    imageTag: { text: '特惠', bg: '#e74c3c', textColor: '#ffffff' }
-  },
-  {
-    id: 'prod_19',
-    name: '茶头·大份',
+    id: 'prod_14',
+    name: '茶头4',
     categoryId: 'cat_special',
     categoryName: '特惠茶',
     aromaName: '',
@@ -646,13 +502,130 @@ const mockProducts = [
     isHot: false,
     sales: 67,
     brief: '1000g大份装茶头，单价更低更实惠',
-    cover: '',
-    imageUrl: '',
+    cover: 'https://picsum.photos/seed/nongchan2/600/600',
+    imageUrl: 'https://picsum.photos/seed/nongchan1/600/600',
     imageTag: { text: '特惠', bg: '#e74c3c', textColor: '#ffffff' }
   },
   {
-    id: 'prod_20',
-    name: '茶包·大份',
+    id: 'prod_15',
+    name: '茶头5',
+    categoryId: 'cat_special',
+    categoryName: '特惠茶',
+    aromaName: '',
+    aromaFeature: '',
+    price: 38,
+    originalPrice: 58,
+    weight: '250g',
+    packTypes: ['袋装'],
+    origin: '潮州凤凰山',
+    altitude: '600m',
+    roast: '电焙',
+    season: '二春',
+    brewTemp: '95-100℃',
+    brewTime: '10-15秒/泡',
+    brewCount: '可冲泡5-7次',
+    description: '小份装茶头，250g尝鲜装，价格实惠，适合初次尝试的茶友。',
+    tags: ['精拣', '小份', '尝鲜'],
+    status: 1,
+    isNew: false,
+    isHot: false,
+    sales: 45,
+    brief: '250g小份装茶头，尝鲜首选',
+    cover: 'https://picsum.photos/seed/fengmi2/600/600',
+    imageUrl: 'https://picsum.photos/seed/fengmi1/600/600',
+    imageTag: { text: '特惠', bg: '#e74c3c', textColor: '#ffffff' }
+  },
+  // 茶包6-10
+  {
+    id: 'prod_16',
+    name: '茶包6',
+    categoryId: 'cat_special',
+    categoryName: '特惠茶',
+    aromaName: '',
+    aromaFeature: '',
+    price: 38,
+    originalPrice: 58,
+    weight: '500g',
+    packTypes: ['袋装'],
+    origin: '潮州凤凰山',
+    altitude: '800m',
+    roast: '炭焙',
+    season: '春茶',
+    brewTemp: '95-100℃',
+    brewTime: '15-20秒/泡',
+    brewCount: '可冲泡5-7次',
+    description: '茶叶运输中自然碎裂的小颗粒，装袋饮用，经济实惠。',
+    tags: ['碎茶', '实惠', '袋装', '日常'],
+    status: 1,
+    isNew: false,
+    isHot: false,
+    sales: 367,
+    brief: '碎茶装袋，经济实惠，日常饮用好选择',
+    cover: 'https://picsum.photos/seed/milanxiang2/600/600',
+    imageUrl: 'https://picsum.photos/seed/jianghuaxiang1/600/600',
+    imageTag: { text: '特惠', bg: '#e74c3c', textColor: '#ffffff' }
+  },
+  {
+    id: 'prod_17',
+    name: '茶包7',
+    categoryId: 'cat_special',
+    categoryName: '特惠茶',
+    aromaName: '',
+    aromaFeature: '',
+    price: 48,
+    originalPrice: 68,
+    weight: '500g',
+    packTypes: ['袋装'],
+    origin: '潮州凤凰山',
+    altitude: '800m',
+    roast: '炭焙',
+    season: '春茶',
+    brewTemp: '95-100℃',
+    brewTime: '15-20秒/泡',
+    brewCount: '可冲泡5-7次',
+    description: '春茶碎茶茶包，精选春茶中自然碎裂的茶叶，春韵不减，经济实惠，适合日常大量饮用。',
+    tags: ['碎茶', '春茶', '实惠'],
+    status: 1,
+    isNew: false,
+    isHot: false,
+    sales: 201,
+    brief: '春茶碎茶茶包，春韵不减经济实惠',
+    cover: 'https://picsum.photos/seed/yashixiang1/600/600',
+    imageUrl: 'https://picsum.photos/seed/milanxiang1/600/600',
+    imageTag: { text: '特惠', bg: '#e74c3c', textColor: '#ffffff' }
+  },
+  {
+    id: 'prod_18',
+    name: '茶包8',
+    categoryId: 'cat_special',
+    categoryName: '特惠茶',
+    aromaName: '',
+    aromaFeature: '',
+    price: 28,
+    originalPrice: 48,
+    weight: '500g',
+    packTypes: ['袋装'],
+    origin: '潮州凤凰山',
+    altitude: '600m',
+    roast: '电焙',
+    season: '二春',
+    brewTemp: '95-100℃',
+    brewTime: '15-20秒/泡',
+    brewCount: '可冲泡4-6次',
+    description: '二春碎茶茶包，电焙工艺，价格最实惠。适合日常大量饮用，经济型口粮茶首选。',
+    tags: ['碎茶', '二春', '实惠'],
+    status: 1,
+    isNew: false,
+    isHot: false,
+    sales: 134,
+    brief: '二春碎茶茶包，价格最实惠的口粮茶',
+    cover: 'https://picsum.photos/seed/nongchan4/600/600',
+    imageUrl: 'https://picsum.photos/seed/nongchan3/600/600',
+    imageTag: { text: '特惠', bg: '#e74c3c', textColor: '#ffffff' }
+  },
+  {
+    id: 'prod_19',
+    name: '茶包9',
     categoryId: 'cat_special',
     categoryName: '特惠茶',
     aromaName: '',
@@ -675,8 +648,37 @@ const mockProducts = [
     isHot: false,
     sales: 92,
     brief: '1000g大份装茶包，口粮茶首选',
-    cover: '',
-    imageUrl: '',
+    cover: 'https://picsum.photos/seed/juduozai1/600/600',
+    imageUrl: 'https://picsum.photos/seed/dawuye1/600/600',
+    imageTag: { text: '特惠', bg: '#e74c3c', textColor: '#ffffff' }
+  },
+  {
+    id: 'prod_20',
+    name: '茶包10',
+    categoryId: 'cat_special',
+    categoryName: '特惠茶',
+    aromaName: '',
+    aromaFeature: '',
+    price: 18,
+    originalPrice: 28,
+    weight: '250g',
+    packTypes: ['袋装'],
+    origin: '潮州凤凰山',
+    altitude: '600m',
+    roast: '电焙',
+    season: '二春',
+    brewTemp: '95-100℃',
+    brewTime: '15-20秒/泡',
+    brewCount: '可冲泡4-6次',
+    description: '小份装茶包，250g尝鲜装，价格最实惠，适合初次尝试的茶友。',
+    tags: ['碎茶', '小份', '尝鲜'],
+    status: 1,
+    isNew: false,
+    isHot: false,
+    sales: 56,
+    brief: '250g小份装茶包，尝鲜首选',
+    cover: 'https://picsum.photos/seed/nongchan8/600/600',
+    imageUrl: 'https://picsum.photos/seed/nongchan7/600/600',
     imageTag: { text: '特惠', bg: '#e74c3c', textColor: '#ffffff' }
   },
 
@@ -706,8 +708,8 @@ const mockProducts = [
     isHot: false,
     sales: 0,
     brief: '凤凰山荔枝花蜜，清甜馥郁天然纯正',
-    cover: '',
-    imageUrl: ''
+    cover: 'https://picsum.photos/seed/chabao4/600/600',
+    imageUrl: 'https://picsum.photos/seed/chatou6/600/600'
   },
   {
     id: 'prod_22',
@@ -734,8 +736,8 @@ const mockProducts = [
     isHot: false,
     sales: 0,
     brief: '凤凰山龙眼花蜜，浓稠甘甜回味悠长',
-    cover: '',
-    imageUrl: ''
+    cover: 'https://picsum.photos/seed/chabao3/600/600',
+    imageUrl: 'https://picsum.photos/seed/chatou5/600/600'
   },
   {
     id: 'prod_23',
@@ -762,8 +764,8 @@ const mockProducts = [
     isHot: false,
     sales: 0,
     brief: '凤凰山百花蜜，多种山花酿造营养全面',
-    cover: '',
-    imageUrl: ''
+    cover: 'https://picsum.photos/seed/chabao2/600/600',
+    imageUrl: 'https://picsum.photos/seed/chatou4/600/600'
   },
   {
     id: 'prod_24',
@@ -790,8 +792,8 @@ const mockProducts = [
     isHot: false,
     sales: 0,
     brief: '冬季鸭脚木花蜜，产量稀少滋补佳品',
-    cover: '',
-    imageUrl: ''
+    cover: 'https://picsum.photos/seed/chatou3/600/600',
+    imageUrl: 'https://picsum.photos/seed/chatou2/600/600'
   },
   {
     id: 'prod_25',
@@ -818,8 +820,8 @@ const mockProducts = [
     isHot: false,
     sales: 0,
     brief: '1000g大份装荔枝蜜，家庭装性价比更高',
-    cover: '',
-    imageUrl: ''
+    cover: 'https://picsum.photos/seed/chabao1/600/600',
+    imageUrl: 'https://picsum.photos/seed/chatou1/600/600'
   },
   {
     id: 'prod_26',
@@ -846,8 +848,8 @@ const mockProducts = [
     isHot: false,
     sales: 0,
     brief: '1000g大份装龙眼蜜，家庭装性价比更高',
-    cover: '',
-    imageUrl: ''
+    cover: 'https://picsum.photos/seed/yashixiang2/600/600',
+    imageUrl: 'https://picsum.photos/seed/dawuye2/600/600'
   },
   {
     id: 'prod_27',
@@ -874,8 +876,8 @@ const mockProducts = [
     isHot: false,
     sales: 0,
     brief: '1000g大份装百花蜜，家庭装性价比更高',
-    cover: '',
-    imageUrl: ''
+    cover: 'https://picsum.photos/seed/milanxiang2/600/600',
+    imageUrl: 'https://picsum.photos/seed/jianghuaxiang1/600/600'
   },
   {
     id: 'prod_28',
@@ -902,8 +904,8 @@ const mockProducts = [
     isHot: false,
     sales: 0,
     brief: '1000g大份装冬蜜，稀有滋补佳品',
-    cover: '',
-    imageUrl: ''
+    cover: 'https://picsum.photos/seed/guihuaxiang1/600/600',
+    imageUrl: 'https://picsum.photos/seed/zhilanxiang1/600/600'
   },
   {
     id: 'prod_29',
@@ -930,8 +932,8 @@ const mockProducts = [
     isHot: false,
     sales: 0,
     brief: '中华蜜蜂山野百花酿造，野生放养营养珍贵',
-    cover: '',
-    imageUrl: ''
+    cover: 'https://picsum.photos/seed/juduozai1/600/600',
+    imageUrl: 'https://picsum.photos/seed/dawuye1/600/600'
   },
   {
     id: 'prod_30',
@@ -958,16 +960,16 @@ const mockProducts = [
     isHot: false,
     sales: 0,
     brief: '天然蜂巢原块切割，含蜂蜡口感独特',
-    cover: '',
-    imageUrl: ''
+    cover: 'https://picsum.photos/seed/yashixiang1/600/600',
+    imageUrl: 'https://picsum.photos/seed/milanxiang1/600/600'
   }
 ]
 
 // ========== 轮播图 ==========
 const mockBanners = [
-  { id: 'b1', imageUrl: '', link: '', title: '凤凰单枞·十大香型', subtitle: '一丛一味，百丛百香' },
-  { id: 'b2', imageUrl: '', link: '', title: '高山炭焙·匠心之作', subtitle: '传统工艺，自然馈赠' },
-  { id: 'b3', imageUrl: '', link: '', title: '春茶上新·鲜韵初绽', subtitle: '高山春茶，限量发售' }
+  { id: 'b1', imageUrl: 'https://picsum.photos/seed/teaban3/750/480', link: '/pages/product/list', title: '凤凰单枞·十大香型', description: '一丛一味，百丛百香' },
+  { id: 'b2', imageUrl: 'https://picsum.photos/seed/teaban2/750/480', link: '/pages/product/list', title: '高山炭焙·匠心之作', description: '传统工艺，自然馈赠' },
+  { id: 'b3', imageUrl: 'https://picsum.photos/seed/teaban1/750/480', link: '/pages/product/list', title: '春茶上新·鲜韵初绽', description: '高山春茶，限量发售' }
 ]
 
 // ========== 茶知识 ==========
@@ -1008,7 +1010,11 @@ const mockSiteConfig = {
   wechat: '',
   phone: '',
   about: '源自潮州凤凰山，专注单枞茶。我们精选高山茶园优质茶青，传统炭焙工艺，为您呈现最纯正的凤凰单枞韵味。',
-  address: '广东省潮州市凤凰镇'
+  address: '广东省潮州市凤凰镇',
+  // 商品详情页联系区域配置
+  productContactTitle: '品茶咨询',
+  productContactDesc: '添加微信，了解更多详情',
+  productContactBtnText: '复制微信号'
 }
 
 // ========== 数据获取函数 ==========

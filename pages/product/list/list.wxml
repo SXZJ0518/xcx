@@ -5,13 +5,27 @@
 <view class="page">
 
   <!-- 顶部搜索栏 -->
-  <view class="search-bar-wrap" bindtap="onSearchTap">
+  <view class="search-bar-wrap">
     <view class="search-bar-inner">
       <view class="search-icon">
         <view class="icon-search-dot"></view>
         <view class="icon-search-line"></view>
       </view>
-      <text class="search-placeholder">搜索茶品、香型...</text>
+      <input
+        class="search-input"
+        placeholder="搜索茶品、香型..."
+        placeholder-class="search-placeholder-class"
+        value="{{searchKeyword}}"
+        bindinput="onSearchInput"
+        bindconfirm="onSearchConfirm"
+        confirm-type="search"
+      />
+      <view class="search-clear" wx:if="{{searchKeyword}}" bindtap="clearSearch">
+        <text>✕</text>
+      </view>
+      <view class="search-btn" bindtap="onSearchConfirm">
+        <text>搜索</text>
+      </view>
     </view>
   </view>
 
@@ -66,12 +80,13 @@
           <!-- 该分类下的商品 -->
           <view class="section-products" wx:if="{{groupedProducts[item.id] && groupedProducts[item.id].length > 0}}">
             <view
-              class="p-card"
+              class="p-card {{highlightAroma && product.aromaName && (product.aromaName.indexOf(highlightAroma) > -1 || highlightAroma.indexOf(product.aromaName) > -1) ? 'highlight' : ''}}"
               wx:for="{{groupedProducts[item.id]}}"
               wx:for-item="product"
               wx:key="id"
               bindtap="goToDetail"
               data-id="{{product.id}}"
+              id="product-{{product.id}}"
             >
               <view class="p-image">
                 <image src="{{product.imageUrl || product.cover}}" mode="aspectFill" lazy-load />

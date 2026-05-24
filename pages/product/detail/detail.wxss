@@ -283,5 +283,81 @@
 }
 
 .footer-space {
-  height: 60rpx;
+  height: 160rpx;
+}
+
+/* ========== 底部固定操作栏 ========== */
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  height: 110rpx;
+  background: #fff;
+  box-shadow: 0 -4rpx 20rpx rgba(45, 37, 32, 0.08);
+  z-index: 100;
+  padding: 0 20rpx;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* 收藏按钮 */
+.bb-favorite {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 120rpx;
+  height: 100%;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.bb-favorite::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 20%;
+  height: 60%;
+  width: 1rpx;
+  background: #ede6da;
+}
+
+.bb-fav-icon {
+  font-size: 38rpx;
+  margin-bottom: 4rpx;
+}
+
+.bb-fav-text {
+  font-size: 20rpx;
+  color: #8b7355;
+  letter-spacing: 2rpx;
+}
+
+.bb-favorite.favorited .bb-fav-text {
+  color: #c9a86c;
+}
+
+/* 立即下单按钮 */
+.bb-order {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 76rpx;
+  margin-left: 24rpx;
+  background: linear-gradient(135deg, #c9a86c, #b8965c);
+  border-radius: 38rpx;
+}
+
+.bb-order:active {
+  opacity: 0.85;
+}
+
+.bb-order-text {
+  font-size: 28rpx;
+  color: #fff;
+  font-weight: 500;
+  letter-spacing: 4rpx;
 }

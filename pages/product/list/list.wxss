@@ -40,6 +40,68 @@ page {
   box-shadow: 0 2rpx 12rpx rgba(45, 37, 32, 0.05);
 }
 
+.search-input {
+  flex: 1;
+  height: 72rpx;
+  font-size: 26rpx;
+  color: var(--ink);
+  letter-spacing: 1rpx;
+}
+
+.search-placeholder-class {
+  color: var(--bark);
+  opacity: 0.6;
+}
+
+.search-clear {
+  width: 40rpx;
+  height: 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10rpx;
+  flex-shrink: 0;
+}
+
+.search-clear text {
+  font-size: 24rpx;
+  color: var(--bark);
+  opacity: 0.5;
+}
+
+.search-btn {
+  flex-shrink: 0;
+  padding: 0 24rpx;
+  height: 56rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #c9a86c, #b8965c);
+  border-radius: 28rpx;
+  margin-left: 12rpx;
+}
+
+.search-btn:active {
+  opacity: 0.85;
+}
+
+.search-btn text {
+  font-size: 24rpx;
+  color: #fff;
+  letter-spacing: 2rpx;
+}
+
+.search-result-tip {
+  padding: 0 30rpx 16rpx;
+  text-align: center;
+}
+
+.search-result-tip text {
+  font-size: 22rpx;
+  color: var(--bark);
+  letter-spacing: 1rpx;
+}
+
 .search-icon {
   width: 32rpx;
   height: 32rpx;
@@ -187,11 +249,24 @@ page {
   border-radius: var(--radius);
   overflow: hidden;
   box-shadow: 0 4rpx 20rpx var(--shadow);
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+  border: 2rpx solid transparent;
 }
 
 .p-card:active {
   transform: scale(0.99);
+}
+
+/* 香型高亮卡片 */
+.p-card.highlight {
+  border-color: var(--gold);
+  box-shadow: 0 4rpx 24rpx rgba(201, 168, 108, 0.2);
+  animation: highlightPulse 0.6s ease-out;
+}
+
+@keyframes highlightPulse {
+  0% { box-shadow: 0 0 0 0 rgba(201, 168, 108, 0.4); }
+  100% { box-shadow: 0 4rpx 24rpx rgba(201, 168, 108, 0.2); }
 }
 
 .p-image {

@@ -32,23 +32,86 @@ page {
   overflow-x: hidden;
 }
 
-/* ==================== 1. HERO ==================== */
-.hero {
+/* ==================== 1. 轮播图 ==================== */
+.banner-section {
+  width: 100%;
+  height: 480rpx;
+  background: var(--ink);
+}
+
+.banner-swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.banner-swiper swiper-item {
   position: relative;
   width: 100%;
-  height: 560rpx;
+  height: 100%;
+}
+
+.banner-image {
+  width: 100%;
+  height: 100%;
+}
+
+.banner-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.3) 100%);
+  pointer-events: none;
+}
+
+.banner-content {
+  position: absolute;
+  bottom: 60rpx;
+  left: 40rpx;
+  right: 40rpx;
+  z-index: 2;
+}
+
+.banner-title {
+  display: block;
+  font-size: 40rpx;
+  font-weight: 500;
+  color: #fff;
+  text-shadow: 0 2rpx 8rpx rgba(0,0,0,0.4);
+  margin-bottom: 12rpx;
+  letter-spacing: 4rpx;
+}
+
+.banner-desc {
+  display: block;
+  font-size: 24rpx;
+  color: rgba(255,255,255,0.85);
+  text-shadow: 0 1rpx 4rpx rgba(0,0,0,0.3);
+  letter-spacing: 2rpx;
+}
+
+/* 轮播图指示器样式 */
+.banner-swiper .wx-swiper-dot {
+  width: 16rpx !important;
+  height: 4rpx !important;
+  border-radius: 2rpx !important;
+  background: rgba(255,255,255,0.4) !important;
+}
+
+.banner-swiper .wx-swiper-dot-active {
+  width: 32rpx !important;
+  background: var(--gold) !important;
+}
+
+/* ==================== 品牌信息区 ==================== */
+.brand-section {
+  position: relative;
+  width: 100%;
+  padding: 60rpx 40rpx;
+  background: linear-gradient(170deg, #1a1512 0%, #2d2520 35%, #3a322c 65%, #2d2520 100%);
   overflow: hidden;
 }
 
-/* 背景层 */
-.hero-bg {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(170deg, #1a1512 0%, #2d2520 35%, #3a322c 65%, #2d2520 100%);
-}
-
-/* 纹理 */
-.hero-grain {
+.brand-section::before {
+  content: '';
   position: absolute;
   inset: 0;
   opacity: 0.04;
@@ -57,139 +120,58 @@ page {
     repeating-linear-gradient(90deg, transparent, transparent 2rpx, #fff 2rpx, #fff 3rpx);
 }
 
-/* 装饰圆环 */
-.hero-ring {
-  position: absolute;
-  border-radius: 50%;
-  border: 1rpx solid rgba(201, 168, 108, 0.12);
-}
-.hero-ring-1 {
-  width: 420rpx;
-  height: 420rpx;
-  top: -160rpx;
-  right: -120rpx;
-}
-.hero-ring-2 {
-  width: 280rpx;
-  height: 280rpx;
-  bottom: -100rpx;
-  left: -80rpx;
-  border-color: rgba(201, 168, 108, 0.08);
-}
-
-/* 茶叶意象 - 用CSS绘制的极简茶叶形状 */
-.hero-leaf {
-  position: absolute;
-  opacity: 0.06;
-}
-.hero-leaf::before,
-.hero-leaf::after {
-  content: '';
-  position: absolute;
-  width: 80rpx;
-  height: 160rpx;
-  background: var(--gold);
-  border-radius: 50% 0 50% 0;
-  transform-origin: center center;
-}
-.hero-leaf-tl {
-  top: 40rpx;
-  left: 20rpx;
-}
-.hero-leaf-tl::before {
-  transform: rotate(-15deg);
-}
-.hero-leaf-tl::after {
-  transform: rotate(25deg) translateX(10rpx);
-  opacity: 0.6;
-}
-.hero-leaf-br {
-  bottom: 30rpx;
-  right: 40rpx;
-}
-.hero-leaf-br::before {
-  transform: rotate(160deg);
-  width: 60rpx;
-  height: 120rpx;
-}
-
-/* 内容层 */
-.hero-content {
+.brand-content {
   position: relative;
   z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
-  padding: 40rpx 60rpx;
 }
 
-.hero-kicker {
+.brand-kicker {
   display: flex;
   align-items: center;
   margin-bottom: 32rpx;
 }
-.hero-kicker text {
+.brand-kicker text {
   font-size: 24rpx;
   color: rgba(201, 168, 108, 0.6);
   letter-spacing: 8rpx;
 }
-.hero-dot {
+.brand-dot {
   color: var(--gold) !important;
   margin-right: 4rpx;
   font-size: 20rpx !important;
 }
 
-.hero-brand {
-  font-size: 88rpx;
+.brand-name {
+  font-size: 72rpx;
   font-weight: 200;
   color: var(--gold);
-  letter-spacing: 28rpx;
-  text-indent: 28rpx;
+  letter-spacing: 24rpx;
+  text-indent: 24rpx;
   text-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.4);
   margin-bottom: 24rpx;
 }
 
-.hero-divider {
+.brand-divider {
   width: 80rpx;
   height: 2rpx;
   background: linear-gradient(90deg, transparent, var(--gold), transparent);
   margin-bottom: 28rpx;
 }
 
-.hero-slogan {
+.brand-slogan {
   font-size: 26rpx;
   color: rgba(255, 255, 255, 0.55);
   letter-spacing: 10rpx;
   text-indent: 10rpx;
 }
 
-/* 滚动提示动画 */
-.hero-scroll-hint {
-  position: absolute;
-  bottom: 32rpx;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8rpx;
-}
-.hero-scroll-line {
-  width: 2rpx;
-  height: 36rpx;
-  background: linear-gradient(to bottom, rgba(201, 168, 108, 0.4), transparent);
-  animation: heroPulse 2s ease-in-out infinite;
-}
-@keyframes heroPulse {
-  0%, 100% { opacity: 0.4; height: 36rpx; }
-  50%      { opacity: 0.8; height: 48rpx; }
-}
-
 /* ==================== 通用 Section ==================== */
 .section {
-  padding: 60rpx 0 0;
+  padding: 30rpx 0 0;
 }
 
 .sec-head {
@@ -460,9 +442,80 @@ page {
   overflow: hidden;
 }
 
-/* ==================== 4. 品牌箴言 ==================== */
+/* ==================== 3. 茶知识入口 ==================== */
+.knowledge-entry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 36rpx 30rpx 0;
+  padding: 24rpx 30rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  box-shadow: 0 4rpx 20rpx rgba(45, 37, 32, 0.05);
+  border: 1rpx solid rgba(201, 168, 108, 0.1);
+  transition: transform 0.2s;
+}
+
+.knowledge-entry:active {
+  transform: scale(0.98);
+}
+
+.ke-left {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.ke-icon-wrap {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 18rpx;
+  background: linear-gradient(145deg, #c9a86c, #a08050);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20rpx;
+  flex-shrink: 0;
+}
+
+.ke-icon {
+  font-size: 32rpx;
+}
+
+.ke-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.ke-title {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #2d2520;
+  letter-spacing: 2rpx;
+  margin-bottom: 4rpx;
+}
+
+.ke-desc {
+  font-size: 22rpx;
+  color: #a09080;
+  letter-spacing: 1rpx;
+}
+
+.ke-right {
+  flex-shrink: 0;
+  margin-left: 16rpx;
+}
+
+.ke-arrow {
+  font-size: 22rpx;
+  color: #c9a86c;
+  letter-spacing: 1rpx;
+  font-weight: 500;
+}
+
+/* ==================== 6. 品牌箴言 ==================== */
 .brand-quote {
-  padding: 80rpx 50rpx;
+  padding: 40rpx 50rpx;
   position: relative;
 }
 
@@ -554,51 +607,53 @@ page {
 }
 
 .cta-extra {
-  padding: 16rpx 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20rpx 40rpx;
+  border: 2rpx solid rgba(201, 168, 108, 0.5);
+  border-radius: 40rpx;
+  margin: 0 auto;
 }
 .cta-extra text {
   font-size: 24rpx;
-  color: var(--bark);
+  color: #8b7355;
   letter-spacing: 4rpx;
 }
 
-/* ==================== 6. 联系 ==================== */
+/* ==================== 6. 联系我们 ==================== */
 .contact {
-  padding: 0 50rpx;
+  padding: 0 30rpx;
 }
 
 .contact-card {
   display: flex;
   align-items: center;
   padding: 28rpx 28rpx;
-  background: var(--white);
+  background: #fff;
   border-radius: 16rpx;
-  box-shadow: 0 2rpx 16rpx rgba(0, 0, 0, 0.03);
+  box-shadow: 0 4rpx 20rpx rgba(45, 37, 32, 0.05);
+  border: 1rpx solid rgba(201, 168, 108, 0.1);
   transition: transform 0.2s;
 }
 .contact-card:active {
   transform: scale(0.99);
 }
 
-.contact-avatar {
-  flex-shrink: 0;
-  margin-right: 20rpx;
-}
-
-.contact-avatar-inner {
-  width: 68rpx;
-  height: 68rpx;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--ink), #3d3530);
+.contact-icon-wrap {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 18rpx;
+  background: linear-gradient(145deg, #07c160, #06ad56);
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-right: 20rpx;
+  flex-shrink: 0;
 }
 
-.contact-avatar-letter {
-  font-size: 28rpx;
-  color: var(--gold);
-  font-weight: 500;
+.contact-icon {
+  font-size: 32rpx;
 }
 
 .contact-info {
@@ -610,26 +665,144 @@ page {
 .contact-title {
   font-size: 28rpx;
   font-weight: 500;
-  color: var(--ink);
-  margin-bottom: 4rpx;
+  color: #2d2520;
+  margin-bottom: 6rpx;
+  letter-spacing: 2rpx;
 }
 
-.contact-hint {
+.contact-wechat {
   font-size: 22rpx;
-  color: var(--bark);
+  color: #8b7355;
+  letter-spacing: 1rpx;
 }
 
 .contact-action {
   flex-shrink: 0;
   padding: 14rpx 28rpx;
-  background: rgba(201, 168, 108, 0.08);
+  background: rgba(201, 168, 108, 0.1);
   border-radius: 40rpx;
   border: 1rpx solid rgba(201, 168, 108, 0.2);
 }
 
 .contact-action-text {
   font-size: 24rpx;
-  color: var(--gold);
+  color: #c9a86c;
+}
+
+/* ==================== 联系弹窗 ==================== */
+.modal-mask {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 60rpx;
+}
+
+.modal-box {
+  width: 100%;
+  background: #fff;
+  border-radius: 24rpx;
+  overflow: hidden;
+  box-shadow: 0 20rpx 60rpx rgba(0, 0, 0, 0.15);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 32rpx 32rpx 0;
+}
+
+.modal-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #2d2520;
+  letter-spacing: 4rpx;
+}
+
+.modal-close {
+  font-size: 32rpx;
+  color: #a09080;
+  padding: 10rpx;
+}
+
+.modal-body {
+  padding: 32rpx;
+}
+
+.modal-wechat-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx;
+  background: #f5f0e8;
+  border-radius: 16rpx;
+  margin-bottom: 24rpx;
+}
+
+.modal-label {
+  font-size: 26rpx;
+  color: #8b7355;
+  letter-spacing: 2rpx;
+}
+
+.modal-wechat {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #2d2520;
+  letter-spacing: 2rpx;
+}
+
+.modal-copy-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80rpx;
+  background: linear-gradient(135deg, #c9a86c, #b8965c);
+  border-radius: 40rpx;
+}
+
+.modal-copy-btn:active {
+  opacity: 0.85;
+}
+
+.modal-copy-text {
+  font-size: 28rpx;
+  color: #fff;
+  font-weight: 500;
+  letter-spacing: 4rpx;
+}
+
+.modal-qrcode-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 32rpx;
+  padding: 24rpx;
+  background: #f5f0e8;
+  border-radius: 16rpx;
+}
+
+.modal-qrcode {
+  width: 320rpx;
+  height: 320rpx;
+  border-radius: 8rpx;
+}
+
+.modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 32rpx 32rpx;
+}
+
+.modal-hint {
+  font-size: 22rpx;
+  color: #a09080;
+  letter-spacing: 2rpx;
 }
 
 .contact-placeholder {

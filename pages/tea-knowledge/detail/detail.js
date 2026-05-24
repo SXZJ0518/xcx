@@ -1,66 +1,65 @@
-// pages/tea-knowledge/detail/detail.js
+/**
+ * 茶知识详情页
+ */
+const api = require('../../../utils/api')
+const Mock = require('../../../utils/wx.mock')
+
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-
+    article: null,
+    loading: true
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad(options) {
-
+    const id = options.id
+    if (id) {
+      this.loadArticle(id)
+    } else {
+      this.setData({ loading: false })
+    }
   },
 
   /**
-   * 生命周期函数--监听页面初次渲染完成
+   * 加载文章详情
    */
-  onReady() {
+  async loadArticle(id) {
+    this.setData({ loading: true })
+    try {
+      const list = await api.getKnowledgeList()
+      const articles = (list && list.list) || []
+      const article = articles.find(item => item.id === id) || null
 
+      if (article) {
+        wx.setNavigationBarTitle({ title: article.title || '茶知识' })
+      }
+
+      this.setData({ article, loading: false })
+    } catch (err) {
+      console.error('加载文章失败:', err)
+      // 降级使用 mock
+      const article = Mock.mockKnowledge.find(item => item.id === id) || null
+      if (article) {
+        wx.setNavigationBarTitle({ title: article.title || '茶知识' })
+      }
+      this.setData({ article, loading: false })
+    }
   },
 
   /**
-   * 生命周期函数--监听页面显示
+   * 返回上一页
    */
-  onShow() {
-
+  goBack() {
+    wx.navigateBack({ fail: () => wx.switchTab({ url: '/pages/discover/discover' }) })
   },
 
   /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
+   * 分享
    */
   onShareAppMessage() {
-
+    const { article } = this.data
+    return {
+      title: article ? article.title : '茶知识',
+      path: `/pages/tea-knowledge/detail/detail?id=${article ? article.id : ''}`
+    }
   }
 })

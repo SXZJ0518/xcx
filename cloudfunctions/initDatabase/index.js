@@ -320,6 +320,10 @@ async function initSiteConfig() {
     businessHours: '周一至周日 9:00-21:00',
     deliveryInfo: '全国包邮，48小时内发货',
     returnPolicy: '7天无理由退换货',
+    // 商品详情页联系区域配置
+    productContactTitle: '品茶咨询',
+    productContactDesc: '添加微信，了解更多详情',
+    productContactBtnText: '复制微信号',
     createTime: new Date(),
     updateTime: new Date()
   }

@@ -17,22 +17,51 @@
         <view class="section-title-line"></view>
         <text class="section-title">十大香型</text>
       </view>
+      <text class="section-hint" wx:if="{{aromaTypes.length > 0}}">已上架 {{listedCount}}/{{aromaTypes.length}} 种</text>
     </view>
 
     <view class="aroma-grid">
       <view
-        class="aroma-card"
+        class="aroma-card {{item.yourProduct ? 'has-product featured' : 'coming-soon'}}"
         wx:for="{{aromaTypes}}"
         wx:key="id"
         bindtap="goToProducts"
         data-name="{{item.name}}"
       >
+        <view class="aroma-card-bg">
+          <view class="aroma-bg-blob" style="transform: translate({{index % 3 * 10}}rpx, -{{index % 2 * 8}}rpx)"></view>
+        </view>
         <view class="aroma-card-inner">
-          <text class="aroma-name">{{item.name}}</text>
+          <!-- 序号装饰 -->
+          <view class="aroma-index" wx:if="{{item.yourProduct}}">{{index + 1}}</view>
+
+          <view class="aroma-top">
+            <text class="aroma-name">{{item.name}}</text>
+            <view class="aroma-badge" wx:if="{{item.yourProduct}}">
+              <text class="aroma-badge-dot"></text>
+              <text>{{item.productCount}}款</text>
+            </view>
+          </view>
           <text class="aroma-feature">{{item.aromaFeature}}</text>
-          <view class="aroma-status {{item.yourProduct ? 'has-product' : 'no-product'}}">
-            <text wx:if="{{item.yourProduct}}">我们有售 →</text>
-            <text wx:else>暂无产品</text>
+
+          <!-- 已上架：显示详细信息 -->
+          <view class="aroma-details" wx:if="{{item.yourProduct}}">
+            <view class="aroma-detail" wx:if="{{item.representative}}">
+              <text class="aroma-detail-label">代表品种</text>
+              <text class="aroma-detail-text">{{item.representative}}</text>
+            </view>
+            <view class="aroma-detail" wx:if="{{item.qualityFeature}}">
+              <text class="aroma-detail-label">品质特点</text>
+              <text class="aroma-detail-text">{{item.qualityFeature}}</text>
+            </view>
+          </view>
+
+          <!-- 底部操作 -->
+          <view class="aroma-action" wx:if="{{item.yourProduct}}">
+            <text class="aroma-arrow">查看商品 →</text>
+          </view>
+          <view class="aroma-action coming" wx:else>
+            <text class="aroma-coming-text">敬请期待</text>
           </view>
         </view>
       </view>

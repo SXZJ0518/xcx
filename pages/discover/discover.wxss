@@ -12,7 +12,7 @@
 .banner {
   position: relative;
   width: 100%;
-  height: 420rpx;
+  height: 360rpx;
   overflow: hidden;
 }
 
@@ -45,38 +45,41 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  padding: 60rpx 40rpx;
+  padding: 40rpx;
 }
 
 .banner-title {
-  font-size: 52rpx;
+  font-size: 48rpx;
   font-weight: 300;
   color: #c9a86c;
   letter-spacing: 12rpx;
-  margin-bottom: 16rpx;
+  margin-bottom: 12rpx;
   text-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.3);
 }
 
 .banner-subtitle {
-  font-size: 26rpx;
+  font-size: 24rpx;
   color: rgba(255, 255, 255, 0.7);
   letter-spacing: 6rpx;
-  margin-bottom: 28rpx;
+  margin-bottom: 24rpx;
 }
 
 .banner-divider {
-  width: 80rpx;
+  width: 60rpx;
   height: 2rpx;
   background: linear-gradient(90deg, transparent, #c9a86c, transparent);
 }
 
 /* ========== 2. 十大香型 ========== */
 .section {
-  padding: 50rpx 30rpx;
+  padding: 40rpx 30rpx;
 }
 
 .section-header {
-  margin-bottom: 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28rpx;
 }
 
 .section-title-wrap {
@@ -93,85 +96,299 @@
 }
 
 .section-title {
-  font-size: 36rpx;
+  font-size: 34rpx;
   font-weight: 500;
   color: #2d2520;
   letter-spacing: 4rpx;
 }
 
-/* 香型网格 2列 */
+.section-hint {
+  font-size: 22rpx;
+  color: #8b7355;
+  letter-spacing: 1rpx;
+}
+
+/* 香型网格 - 不规则瀑布流布局 */
 .aroma-grid {
   display: flex;
   flex-wrap: wrap;
-  margin: 0 -12rpx;
+  margin: 0 -10rpx;
+  align-items: flex-start;
 }
 
+/* 通用卡片 */
 .aroma-card {
-  width: calc(50% - 24rpx);
-  margin: 0 12rpx 24rpx;
+  margin: 0 10rpx 20rpx;
   border-radius: 16rpx;
   overflow: hidden;
   transition: transform 0.3s;
+  position: relative;
 }
 
 .aroma-card:active {
   transform: scale(0.97);
 }
 
-.aroma-card-inner {
-  padding: 28rpx 24rpx;
+/* ===== 已上架：大卡片（占满一行） ===== */
+.aroma-card.featured {
+  width: calc(100% - 20rpx);
+}
+
+.aroma-card.featured .aroma-card-inner {
+  padding: 32rpx 28rpx;
   background: #fff;
   border-radius: 16rpx;
-  box-shadow: 0 4rpx 20rpx rgba(45, 37, 32, 0.06);
-  border: 1rpx solid rgba(201, 168, 108, 0.1);
+  box-shadow: 0 6rpx 28rpx rgba(201, 168, 108, 0.1);
+  border: 1rpx solid rgba(201, 168, 108, 0.2);
   min-height: 200rpx;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* 序号装饰 */
+.aroma-index {
+  position: absolute;
+  top: 16rpx;
+  right: 20rpx;
+  font-size: 72rpx;
+  font-weight: 200;
+  color: rgba(201, 168, 108, 0.08);
+  line-height: 1;
+  letter-spacing: 0;
+  pointer-events: none;
+}
+
+.aroma-card.featured .aroma-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12rpx;
+}
+
+.aroma-card.featured .aroma-name {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #2d2520;
+  letter-spacing: 3rpx;
+}
+
+.aroma-card.featured .aroma-feature {
+  font-size: 24rpx;
+  color: #5a5045;
+  line-height: 1.7;
+  margin-bottom: 16rpx;
+  -webkit-line-clamp: 2;
+}
+
+/* 大卡片详情区：横排 */
+.aroma-details {
+  display: flex;
+  gap: 24rpx;
+  margin-bottom: 12rpx;
+}
+
+.aroma-card.featured .aroma-detail {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 12rpx 16rpx;
+  background: #faf7f0;
+  border-radius: 10rpx;
+}
+
+.aroma-card.featured .aroma-detail-label {
+  font-size: 20rpx;
+  color: #a09080;
+  margin-bottom: 4rpx;
+  opacity: 1;
+}
+
+.aroma-card.featured .aroma-detail-text {
+  font-size: 22rpx;
+  color: #5a5045;
+  line-height: 1.5;
+  white-space: normal;
+}
+
+.aroma-card.featured .aroma-action {
+  margin-top: auto;
+  padding-top: 12rpx;
+}
+
+/* ===== 未上架：小卡片（两列） ===== */
+.aroma-card.coming-soon {
+  width: calc(50% - 20rpx);
+}
+
+.aroma-card.coming-soon .aroma-card-inner {
+  padding: 24rpx 20rpx;
+  background: #faf7f0;
+  border-radius: 14rpx;
+  box-shadow: 0 2rpx 12rpx rgba(45, 37, 32, 0.03);
+  border: 1rpx dashed rgba(201, 168, 108, 0.15);
+  min-height: 180rpx;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
+.aroma-card.coming-soon .aroma-name {
+  font-size: 26rpx;
+  font-weight: 500;
+  color: #8b7355;
+  letter-spacing: 2rpx;
+}
+
+.aroma-card.coming-soon .aroma-feature {
+  font-size: 20rpx;
+  color: #a09080;
+  line-height: 1.6;
+  -webkit-line-clamp: 2;
+  margin-bottom: 0;
+}
+
+.aroma-card.coming-soon .aroma-top {
+  margin-bottom: 10rpx;
+}
+
+.aroma-card.coming-soon .aroma-action {
+  margin-top: auto;
+  padding-top: 12rpx;
+}
+
+.aroma-coming-text {
+  font-size: 20rpx;
+  color: #b0a090;
+  letter-spacing: 2rpx;
+}
+
+/* 背景装饰 */
+.aroma-card-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.aroma-bg-blob {
+  position: absolute;
+  top: -40rpx;
+  right: -30rpx;
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201, 168, 108, 0.06) 0%, transparent 70%);
+}
+
+.aroma-card.has-product .aroma-bg-blob {
+  background: radial-gradient(circle, rgba(201, 168, 108, 0.12) 0%, transparent 70%);
+}
+
+.aroma-card-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 顶部：名称 + 上架徽章 */
+.aroma-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14rpx;
+}
+
 .aroma-name {
-  display: block;
   font-size: 28rpx;
   font-weight: 600;
   color: #2d2520;
   letter-spacing: 2rpx;
-  margin-bottom: 12rpx;
-  line-height: 1.4;
+  flex-shrink: 0;
 }
 
+/* 上架徽章 */
+.aroma-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4rpx 14rpx;
+  border-radius: 20rpx;
+  font-size: 20rpx;
+  letter-spacing: 1rpx;
+  background: rgba(201, 168, 108, 0.15);
+  color: #a08050;
+  font-weight: 500;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.aroma-badge-dot {
+  width: 10rpx;
+  height: 10rpx;
+  border-radius: 50%;
+  background: #c9a86c;
+  margin-right: 6rpx;
+  animation: badgePulse 2s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* 香气特征 */
 .aroma-feature {
   display: block;
   font-size: 22rpx;
-  color: #8b7355;
-  line-height: 1.6;
+  color: #5a5045;
+  line-height: 1.7;
   margin-bottom: 16rpx;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+  flex-shrink: 0;
 }
 
-.aroma-status {
-  display: inline-flex;
-  align-items: center;
-  align-self: flex-start;
-  padding: 6rpx 16rpx;
-  border-radius: 20rpx;
+/* 详情行 */
+.aroma-detail {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 8rpx;
+  flex-shrink: 0;
+}
+
+.aroma-detail-label {
   font-size: 20rpx;
+  color: #8b7355;
+  flex-shrink: 0;
+  margin-right: 8rpx;
+  opacity: 0.7;
+}
+
+.aroma-detail-text {
+  font-size: 20rpx;
+  color: #5a5045;
+  line-height: 1.5;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 查看按钮 */
+.aroma-action {
+  margin-top: auto;
+  padding-top: 16rpx;
+}
+
+.aroma-arrow {
+  font-size: 22rpx;
+  color: #c9a86c;
   letter-spacing: 1rpx;
-}
-
-.aroma-status.has-product {
-  background: rgba(201, 168, 108, 0.12);
-  color: #a08050;
   font-weight: 500;
-}
-
-.aroma-status.no-product {
-  background: #f0ebe0;
-  color: #a09080;
 }
 
 /* ========== 3. 茶知识 ========== */

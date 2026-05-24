@@ -10,20 +10,7 @@
     <text class="product-name">{{product.name}}</text>
     <text class="product-brief">{{product.brief}}</text>
     
-    <view class="product-meta">
-      <view class="meta-item">
-        <text class="meta-label">产地</text>
-        <text class="meta-value">{{product.origin}}</text>
-      </view>
-      <view class="meta-item">
-        <text class="meta-label">海拔</text>
-        <text class="meta-value">{{product.altitude}}</text>
-      </view>
-      <view class="meta-item">
-        <text class="meta-label">工艺</text>
-        <text class="meta-value">{{product.roast}}</text>
-      </view>
-    </view>
+
 
     <view class="product-price-row">
       <text class="price-current">¥{{product.price}}</text>
@@ -100,14 +87,25 @@
   <!-- 联系客服 -->
   <view class="contact-section">
     <view class="contact-card">
-      <text class="contact-title">品茶咨询</text>
-      <text class="contact-desc">添加微信，了解更多详情</text>
+      <text class="contact-title">{{siteConfig.productContactTitle || '品茶咨询'}}</text>
+      <text class="contact-desc">{{siteConfig.productContactDesc || '添加微信，了解更多详情'}}</text>
       <button class="contact-btn" bindtap="copyWechat">
-        <text>复制微信号</text>
+        <text>{{siteConfig.productContactBtnText || '复制微信号'}}</text>
       </button>
     </view>
   </view>
 
-  <!-- 底部留白 -->
+  <!-- 底部留白（给固定栏让位） -->
   <view class="footer-space"></view>
+
+  <!-- ========== 底部固定操作栏 ========== -->
+  <view class="bottom-bar">
+    <view class="bb-favorite {{isFavorited ? 'favorited' : ''}}" bindtap="toggleFavorite">
+      <text class="bb-fav-icon">{{isFavorited ? '❤️' : '🤍'}}</text>
+      <text class="bb-fav-text">{{isFavorited ? '已收藏' : '收藏'}}</text>
+    </view>
+    <view class="bb-order" bindtap="showOrder">
+      <text class="bb-order-text">立即下单</text>
+    </view>
+  </view>
 </view>
