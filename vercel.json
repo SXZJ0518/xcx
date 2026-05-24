@@ -1,17 +1,15 @@
 {
   "version": 2,
-  "rewrites": [
+  "buildCommand": "",
+  "installCommand": "",
+  "outputDirectory": ".",
+  "routes": [
     {
-      "source": "/static/:path*",
-      "destination": "/static/:path*"
+      "handle": "filesystem"
     },
     {
-      "source": "/favicon.ico",
-      "destination": "/favicon.ico"
-    },
-    {
-      "source": "/:path*",
-      "destination": "/index.html"
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ]
 }
