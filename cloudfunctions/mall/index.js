@@ -143,6 +143,10 @@ async function handleAction(action, params, wxContext) {
     case 'adminUpdateBannerStatus':
       return await adminUpdateBannerStatus(params)
 
+    // 文件上传
+    case 'uploadFile':
+      return await uploadFile(params)
+
     // 登录
     case 'adminLogin':
       return await adminLogin(params)
@@ -862,6 +866,42 @@ async function adminUpdateBannerStatus(params) {
   })
   
   return { success: true }
+}
+
+// 35-A. 文件上传到云存储
+async function uploadFile(params) {
+  const { fileName, fileBase64, folder = 'products' } = params
+  
+  if (!fileName || !fileBase64) {
+    throw new Error('fileName 和 fileBase64 不能为空')
+  }
+  
+  // 生成唯一文件名，避免覆盖
+  const timestamp = Date.now()
+  const ext = fileName.split('.').pop() || 'jpg'
+  const cloudPath = `${folder}/${timestamp}_${Math.random().toString(36).substr(2, 8)}.${ext}`
+  
+  // base64 转 buffer
+  const buffer = Buffer.from(fileBase64, 'base64')
+  
+  // 上传到云存储
+  const uploadResult = await cloud.uploadFile({
+    cloudPath: cloudPath,
+    fileContent: buffer
+  })
+  
+  // 获取临时下载链接
+  const tempResult = await cloud.getTempFileURL({
+    fileList: [uploadResult.fileID]
+  })
+  
+  const downloadUrl = tempResult.fileList[0].tempFileURL
+  
+  return {
+    fileID: uploadResult.fileID,
+    url: downloadUrl,
+    cloudPath: cloudPath
+  }
 }
 
 // 35. 后台登录

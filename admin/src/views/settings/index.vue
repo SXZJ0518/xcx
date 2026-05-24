@@ -18,9 +18,7 @@
             <el-form-item label="品牌Logo">
               <el-upload
                 class="logo-upload"
-                action="/api/admin/upload/logo"
-                :headers="uploadHeaders"
-                :on-success="handleLogoSuccess"
+                :http-request="uploadLogo"
                 :before-upload="beforeImageUpload"
                 :limit="1"
                 :file-list="logoFileList"
@@ -161,9 +159,7 @@
         <el-form-item label="轮播图" prop="imageUrl">
           <el-upload
             class="banner-upload"
-            action="/api/admin/upload/banner"
-            :headers="uploadHeaders"
-            :on-success="handleBannerImageSuccess"
+            :http-request="uploadBannerImage"
             :before-upload="beforeImageUpload"
             :limit="1"
             :file-list="bannerImageList"
@@ -207,6 +203,7 @@
 import settingsApi from '@/api/settings'
 import bannerApi from '@/api/banner'
 import { mapGetters } from 'vuex'
+import { uploadImage } from '@/utils/upload'
 
 export default {
   name: 'Settings',
@@ -386,17 +383,35 @@ export default {
       this.saving.about = false
     },
     
-    // Logo上传成功
-    handleLogoSuccess(res) {
-      if (res.code === 0) {
-        this.brandForm.logo = res.data.url
-        this.$message.success('上传成功')
-      } else {
-        this.$message.error(res.message || '上传失败')
-      }
+    // Logo 上传
+    uploadLogo(options) {
+      const { file, onSuccess, onError } = options
+      uploadImage(file, 'settings')
+        .then(data => {
+          this.brandForm.logo = data.url
+          this.$message.success('Logo上传成功')
+          onSuccess({ code: 0, data })
+        })
+        .catch(err => {
+          this.$message.error(err.message || '上传失败')
+          onError(err)
+        })
     },
     
-    // 图片上传前验证
+    // 轮播图上传
+    uploadBannerImage(options) {
+      const { file, onSuccess, onError } = options
+      uploadImage(file, 'banners')
+        .then(data => {
+          this.bannerForm.imageUrl = data.url
+          this.$message.success('轮播图上传成功')
+          onSuccess({ code: 0, data })
+        })
+        .catch(err => {
+          this.$message.error(err.message || '上传失败')
+          onError(err)
+        })
+    },
     beforeImageUpload(file) {
       const isJPG = file.type === 'image/jpeg'
       const isPNG = file.type === 'image/png'
@@ -508,16 +523,6 @@ export default {
       } catch {
         row.status = status === 1 ? 0 : 1
         this.$message.error('操作失败')
-      }
-    },
-    
-    // 轮播图图片上传成功
-    handleBannerImageSuccess(res) {
-      if (res.code === 0) {
-        this.bannerForm.imageUrl = res.data.url
-        this.$message.success('上传成功')
-      } else {
-        this.$message.error(res.message || '上传失败')
       }
     },
     

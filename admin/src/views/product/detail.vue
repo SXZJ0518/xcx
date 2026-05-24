@@ -250,10 +250,7 @@
           <el-form-item label="封面主图" prop="imageUrl">
             <el-upload
               class="cover-upload"
-              action="/api/admin/upload/product"
-              :headers="uploadHeaders"
-              :on-success="handleCoverSuccess"
-              :on-error="handleUploadError"
+              :http-request="uploadProductCover"
               :before-upload="beforeImageUpload"
               :limit="1"
               :file-list="coverFileList"
@@ -304,10 +301,7 @@
               <el-upload
                 v-if="productForm.images.length < 9"
                 class="gallery-upload-btn"
-                action="/api/admin/upload/product"
-                :headers="uploadHeaders"
-                :on-success="handleGallerySuccess"
-                :on-error="handleUploadError"
+                :http-request="uploadProductGallery"
                 :before-upload="beforeImageUpload"
                 :show-file-list="false"
               >
@@ -504,6 +498,7 @@ import productApi from '@/api/product'
 import categoryApi from '@/api/category'
 import aromaApi from '@/api/aroma'
 import { mapGetters } from 'vuex'
+import { uploadImage } from '@/utils/upload'
 
 export default {
   name: 'ProductDetail',
@@ -747,31 +742,36 @@ export default {
       }
     },
     
-    // 图片上传成功
-    handleCoverSuccess(response) {
-      if (response.code === 0) {
-        this.productForm.imageUrl = response.data.url
-        this.$message.success('封面图上传成功')
-      } else {
-        this.$message.error(response.message || '上传失败')
-      }
-    },
-    
-    handleGallerySuccess(response, file, fileList) {
-      if (response.code === 0) {
-        // 使用新的数据结构，图片为对象
-        this.productForm.images.push({
-          url: response.data.url,
-          tag: null // 初始无标签
+    // 图片上传 - 封面
+    uploadProductCover(options) {
+      const { file, onSuccess, onError } = options
+      uploadImage(file, 'products')
+        .then(data => {
+          this.productForm.imageUrl = data.url
+          this.$message.success('封面图上传成功')
+          onSuccess({ code: 0, data })
         })
-      } else {
-        this.$message.error(response.message || '上传失败')
-      }
+        .catch(err => {
+          this.$message.error(err.message || '上传失败')
+          onError(err)
+        })
     },
     
-    handleUploadError() {
-      this.$message.error('图片上传失败，请检查网络后重试')
+    // 图片上传 - 详情图集
+    uploadProductGallery(options) {
+      const { file, onSuccess, onError } = options
+      uploadImage(file, 'products')
+        .then(data => {
+          this.productForm.images.push({ url: data.url, tag: null })
+          this.$message.success('详情图上传成功')
+          onSuccess({ code: 0, data })
+        })
+        .catch(err => {
+          this.$message.error(err.message || '上传失败')
+          onError(err)
+        })
     },
+
     
     beforeImageUpload(file) {
       const isJPG = file.type === 'image/jpeg'

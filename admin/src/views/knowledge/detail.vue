@@ -26,9 +26,7 @@
         <el-form-item label="封面图">
           <el-upload 
             class="cover-upload" 
-            :action="uploadUrl" 
-            :headers="uploadHeaders" 
-            :on-success="onCoverSuccess" 
+            :http-request="uploadKnowledgeCover"
             :before-upload="beforeUpload" 
             :limit="1" 
             :file-list="coverList" 
@@ -103,6 +101,7 @@
 <script>
 import knowledgeApi from '@/api/knowledge'
 import { mapGetters } from 'vuex'
+import { uploadImage } from '@/utils/upload'
 
 export default {
   name: 'KnowledgeDetail',
@@ -129,8 +128,7 @@ export default {
       coverList: [],
       tagVisible: false,
       tagValue: '',
-      submitting: false,
-      uploadUrl: '/api/admin/upload/knowledge'
+      submitting: false
     }
   },
   computed: {
@@ -179,13 +177,18 @@ export default {
         this.$message.error('加载文章失败')
       }
     },
-    onCoverSuccess(res) {
-      if (res.code === 0 || res.url) {
-        this.form.cover = (res.data && res.data.url) || res.url
-        this.$message.success('上传成功')
-      } else {
-        this.$message.error(res.message || '上传失败')
-      }
+    uploadKnowledgeCover(options) {
+      const { file, onSuccess, onError } = options
+      uploadImage(file, 'knowledge')
+        .then(data => {
+          this.form.cover = data.url
+          this.$message.success('封面上传成功')
+          onSuccess({ code: 0, data })
+        })
+        .catch(err => {
+          this.$message.error(err.message || '上传失败')
+          onError(err)
+        })
     },
     beforeUpload(file) {
       const ok = ['image/jpeg', 'image/png'].includes(file.type) && file.size / 1024 / 1024 < 2

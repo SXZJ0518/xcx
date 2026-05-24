@@ -100,25 +100,26 @@ export const constantRoutes = [
         name: 'StatisticsOverview',
         component: () => import('@/views/statistics/overview'),
         meta: { title: '统计概览', icon: 'el-icon-s-data' }
-      },
-      {
-        path: 'users',
-        name: 'StatisticsUsers',
-        component: () => import('@/views/statistics/users'),
-        meta: { title: '用户列表', icon: 'el-icon-user' }
-      },
-      {
-        path: 'visits',
-        name: 'StatisticsVisits',
-        component: () => import('@/views/statistics/visits'),
-        meta: { title: '访问记录', icon: 'el-icon-view' }
-      },
-      {
-        path: 'analysis',
-        name: 'StatisticsAnalysis',
-        component: () => import('@/views/statistics/analysis'),
-        meta: { title: '行为分析', icon: 'el-icon-s-marketing' }
       }
+      // 以下子功能暂未对接云函数，隐藏
+      // {
+      //   path: 'users',
+      //   name: 'StatisticsUsers',
+      //   component: () => import('@/views/statistics/users'),
+      //   meta: { title: '用户列表', icon: 'el-icon-user' }
+      // },
+      // {
+      //   path: 'visits',
+      //   name: 'StatisticsVisits',
+      //   component: () => import('@/views/statistics/visits'),
+      //   meta: { title: '访问记录', icon: 'el-icon-view' }
+      // },
+      // {
+      //   path: 'analysis',
+      //   name: 'StatisticsAnalysis',
+      //   component: () => import('@/views/statistics/analysis'),
+      //   meta: { title: '行为分析', icon: 'el-icon-s-marketing' }
+      // }
     ]
   },
   // 客户档案

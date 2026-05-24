@@ -74,6 +74,8 @@ const URL_TO_ACTION_MAP = {
   '/api/admin/statistics/dashboard': { action: 'getHomeData', method: 'get' },
   // 登录
   '/api/admin/login': { action: 'adminLogin', method: 'post' },
+  // 文件上传
+  '/api/admin/upload': { action: 'uploadFile', method: 'post' },
 }
 
 // 从 URL 中提取 ID（如 /api/admin/products/xxx → xxx）
