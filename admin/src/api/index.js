@@ -42,10 +42,75 @@ export function callCloudFunction(action, params = {}) {
 }
 
 // ==================== 通用请求（自动路由 Mock/Real） ====================
+// URL 到云函数 action 的映射表
+const URL_TO_ACTION_MAP = {
+  // 分类
+  '/api/admin/categories/all': { action: 'adminGetCategoryList', method: 'get' },
+  '/api/admin/categories': { action_post: 'adminCreateCategory', action_put: 'adminUpdateCategory', action_delete: 'adminDeleteCategory', action_get: 'adminGetCategoryList' },
+  // 香型
+  '/api/admin/aromas/all': { action: 'adminGetAromaTypeList', method: 'get' },
+  '/api/admin/aromas': { action_post: 'adminCreateAromaType', action_put: 'adminUpdateAromaType', action_delete: 'adminDeleteAromaType', action_get: 'adminGetAromaTypeList' },
+  // 商品
+  '/api/admin/products': { action_post: 'adminCreateProduct', action_put: 'adminUpdateProduct', action_delete: 'adminDeleteProduct', action_get: 'adminGetProductList' },
+  // 轮播图
+  '/api/admin/banners': { action_post: 'adminCreateBanner', action_put: 'adminUpdateBanner', action_delete: 'adminDeleteBanner', action_get: 'adminGetBannerList' },
+  // 知识
+  '/api/admin/knowledge': { action_post: 'adminCreateKnowledge', action_put: 'adminUpdateKnowledge', action_delete: 'adminDeleteKnowledge', action_get: 'adminGetKnowledgeList' },
+  // 站点配置
+  '/api/admin/settings': { action_get: 'getSiteConfig', action_put: 'adminUpdateSiteConfig' },
+  '/api/admin/contact': { action_get: 'getSiteConfig', action_put: 'adminUpdateSiteConfig' },
+  // 统计
+  '/api/admin/statistics/dashboard': { action: 'getHomeData', method: 'get' },
+  // 登录
+  '/api/admin/login': { action: 'adminLogin', method: 'post' },
+}
+
+// 从 URL 中提取 ID（如 /api/admin/products/xxx → xxx）
+function extractId(url, basePath) {
+  const id = url.replace(basePath, '').replace(/^\//, '')
+  return id || null
+}
+
 export default function request(config) {
   const { url, method = 'get', data, params } = config
 
   if (!USE_MOCK) {
+    // 将 REST API 调用转换为云函数 action 调用
+    const matched = Object.keys(URL_TO_ACTION_MAP).find(key => url === key || url.startsWith(key + '/'))
+    if (matched) {
+      const mapping = URL_TO_ACTION_MAP[matched]
+      let action = ''
+      let cloudParams = params || data || {}
+
+      if (mapping.action) {
+        action = mapping.action
+      } else {
+        // 根据 HTTP 方法选择 action
+        const methodKey = 'action_' + method.toLowerCase()
+        action = mapping[methodKey] || mapping.action_get || ''
+      }
+
+      // 如果 URL 包含 ID（如 /api/admin/products/xxx），提取并传入参数
+      if (url !== matched) {
+        const id = extractId(url, matched)
+        if (id) {
+          cloudParams = { ...cloudParams, id }
+        }
+        // 处理子路径（如 /status）
+        if (url.includes('/status')) {
+          action = matched.includes('/products') ? 'adminUpdateProductStatus' : action
+        }
+      }
+
+      if (!action) {
+        console.warn('未找到对应的云函数 action:', url, method)
+        return service(config)
+      }
+
+      return service({ url: '/', method: 'post', data: { action, params: cloudParams } })
+    }
+
+    // 未匹配的 URL 直接转发
     return service(config)
   }
 
