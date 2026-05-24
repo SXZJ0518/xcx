@@ -91,13 +91,11 @@
     <!-- 新增/编辑弹窗 -->
     <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="600px">
       <el-form :model="form" :rules="rules" ref="form" label-width="100px">
-        <el-form-item label="选择客户" prop="customerId">
-          <el-select v-model="form.customerId" placeholder="请选择客户" filterable @change="handleCustomerChange" style="width: 100%;">
-            <el-option v-for="item in customers" :key="item.id" :label="item.name" :value="item.id"></el-option>
-          </el-select>
+        <el-form-item label="客户姓名" prop="customerName">
+          <el-input v-model="form.customerName" placeholder="请输入客户姓名" clearable></el-input>
         </el-form-item>
-        <el-form-item label="手机号">
-          <el-input v-model="form.phone" disabled></el-input>
+        <el-form-item label="手机号" prop="phone">
+          <el-input v-model="form.phone" placeholder="请输入手机号" maxlength="11" clearable></el-input>
         </el-form-item>
         <el-form-item label="茶叶类型" prop="teaType">
           <el-select v-model="form.teaType" placeholder="请选择茶叶类型" style="width: 100%;">
@@ -192,7 +190,11 @@ export default {
       },
       // 表单验证规则
       rules: {
-        customerId: [{ required: true, message: '请选择客户', trigger: 'change' }],
+        customerName: [{ required: true, message: '请输入客户姓名', trigger: 'blur' }],
+        phone: [
+          { required: true, message: '请输入手机号', trigger: 'blur' },
+          { pattern: /^1[3-9]\d{9}$/, message: '手机号格式不正确', trigger: 'blur' }
+        ],
         teaType: [{ required: true, message: '请选择茶叶类型', trigger: 'change' }],
         weight: [{ required: true, message: '请输入购买斤数', trigger: 'blur' }],
         packageType: [{ required: true, message: '请选择包装类型', trigger: 'change' }],
@@ -309,7 +311,6 @@ export default {
       this.editId = null
       this.dialogTitle = '新增销售记录'
       this.form = {
-        customerId: '',
         customerName: '',
         phone: '',
         teaType: '',
@@ -331,7 +332,6 @@ export default {
       this.editId = row.id
       this.dialogTitle = '编辑销售记录'
       this.form = {
-        customerId: row.customerId,
         customerName: row.customerName,
         phone: row.phone,
         teaType: row.teaType,
@@ -363,14 +363,6 @@ export default {
         }
       }).catch(() => {})
     },
-    // 客户选择变化
-    handleCustomerChange(customerId) {
-      const customer = this.customers.find(item => item.id === customerId)
-      if (customer) {
-        this.form.customerName = customer.name
-        this.form.phone = customer.phone || ''
-      }
-    },
     // 提交表单
     handleSubmit() {
       this.$refs.form.validate(valid => {
@@ -378,7 +370,6 @@ export default {
           const profit = parseFloat(this.calculatedProfit)
           const saleData = {
             id: this.isEdit ? this.editId : Date.now().toString(),
-            customerId: this.form.customerId,
             customerName: this.form.customerName,
             phone: this.form.phone,
             teaType: this.form.teaType,
