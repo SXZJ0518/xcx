@@ -43,12 +43,11 @@
           
           <el-row :gutter="20">
             <el-col :span="12">
-              <el-form-item label="香型" prop="aromaId">
+              <el-form-item label="香型" prop="aromaId" v-if="isDancongCategory">
                 <el-select 
                   v-model="productForm.aromaId" 
                   placeholder="请选择香型" 
                   style="width: 100%"
-                  :disabled="!isDancongCategory"
                   clearable
                 >
                   <el-option 
@@ -58,7 +57,9 @@
                     :value="item.value"
                   ></el-option>
                 </el-select>
-                <span v-if="!isDancongCategory" class="form-hint">特惠茶和农产品无需选择香型</span>
+              </el-form-item>
+              <el-form-item label="香型" v-else>
+                <el-input value="当前分类无需选择香型" disabled style="width: 100%" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -877,6 +878,12 @@ export default {
       this.$refs.productForm.validate(valid => {
         if (!valid) {
           this.$message.warning('请完善表单中的必填信息')
+          return false
+        }
+        
+        // 单枞茶必须选择香型
+        if (this.isDancongCategory && !this.productForm.aromaId) {
+          this.$message.warning('单枞茶必须选择香型')
           return false
         }
         
