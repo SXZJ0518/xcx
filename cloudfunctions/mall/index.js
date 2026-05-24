@@ -8,25 +8,52 @@ cloud.init({
 const db = cloud.database()
 const _ = db.command
 
+// ==================== CORS 响应包装 ====================
+function corsResponse(data) {
+  return {
+    statusCode: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With',
+      'Access-Control-Max-Age': '86400',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  }
+}
+
 // 云函数入口函数
 exports.main = async (event, context) => {
+  // 判断是否为 HTTP 调用（有 httpMethod 字段）
+  const isHttpCall = !!(event.httpMethod)
+  
+  // 处理 CORS 预检请求
+  if (isHttpCall && event.httpMethod === 'OPTIONS') {
+    return corsResponse({ code: 0, message: 'ok' })
+  }
+
   const wxContext = cloud.getWXContext()
-  const { action, params } = event
+  
+  // HTTP 调用时，body 可能是字符串需要解析
+  let action, params
+  if (isHttpCall) {
+    const body = typeof event.body === 'string' ? JSON.parse(event.body) : event
+    action = body.action
+    params = body.params || {}
+  } else {
+    action = event.action
+    params = event.params || {}
+  }
 
   try {
     const result = await handleAction(action, params, wxContext)
-    return {
-      code: 0,
-      message: 'success',
-      data: result
-    }
+    const data = { code: 0, message: 'success', data: result }
+    return isHttpCall ? corsResponse(data) : data
   } catch (error) {
     console.error('Error:', error)
-    return {
-      code: -1,
-      message: error.message || '操作失败',
-      data: null
-    }
+    const data = { code: -1, message: error.message || '操作失败', data: null }
+    return isHttpCall ? corsResponse(data) : data
   }
 }
 

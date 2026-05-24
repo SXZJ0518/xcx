@@ -21,7 +21,18 @@ const service = axios.create({
 
 service.interceptors.response.use(
   response => {
-    const res = response.data
+    let res = response.data
+    
+    // 云函数 HTTP 返回格式：{ statusCode, headers, body: "json字符串" }
+    // 需要解析 body 获取真正的 API 响应
+    if (res.body && typeof res.body === 'string') {
+      try {
+        res = JSON.parse(res.body)
+      } catch (e) {
+        return Promise.reject(new Error('响应格式错误'))
+      }
+    }
+    
     if (res.code !== 0) {
       if (res.code === 401) {
         localStorage.removeItem('Admin-Token')
