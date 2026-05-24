@@ -15,7 +15,7 @@
       bindtap="goToProduct"
       data-id="{{item.id}}"
     >
-      <image class="fav-image" src="{{item.imageUrl || '/images/tea-placeholder.png'}}" mode="aspectFill" lazy-load />
+      <image class="fav-image" src="{{item.imageUrl || '/images/tea-placeholder.jpg'}}" mode="aspectFill" lazy-load />
       <view class="fav-info">
         <text class="fav-name">{{item.name}}</text>
         <text class="fav-aroma" wx:if="{{item.aromaName}}">{{item.aromaName}}</text>

@@ -20,7 +20,7 @@
       <text class="section-hint" wx:if="{{aromaTypes.length > 0}}">已上架 {{listedCount}}/{{aromaTypes.length}} 种</text>
     </view>
 
-    <view class="aroma-grid">
+    <view class="aroma-grid" wx:if="{{aromaTypes.length > 0}}">
       <view
         class="aroma-card {{item.yourProduct ? 'has-product featured' : 'coming-soon'}}"
         wx:for="{{aromaTypes}}"
@@ -65,6 +65,11 @@
           </view>
         </view>
       </view>
+    </view>
+
+    <!-- 香型空状态 -->
+    <view class="empty-knowledge" wx:else>
+      <text class="empty-text">暂无香型数据</text>
     </view>
   </view>
 

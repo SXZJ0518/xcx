@@ -15,7 +15,7 @@
       <text class="section-title">十大香型</text>
       <text class="section-subtitle">凤凰单枞以香型著称，每种香型皆有独特韵味</text>
     </view>
-    <view class="category-grid">
+    <view class="category-grid" wx:if="{{categories.length > 0}}">
       <view class="category-card" wx:for="{{categories}}" wx:key="id" bindtap="goToCategoryProducts" data-id="{{item.id}}">
         <view class="card-header">
           <text class="card-name">{{item.name}}</text>
@@ -24,6 +24,9 @@
         <text class="card-desc">{{item.desc}}</text>
         <text class="card-aroma">{{item.aromaFeature}}</text>
       </view>
+    </view>
+    <view class="empty-tip" wx:else>
+      <text class="empty-text">暂无分类数据</text>
     </view>
   </view>
 

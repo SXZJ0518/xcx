@@ -33,7 +33,7 @@
   <view class="main-body">
 
     <!-- 左侧分类导航（固定） -->
-    <view class="side-nav">
+    <view class="side-nav" wx:if="{{categories.length > 0}}">
       <view
         class="nav-item {{currentCategory === item.id ? 'active' : ''}}"
         wx:for="{{categories}}"
@@ -46,6 +46,11 @@
         <view class="nav-line" wx:if="{{currentCategory === item.id}}"></view>
         <text class="nav-text">{{item.name}}</text>
       </view>
+    </view>
+
+    <!-- 分类为空时的提示 -->
+    <view class="side-nav-empty" wx:else>
+      <text class="empty-nav-text">暂无分类</text>
     </view>
 
     <!-- 右侧：所有分类的商品连续排列 -->

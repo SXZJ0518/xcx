@@ -56,7 +56,7 @@
     <view class="product-list">
       <block wx:for="{{searchResults}}" wx:key="id">
         <view class="product-item" bindtap="navigateToDetail" data-id="{{item.id}}">
-          <image class="product-image" src="{{item.imageUrl}}" mode="aspectFill"></image>
+          <image class="product-image" src="{{item.imageUrl || item.cover || '/images/tea-placeholder.jpg'}}" mode="aspectFill"></image>
           <view class="product-info">
             <text class="product-name text-ellipsis">{{item.name}}</text>
             <text class="product-brief text-ellipsis">{{item.brief}}</text>

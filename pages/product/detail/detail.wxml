@@ -1,30 +1,35 @@
 <view class="page">
   <!-- 商品图片 -->
   <view class="product-hero">
-    <image src="{{product.imageUrl || '/images/tea-placeholder.png'}}" mode="aspectFill" class="hero-image"></image>
+    <image src="{{product.imageUrl || '/images/tea-placeholder.jpg'}}" mode="aspectFill" class="hero-image"></image>
     <view class="hero-overlay"></view>
   </view>
 
   <!-- 商品信息 -->
-  <view class="product-info">
+  <view class="product-info" wx:if="{{product.name}}">
     <text class="product-name">{{product.name}}</text>
-    <text class="product-brief">{{product.brief}}</text>
+    <text class="product-brief" wx:if="{{product.brief}}">{{product.brief}}</text>
     
 
 
     <view class="product-price-row">
       <text class="price-current">¥{{product.price}}</text>
-      <text class="price-original">¥{{product.originalPrice}}</text>
-      <text class="price-weight">{{product.weight}}</text>
+      <text class="price-original" wx:if="{{product.originalPrice}}">¥{{product.originalPrice}}</text>
+      <text class="price-weight" wx:if="{{product.weight}}">{{product.weight}}</text>
     </view>
 
-    <view class="product-tags">
+    <view class="product-tags" wx:if="{{product.tags && product.tags.length > 0}}">
       <text class="tag" wx:for="{{product.tags}}" wx:key="*this">{{item}}</text>
     </view>
   </view>
 
+  <!-- 商品信息为空时的提示 -->
+  <view class="product-info" wx:else>
+    <text class="product-name">商品加载中...</text>
+  </view>
+
   <!-- 产品故事 -->
-  <view class="section">
+  <view class="section" wx:if="{{product.description}}">
     <view class="section-title">
       <text class="title-line"></text>
       <text>产品故事</text>
@@ -59,7 +64,7 @@
   </view>
 
   <!-- 冲泡建议 -->
-  <view class="section brew-section">
+  <view class="section brew-section" wx:if="{{product.brewTemp || product.brewTime || product.brewCount}}">
     <view class="section-title">
       <text class="title-line"></text>
       <text>冲泡建议</text>
