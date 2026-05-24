@@ -29,11 +29,17 @@ const cloudApp = tcb.init({
 app.use(express.static(path.join(__dirname, 'public'), {
   maxAge: '1h',
   setHeaders(res, filePath) {
-    // SPA 路由回退：所有 .html 文件不缓存
     if (filePath.endsWith('.html')) {
       res.setHeader('Cache-Control', 'no-cache')
     }
   }
+}))
+
+// ⚠️ 关键：/static/ 路径映射
+// Vue 构建后 index.html 引用的是 /static/css/... 和 /static/js/...
+// 但实际文件在 public/css/ 和 public/js/（没有 static 目录）
+app.use('/static', express.static(path.join(__dirname, 'public'), {
+  maxAge: '1h'
 }))
 
 // SPA fallback：所有非 API / 非静态文件请求都返回 index.html
