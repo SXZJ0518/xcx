@@ -14,7 +14,7 @@
     <template v-else-if="showingChildren.length === 1">
       <sidebar-item
         :item="showingChildren[0]"
-        :base-path="resolvePath(showingChildren[0].path)"
+        :base-path="basePath"
         :is-nest="isNest"
       />
     </template>
@@ -29,7 +29,7 @@
         v-for="child in showingChildren"
         :key="child.path"
         :item="child"
-        :base-path="resolvePath(child.path)"
+        :base-path="basePath"
         :is-nest="true"
         class="nest-menu"
       />
