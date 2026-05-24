@@ -1,59 +1,54 @@
 /**
  * 管理后台 API 代理服务
  * 
- * 作用：架在你的服务器上，接收 Vercel 的请求，
- *       转发到微信云函数的 HTTP 入口
- * 
- * ⚠️ 前提：需要在云开发控制台开启 mall 云函数的 HTTP 访问
+ * 作用：架在你的 Windows 服务器上，接收 Vercel 后台请求，
+ *       通过 CloudBase SDK 直连云函数（不需要开通 HTTP 访问，免费）
  * 
  * 启动：npm install && node index.js
  */
 const express = require('express')
 const cors = require('cors')
-const axios = require('axios')
-
-// ⚠️ 改成你的云函数 HTTP 地址
-// 在云开发控制台 → 云函数 → mall → HTTP 触发器 → 复制地址
-const CLOUD_URL = 'https://cloud1-d2gzj9p633865ea93.tcb.qcloud.la/mall'
+const tcb = require('@cloudbase/node-sdk')
 
 const app = express()
 app.use(cors({ origin: '*' }))
 app.use(express.json({ limit: '10mb' }))
 
-// 健康检查
-app.get('/health', (req, res) => {
-  res.json({ status: 'ok', target: CLOUD_URL })
+// 初始化云开发（使用环境变量配置密钥）
+const cloudApp = tcb.init({
+  env: process.env.TCB_ENV || 'cloud1-d2gzj9p633865ea93',
+  secretId: process.env.TCB_SECRET_ID,
+  secretKey: process.env.TCB_SECRET_KEY
 })
 
-// 转发所有请求到云函数
-app.all('/mall', async (req, res) => {
-  const start = Date.now()
-  const body = req.body
+// 健康检查
+app.get('/health', async (req, res) => {
+  if (!process.env.TCB_SECRET_ID) {
+    return res.json({ status: 'error', message: '请配置 TCB_SECRET_ID 和 TCB_SECRET_KEY 环境变量' })
+  }
+  res.json({ status: 'ok', env: process.env.TCB_ENV })
+})
 
-  console.log(`→ ${body.action || 'unknown'}`)
+// 转发所有 API 请求到 mall 云函数
+app.all('/mall', async (req, res) => {
+  const { action, params } = req.body
+  const start = Date.now()
+
+  console.log(`→ ${action || 'unknown'}`)
 
   try {
-    const result = await axios.post(CLOUD_URL, body, {
-      headers: { 'Content-Type': 'application/json' },
-      timeout: 15000
+    const result = await cloudApp.callFunction({
+      name: 'mall',
+      data: { action, params: params || {} }
     })
 
-    const data = result.data
+    const data = result.result || { code: -1, message: '云函数无返回' }
+    res.json(data)
 
-    // 处理云函数返回的 corsResponse 格式
-    if (data.body && typeof data.body === 'string') {
-      res.json(JSON.parse(data.body))
-    } else if (data.body && typeof data.body === 'object') {
-      res.json(data.body)
-    } else {
-      res.json(data)
-    }
-
-    console.log(`← ${body.action} ✓ ${Date.now() - start}ms`)
+    console.log(`← ${action} ✓ ${Date.now() - start}ms`)
   } catch (error) {
-    const msg = error.response ? `${error.response.status}` : error.message
-    console.error(`← ${body.action} ✗ ${msg}`)
-    res.json({ code: -1, message: `云函数调用失败: ${msg}` })
+    console.error(`← ${action} ✗ ${error.message}`)
+    res.json({ code: -1, message: `调用失败: ${error.message}` })
   }
 })
 
@@ -62,8 +57,8 @@ app.listen(PORT, () => {
   console.log(`
 =================================
   管理后台 API 代理已启动
-  地址: http://localhost:${PORT}/mall
-  云函数: ${CLOUD_URL}
+  端口: ${PORT}
+  环境: ${process.env.TCB_ENV || 'cloud1-d2gzj9p633865ea93'}
 =================================
 `)
 })
