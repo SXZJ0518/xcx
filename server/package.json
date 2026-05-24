@@ -1,13 +1,12 @@
 {
   "name": "tea-admin-proxy",
   "version": "1.0.0",
-  "description": "管理后台API代理，服务器直连云开发",
+  "description": "管理后台API代理+页面",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
   "dependencies": {
-    "@cloudbase/node-sdk": "^3.18.1",
     "cors": "^2.8.5",
     "express": "^4.21.0"
   }
