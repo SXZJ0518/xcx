@@ -60,7 +60,9 @@ export default function request(config) {
   if (url.startsWith('/api/admin/logs'))        return handleLogRequest(url, method, data, params)
   if (url.startsWith('/api/admin/messages'))    return handleMessageRequest(url, method, data, params)
   if (url.startsWith('/api/admin/export'))      return handleExportRequest(url, method, data, params)
+  if (url.startsWith('/api/admin/aromas'))      return handleAromaRequest(url, method, data, params)
   if (url.includes('/login'))                   return mockLogin(data.username, data.password)
+  if (url.startsWith('/api/admin/contact'))     return handleContactRequest(url, method, data, params)
   if (url.startsWith('/api/admin/statistics'))  return handleStatisticsRequest(url, method, data, params)
   if (url.startsWith('/api/admin/knowledge'))   return handleKnowledgeRequest(url, method, data, params)
   if (url.startsWith('/api/admin/settings'))    return handleSettingRequest(url, method, data, params)
@@ -78,8 +80,8 @@ function mockSuccess(data) {
 function mockLogin(username, password) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      if ((username === 'admin' && password === 'admin123') || (username === 'test' && password === 'test123')) {
-        resolve({ code: 0, message: 'success', data: { token: 'admin-token-123456', user: { id: 1, username, name: username === 'admin' ? '管理员' : '测试用户', avatar: '', role: 'admin' } } })
+      if (username === 'admin' && password === 'admin123') {
+        resolve({ code: 0, message: 'success', data: { token: 'admin-token-123456', user: { id: 1, username, name: '管理员', avatar: '', role: 'admin' } } })
       } else {
         reject(new Error('用户名或密码错误'))
       }
@@ -87,8 +89,41 @@ function mockLogin(username, password) {
   })
 }
 
+// ==================== 香型 Mock ====================
+function handleAromaRequest(url, method, data, params) {
+  if (method === 'get') return mockSuccess(mockAdminAromaList())
+  if (method === 'post') return mockSuccess({ _id: 'a_' + Date.now(), ...data })
+  const idMatch = url.match(/\/aromas\/([^/]+)/)
+  const id = idMatch ? idMatch[1] : null
+  if (id && method === 'get') return mockSuccess(mockAdminAromaList().find(a => a._id === id))
+  if (id && method === 'put') return mockSuccess({ id, ...data })
+  if (id && method === 'delete') return mockSuccess('ok')
+  return Promise.reject(new Error('未知接口'))
+}
+
+function mockAdminAromaList() {
+  return [
+    { _id: 'aroma_1', name: '黄栀香', aromaFeature: '栀子花清甜芬芳，高扬持久，尾调带熟蜜桃甜香', representative: '宋种东方红、贡香、老仙翁', qualityFeature: '汤色金黄，滋味甘醇鲜爽，回甘力强，耐冲泡' },
+    { _id: 'aroma_2', name: '芝兰香', aromaFeature: '清雅细长，似幽谷芝兰', representative: '八仙过海、宋种芝兰香', qualityFeature: '汤色橙黄明亮，滋味鲜爽甘醇，山韵明显' },
+    { _id: 'aroma_3', name: '蜜兰香', aromaFeature: '蜜甜+兰香，番薯般甜润', representative: '香番薯、大庵蜜兰', qualityFeature: '甜润耐泡，"蜜韵"突出，饮后满口生香' },
+    { _id: 'aroma_4', name: '桂花香', aromaFeature: '馥郁桂花甜香，甜而不腻', representative: '桂花香单丛', qualityFeature: '条索紧卷纤细，汤色金黄明亮，山韵独特' },
+    { _id: 'aroma_5', name: '玉兰香', aromaFeature: '高扬奔放，酷似玉兰花', representative: '金玉兰、娘仔伞', qualityFeature: '香气清幽持久，滋味醇厚' },
+    { _id: 'aroma_6', name: '姜花香', aromaFeature: '辛辣似姜花（通天香）', representative: '通天香单丛', qualityFeature: '入口微辣，回甘迅猛，年底"返春"回香更佳' },
+    { _id: 'aroma_7', name: '夜来香', aromaFeature: '浓郁夜来花香', representative: '夜来香单丛', qualityFeature: '香气独特，辨识度高' },
+    { _id: 'aroma_8', name: '杏仁香', aromaFeature: '淡淡果仁香，回甘有力', representative: '杏仁香单丛', qualityFeature: '条索紧直纤细，灰褐色，韵味独特' },
+    { _id: 'aroma_9', name: '肉桂香', aromaFeature: '桂皮香+花果香复合', representative: '肉桂香单丛', qualityFeature: '滋味醇厚，有独特"桂韵"' },
+    { _id: 'aroma_10', name: '银花香（鸭屎香）', aromaFeature: '金银花+奶香+杏仁香，层次分明', representative: '坪坑头银花香、大乌叶银花香', qualityFeature: '香气层次丰富，回甘持久，山韵明显' }
+  ]
+}
+
+// ==================== 联系我们 Mock（重定向到 settings） ====================
+function handleContactRequest(url, method, data, params) {
+  return handleSettingRequest(url, method, data, params)
+}
+
 // ==================== 商品 Mock ====================
 function handleProductRequest(url, method, data, params) {
+  if (url.includes('/count')) return mockSuccess({ count: mockAdminProductList().list.length, total: mockAdminProductList().list.length })
   const idMatch = url.match(/\/products\/([^/]+)/); const id = idMatch ? idMatch[1] : null
   if (url === '/api/admin/products' && method === 'get') return mockSuccess(mockAdminProductList(params))
   if (url === '/api/admin/products' && method === 'post') return mockSuccess({ _id: 'p_' + Date.now(), ...data })
@@ -102,12 +137,16 @@ function handleProductRequest(url, method, data, params) {
 
 function mockAdminProductList(params = {}) {
   const all = [
-    { _id: 'p1', name: '西湖龙井 明前特级', cover: '', categoryId: 'cat_1', categoryName: '绿茶', price: 298, originalPrice: 398, stock: 100, sales: 198, status: 1, isNew: true, isHot: true, isRecommend: true, tags: ['明前茶'], origin: '杭州西湖', year: '2026年春', weight: '100g', unit: '罐', imageUrl: '', createTime: '2026-03-15' },
-    { _id: 'p2', name: '碧螺春 一级', cover: '', categoryId: 'cat_1', categoryName: '绿茶', price: 198, originalPrice: 268, stock: 80, sales: 98, status: 1, isNew: true, isHot: true, isRecommend: false, tags: ['手工采摘'], origin: '苏州洞庭山', weight: '100g', unit: '罐', imageUrl: '', createTime: '2026-03-20' },
-    { _id: 'p3', name: '正山小种', cover: '', categoryId: 'cat_2', categoryName: '红茶', price: 168, originalPrice: 228, stock: 120, sales: 234, status: 1, isNew: false, isHot: true, isRecommend: true, tags: ['传统工艺'], origin: '武夷山', weight: '100g', unit: '罐', imageUrl: '', createTime: '2025-10-01' },
-    { _id: 'p4', name: '铁观音 特级', cover: '', categoryId: 'cat_3', categoryName: '乌龙茶', price: 268, originalPrice: 368, stock: 90, sales: 312, status: 1, isNew: false, isHot: true, isRecommend: true, tags: ['兰花香'], origin: '福建安溪', weight: '250g', unit: '罐', imageUrl: '', createTime: '2025-09-15' },
-    { _id: 'p5', name: '云南普洱茶饼', cover: '', categoryId: 'cat_5', categoryName: '普洱茶', price: 198, originalPrice: 288, stock: 150, sales: 456, status: 1, isNew: false, isHot: true, isRecommend: false, tags: ['古树茶'], origin: '云南勐海', weight: '357g', unit: '饼', imageUrl: '', createTime: '2024-06-01' },
-    { _id: 'p6', name: '金骏眉', cover: '', categoryId: 'cat_2', categoryName: '红茶', price: 588, originalPrice: 788, stock: 5, sales: 45, status: 0, isNew: true, isHot: false, isRecommend: true, tags: ['全芽头'], origin: '武夷山桐木关', weight: '50g', unit: '罐', imageUrl: '', createTime: '2026-05-01' }
+    { _id: 'p1', name: '蜜兰香', cover: 'https://picsum.photos/seed/chabao10/600/600', imageUrl: 'https://picsum.photos/seed/chatou10/600/600', categoryId: 'cat_normal', categoryName: '单枞茶', aromaName: '蜜兰香', price: 298, originalPrice: 398, weight: '500g', packTypes: ['袋装', '铁罐', '礼盒'], origin: '潮州凤凰山', altitude: '800m', roast: '炭焙', season: '春茶', tags: ['中山', '炭焙', '春茶'], status: 1, isNew: false, isHot: true, sales: 324, brief: '蜜甜兰香，番薯般甜润，经典蜜韵', createTime: '2026-03-10' },
+    { _id: 'p2', name: '蜜兰香·二春', cover: 'https://picsum.photos/seed/chabao2/600/600', imageUrl: 'https://picsum.photos/seed/chatou4/600/600', categoryId: 'cat_normal', categoryName: '单枞茶', aromaName: '蜜兰香', price: 228, originalPrice: 298, weight: '500g', packTypes: ['袋装', '铁罐'], origin: '潮州凤凰山', altitude: '600m', roast: '电焙', season: '二春', tags: ['中山', '电焙', '二春', '性价比'], status: 1, isNew: false, isHot: true, sales: 289, brief: '蜜兰香二春，经典风味性价比之选', createTime: '2026-03-15' },
+    { _id: 'p3', name: '大乌叶', cover: 'https://picsum.photos/seed/chabao9/600/600', imageUrl: 'https://picsum.photos/seed/chatou9/600/600', categoryId: 'cat_normal', categoryName: '单枞茶', aromaName: '黄栀香', price: 258, originalPrice: 358, weight: '500g', packTypes: ['袋装', '铁罐', '礼盒'], origin: '潮州凤凰山', altitude: '800m', roast: '炭焙', season: '春茶', tags: ['中山', '炭焙', '春茶'], status: 1, isNew: false, isHot: true, sales: 298, brief: '栀子花清甜芬芳，黄栀香经典代表', createTime: '2026-03-20' },
+    { _id: 'p4', name: '大乌叶·二春', cover: 'https://picsum.photos/seed/chatou3/600/600', imageUrl: 'https://picsum.photos/seed/chatou2/600/600', categoryId: 'cat_normal', categoryName: '单枞茶', aromaName: '黄栀香', price: 158, originalPrice: 218, weight: '500g', packTypes: ['袋装'], origin: '潮州凤凰山', altitude: '500m', roast: '电焙', season: '二春', tags: ['低山', '电焙', '二春', '实惠'], status: 1, isNew: false, isHot: false, sales: 178, brief: '黄栀香型二春，栀子花香入门实惠之选', createTime: '2026-03-25' },
+    { _id: 'p5', name: '黄栀香·桂花香', cover: 'https://picsum.photos/seed/chabao4/600/600', imageUrl: 'https://picsum.photos/seed/chatou6/600/600', categoryId: 'cat_normal', categoryName: '单枞茶', aromaName: '桂花香', price: 188, originalPrice: 258, weight: '500g', packTypes: ['袋装', '铁罐', '礼盒'], origin: '潮州凤凰山', altitude: '800m', roast: '炭焙', season: '春茶', tags: ['中山', '炭焙', '春茶'], status: 1, isNew: false, isHot: false, sales: 98, brief: '馥郁桂花甜香，甜而不腻花果香型经典', createTime: '2026-04-01' },
+    { _id: 'p6', name: '姜花香（通天香）', cover: 'https://picsum.photos/seed/chabao3/600/600', imageUrl: 'https://picsum.photos/seed/chatou5/600/600', categoryId: 'cat_normal', categoryName: '单枞茶', aromaName: '姜花香', price: 388, originalPrice: 488, weight: '500g', packTypes: ['袋装', '铁罐', '礼盒'], origin: '潮州凤凰山', altitude: '900m', roast: '炭焙', season: '春茶', tags: ['高山', '炭焙', '春茶', '稀缺'], status: 1, isNew: true, isHot: false, sales: 76, brief: '又名通天香稀缺香型入口微辣回甘迅猛', createTime: '2026-04-10' },
+    { _id: 'p7', name: '桂花香单丛', cover: 'https://picsum.photos/seed/chabao5/600/600', imageUrl: 'https://picsum.photos/seed/chatou7/600/600', categoryId: 'cat_normal', categoryName: '单枞茶', aromaName: '桂花香', price: 168, originalPrice: 228, weight: '500g', packTypes: ['袋装', '铁罐'], origin: '潮州凤凰山', altitude: '600m', roast: '炭焙', season: '春茶', tags: ['中山', '炭焙', '春茶'], status: 1, isNew: false, isHot: false, sales: 78, brief: '桂花甜香馥郁持久', createTime: '2026-04-15' },
+    { _id: 'p8', name: '杏仁香·锯朵仔', cover: 'https://picsum.photos/seed/chabao6/600/600', imageUrl: 'https://picsum.photos/seed/chatou8/600/600', categoryId: 'cat_normal', categoryName: '单枞茶', aromaName: '杏仁香', price: 358, originalPrice: 458, weight: '500g', packTypes: ['袋装', '铁罐', '礼盒'], origin: '潮州凤凰山', altitude: '800m', roast: '炭焙', season: '春茶', tags: ['中山', '炭焙', '春茶'], status: 1, isNew: true, isHot: true, sales: 178, brief: '果仁香韵回甘有力杏仁香经典', createTime: '2026-04-20' },
+    { _id: 'p9', name: '锯朵仔·二春', cover: 'https://picsum.photos/seed/chatou1/600/600', imageUrl: 'https://picsum.photos/seed/chatou0/600/600', categoryId: 'cat_normal', categoryName: '单枞茶', aromaName: '杏仁香', price: 228, originalPrice: 318, weight: '500g', packTypes: ['袋装', '铁罐'], origin: '潮州凤凰山', altitude: '600m', roast: '电焙', season: '二春', tags: ['中山', '电焙', '二春'], status: 1, isNew: false, isHot: false, sales: 88, brief: '杏仁香型二春电焙性价比之选', createTime: '2026-04-25' },
+    { _id: 'p10', name: '鸭屎香·高山', cover: 'https://picsum.photos/seed/chabao1/600/600', imageUrl: 'https://picsum.photos/seed/chatou1b/600/600', categoryId: 'cat_normal', categoryName: '单枞茶', aromaName: '银花香（鸭屎香）', price: 428, originalPrice: 528, weight: '500g', packTypes: ['袋装', '铁罐', '礼盒'], origin: '潮州凤凰山乌岽村', altitude: '1100m', roast: '炭焙', season: '春茶', tags: ['乌岽', '古树', '炭焙', '春茶', '顶级'], status: 1, isNew: true, isHot: true, sales: 98, brief: '乌岽古树高山版鸭屎香顶级之作', createTime: '2026-05-01' }
   ]
   const { keyword, categoryId, status } = params || {}
   let filtered = [...all]
@@ -124,10 +163,11 @@ function mockAdminProductDetail(id) {
 
 // ==================== 分类 Mock ====================
 function handleCategoryRequest(url, method, data, params) {
+  if (url === '/api/admin/categories/all' && method === 'get') return mockSuccess(mockAdminCategoryList())
   const idMatch = url.match(/\/categories\/([^/]+)/); const id = idMatch ? idMatch[1] : null
   if (url === '/api/admin/categories' && method === 'get') return mockSuccess(mockAdminCategoryList())
   if (url === '/api/admin/categories' && method === 'post') return mockSuccess({ _id: 'cat_' + Date.now(), ...data })
-  if (id && method === 'get') return mockSuccess({ _id: id, name: '绿茶', icon: '', sort: 1, status: 1, description: '' })
+  if (id && method === 'get') return mockSuccess({ _id: id, name: '单枞茶', icon: '', sort: 1, status: true, description: '' })
   if (id && method === 'put') return mockSuccess({ id, ...data })
   if (id && method === 'delete') return mockSuccess('ok')
   return Promise.reject(new Error('未知接口'))
@@ -135,11 +175,9 @@ function handleCategoryRequest(url, method, data, params) {
 
 function mockAdminCategoryList() {
   return [
-    { _id: 'cat_1', name: '绿茶', icon: '', sort: 1, status: true, level: 1, parentId: 0, createTime: '2026-01-01', children: [{ _id: 'cat_11', name: '龙井', sort: 1, level: 2, parentId: 'cat_1', status: true, createTime: '2026-01-02' }, { _id: 'cat_12', name: '碧螺春', sort: 2, level: 2, parentId: 'cat_1', status: true, createTime: '2026-01-02' }] },
-    { _id: 'cat_2', name: '红茶', icon: '', sort: 2, status: true, level: 1, parentId: 0, createTime: '2026-01-01', children: [{ _id: 'cat_21', name: '正山小种', sort: 1, level: 2, parentId: 'cat_2', status: true, createTime: '2026-01-02' }] },
-    { _id: 'cat_3', name: '乌龙茶', icon: '', sort: 3, status: true, level: 1, parentId: 0, createTime: '2026-01-01', children: [{ _id: 'cat_31', name: '铁观音', sort: 1, level: 2, parentId: 'cat_3', status: true, createTime: '2026-01-02' }] },
-    { _id: 'cat_4', name: '白茶', icon: '', sort: 4, status: true, level: 1, parentId: 0, createTime: '2026-01-01' },
-    { _id: 'cat_5', name: '普洱茶', icon: '', sort: 5, status: true, level: 1, parentId: 0, createTime: '2026-01-01', children: [{ _id: 'cat_51', name: '生普', sort: 1, level: 2, parentId: 'cat_5', status: true, createTime: '2026-01-02' }] }
+    { _id: 'cat_normal', name: '单枞茶', icon: '', sort: 1, status: true, description: '凤凰单枞精选茶品' },
+    { _id: 'cat_special', name: '特惠茶', icon: '', sort: 2, status: true, description: '茶头茶包，经济实惠' },
+    { _id: 'cat_farm', name: '农产品', icon: '', sort: 3, status: false, description: '凤凰山农特产品（待上架）' }
   ]
 }
 
@@ -176,7 +214,7 @@ function mockAdminOrderDetail(id) {
     status: 10, paymentMethod: '微信支付', createTime: '2026-05-20 10:23:45', payTime: null,
     address: { name: '张先生', phone: '138****8888', province: '浙江省', city: '杭州市', district: '西湖区', detail: '文三路 138 号' },
     items: [
-      { id: 'item_1', productId: 'p1', productName: '西湖龙井 明前特级', productImage: '', specName: '100g', price: 298, quantity: 1, amount: 298 }
+      { id: 'item_1', productId: 'p1', productName: '蜜兰香', productImage: '', specName: '500g', price: 298, quantity: 1, amount: 298 }
     ],
     logistics: null, remarks: ''
   }
@@ -218,6 +256,20 @@ function mockUserDetail(id) {
   }
 }
 
+// ==================== 仪表盘统计 Mock ====================
+function handleDashboardCount(url, method, data, params) {
+  return mockSuccess({
+    products: mockAdminProductList().list.length,
+    orders: mockAdminOrderList().list.length,
+    users: mockUserList().list.length,
+    categories: mockAdminCategoryList().length,
+    aromas: mockAdminAromaList().length,
+    knowledge: 2,
+    banners: 1,
+    coupons: 1
+  })
+}
+
 // ==================== 统计 Mock ====================
 function handleStatisticsRequest(url, method, data, params) {
   if (url.includes('/dashboard')) return mockSuccess({
@@ -225,9 +277,9 @@ function handleStatisticsRequest(url, method, data, params) {
     pendingPay: 5, pendingDeliver: 8, pendingRefund: 2,
     lowStockProducts: [{ id: '1', name: '西湖龙井 特级', spec: '50g', stock: 3 }],
     topProducts: [
-      { id: '1', name: '西湖龙井 明前特级', cover: '', sales: 198 },
-      { id: '2', name: '信阳毛尖 特级', cover: '', sales: 156 },
-      { id: '3', name: '武夷山大红袍', cover: '', sales: 143 }
+      { id: '1', name: '蜜兰香', cover: '', sales: 324 },
+      { id: '2', name: '大乌叶', cover: '', sales: 298 },
+      { id: '3', name: '蜜兰香·二春', cover: '', sales: 289 }
     ],
     recentOrders: [
       { _id: '1', orderNo: 'T20260520001', userName: '张先生', totalAmount: 258, status: 10, createTime: '2026-05-20 10:23:45' },
@@ -239,21 +291,21 @@ function handleStatisticsRequest(url, method, data, params) {
     trend: [{ date: '05/14', sales: 3200, orders: 12 }, { date: '05/15', sales: 2800, orders: 10 }, { date: '05/16', sales: 3600, orders: 15 }, { date: '05/17', sales: 4200, orders: 18 }, { date: '05/18', sales: 3800, orders: 14 }, { date: '05/19', sales: 5100, orders: 22 }, { date: '05/20', sales: 4280, orders: 24 }]
   })
   if (url.includes('/products/ranking')) return mockSuccess({
-    list: [{ id: '1', name: '西湖龙井 明前特级', sales: 198, amount: 59004 }, { id: '2', name: '信阳毛尖 特级', sales: 156, amount: 30888 }, { id: '3', name: '武夷山大红袍', sales: 143, amount: 56914 }]
+    list: [{ id: '1', name: '蜜兰香', sales: 324, amount: 96552 }, { id: '2', name: '大乌叶', sales: 298, amount: 76884 }, { id: '3', name: '蜜兰香·二春', sales: 289, amount: 65892 }]
   })
   if (url.includes('/users/growth')) return mockSuccess({
     summary: { totalUsers: 1892, newToday: 12, activeToday: 86 },
     trend: [{ date: '05/14', newUsers: 8 }, { date: '05/15', newUsers: 10 }, { date: '05/16', newUsers: 15 }, { date: '05/17', newUsers: 12 }, { date: '05/18', newUsers: 18 }, { date: '05/19', newUsers: 14 }, { date: '05/20', newUsers: 12 }]
   })
   if (url.includes('/categories/sales')) return mockSuccess([
-    { name: '绿茶', sales: 456, amount: 98000 }, { name: '红茶', sales: 234, amount: 56000 }, { name: '乌龙茶', sales: 312, amount: 72000 }, { name: '白茶', sales: 89, amount: 24000 }, { name: '普洱茶', sales: 128, amount: 32000 }
+    { name: '单枞茶', sales: 456, amount: 98000 }, { name: '特惠茶', sales: 234, amount: 56000 }, { name: '农产品', sales: 89, amount: 24000 }
   ])
   return Promise.reject(new Error('未知接口'))
 }
 
 // ==================== 其他模块 Mock（简化） ====================
 function handleBannerRequest(url, method, data, params) {
-  if (method === 'get') return mockSuccess({ list: [{ id: 'b1', title: '春季新品', image: '', sort: 1, status: 1, position: 1, createTime: '2026-03-01' }], total: 1 })
+  if (method === 'get') return mockSuccess({ list: [{ id: 'b1', title: '春季新茶上市', image: '', sort: 1, status: 1, position: 1, createTime: '2026-03-01' }], total: 1 })
   return mockSuccess('ok')
 }
 
@@ -282,20 +334,29 @@ function handleExportRequest(url, method, data, params) {
 }
 
 function handleKnowledgeRequest(url, method, data, params) {
+  if (url.includes('/count')) return mockSuccess({ count: 2, total: 2 })
   const idMatch = url.match(/\/knowledge\/([^/]+)/); const id = idMatch ? idMatch[1] : null
   if (url === '/api/admin/knowledge' && method === 'get') return mockSuccess({
     list: [
-      { _id: 'k1', title: '西湖龙井的冲泡技巧', categoryName: '冲泡技巧', summary: '教你冲泡西湖龙井', views: 1280, status: 1, createTime: '2026-05-18' },
-      { _id: 'k2', title: '如何辨别正宗大红袍', categoryName: '茶叶鉴别', summary: '辨别的四个方面', views: 856, status: 1, createTime: '2026-05-15' }
+      { _id: 'k1', title: '凤凰单枞怎么泡最好喝', categoryName: '冲泡技巧', summary: '教你泡出单枞茶的最佳风味', views: 1280, status: 1, createTime: '2026-05-18' },
+      { _id: 'k2', title: '如何辨别正宗凤凰单枞', categoryName: '茶叶鉴别', summary: '辨别正宗单枞的四个方面', views: 856, status: 1, createTime: '2026-05-15' }
     ], total: 2
   })
-  if (id && method === 'get') return mockSuccess({ _id: id, title: '西湖龙井的冲泡技巧', categoryId: 'c2', content: '', tags: [], status: 1 })
+  if (id && method === 'get') return mockSuccess({ _id: id, title: '凤凰单枞怎么泡最好喝', categoryId: 'c2', content: '', tags: [], status: 1 })
   if (url.includes('/categories') && method === 'get') return mockSuccess([{ _id: 'c1', name: '茶文化' }, { _id: 'c2', name: '冲泡技巧' }])
   return mockSuccess('ok')
 }
 
 function handleSettingRequest(url, method, data, params) {
-  if (method === 'get') return mockSuccess({ shopName: '茶叶商城', logo: '', servicePhone: '', workTime: '', defaultFreight: 10, freeShippingThreshold: 99 })
+  if (method === 'get') return mockSuccess({
+    brand: { brandName: '凤凰单枞', slogan: '一丛一味 · 百丛百香' },
+    contact: { wechatId: 'tea_fenghuang', phone: '138****8888', email: 'contact@dancong.com', workHours: '周一至周日 9:00-21:00', address: '广东·汕头', productContactTitle: '品茶咨询', productContactDesc: '添加微信，了解更多详情', productContactBtnText: '复制微信号' },
+    about: { aboutUs: '凤凰单枞，源于潮汕凤凰山，专注单枞茶。一丛一味，百丛百香，每一杯都是大自然独一无二的馈赠。' }
+  })
+  // 处理子路径更新：brand/contact/about
+  if (url.includes('/brand')) return mockSuccess({ ...data, updatedAt: new Date().toISOString() })
+  if (url.includes('/contact')) return mockSuccess({ ...data, updatedAt: new Date().toISOString() })
+  if (url.includes('/about')) return mockSuccess({ ...data, updatedAt: new Date().toISOString() })
   return mockSuccess({ ...data, updatedAt: new Date().toISOString() })
 }
 

@@ -62,16 +62,16 @@
             <span>快捷入口</span>
           </div>
           <div class="action-list">
-            <div class="action-item" @click="goTo('/product/add')">
+            <div class="action-item" @click="goTo('/product/detail')">
               <div class="action-icon icon-add">
                 <i class="el-icon-plus"></i>
               </div>
               <div class="action-text">
-                <div class="action-title">添加茶品</div>
-                <div class="action-desc">新增一款凤凰单枞茶品</div>
+                <div class="action-title">商品管理</div>
+                <div class="action-desc">管理单枞茶商品</div>
               </div>
             </div>
-            <div class="action-item" @click="goTo('/product/category')">
+            <div class="action-item" @click="goTo('/aroma/index')">
               <div class="action-icon icon-category">
                 <i class="el-icon-menu"></i>
               </div>
@@ -80,22 +80,22 @@
                 <div class="action-desc">管理十大香型分类</div>
               </div>
             </div>
-            <div class="action-item" @click="goTo('/knowledge/add')">
+            <div class="action-item" @click="goTo('/knowledge/detail')">
               <div class="action-icon icon-knowledge">
                 <i class="el-icon-document"></i>
               </div>
               <div class="action-text">
-                <div class="action-title">添加文章</div>
-                <div class="action-desc">发布茶知识内容</div>
+                <div class="action-title">文章管理</div>
+                <div class="action-desc">茶知识内容管理</div>
               </div>
             </div>
-            <div class="action-item" @click="goTo('/contact/index')">
+            <div class="action-item" @click="goTo('/settings/index')">
               <div class="action-icon icon-contact">
                 <i class="el-icon-phone"></i>
               </div>
               <div class="action-text">
-                <div class="action-title">联系方式</div>
-                <div class="action-desc">配置微信号、电话等</div>
+                <div class="action-title">站点设置</div>
+                <div class="action-desc">品牌信息、联系方式、轮播图</div>
               </div>
             </div>
           </div>
@@ -109,11 +109,11 @@
         <el-card class="recent-card">
           <div slot="header" class="card-header">
             <span>最近添加的茶品</span>
-            <el-button type="text" @click="goTo('/product/list')">查看全部</el-button>
+            <el-button type="text" @click="goTo('/product/index')">查看全部</el-button>
           </div>
           <div class="recent-list">
             <div v-if="recentProducts.length === 0" class="empty-text">暂无茶品</div>
-            <div v-else class="recent-item" v-for="item in recentProducts" :key="item.id" @click="goTo('/product/edit/' + item.id)">
+            <div v-else class="recent-item" v-for="item in recentProducts" :key="item.id" @click="goTo('/product/detail?id=' + item.id)">
               <div class="item-name">{{ item.name }}</div>
               <div class="item-meta">
                 <span class="item-price">¥{{ item.price }}</span>
@@ -127,11 +127,11 @@
         <el-card class="recent-card">
           <div slot="header" class="card-header">
             <span>最近发布的文章</span>
-            <el-button type="text" @click="goTo('/knowledge/list')">查看全部</el-button>
+            <el-button type="text" @click="goTo('/knowledge/detail')">查看全部</el-button>
           </div>
           <div class="recent-list">
             <div v-if="recentKnowledge.length === 0" class="empty-text">暂无文章</div>
-            <div v-else class="recent-item" v-for="item in recentKnowledge" :key="item.id" @click="goTo('/knowledge/edit/' + item.id)">
+            <div v-else class="recent-item" v-for="item in recentKnowledge" :key="item.id" @click="goTo('/knowledge/detail?id=' + item.id)">
               <div class="item-name">{{ item.title }}</div>
               <div class="item-meta">
                 <span class="item-category">{{ item.category }}</span>

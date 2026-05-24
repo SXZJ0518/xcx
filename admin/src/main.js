@@ -11,32 +11,8 @@ import axios from 'axios'
 Vue.use(ElementUI, { size: 'small' })
 Vue.config.productionTip = false
 
-// 配置 axios（使用环境变量）
-axios.defaults.baseURL = process.env.VUE_APP_API_BASE_URL || '/api'
-axios.defaults.timeout = 15000
-
-axios.interceptors.request.use(
-  config => {
-    const token = store.getters.token
-    if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`
-    }
-    return config
-  },
-  error => Promise.reject(error)
-)
-
-axios.interceptors.response.use(
-  response => response.data,
-  error => {
-    if (error.response && error.response.status === 401) {
-      store.dispatch('user/logout')
-      router.push('/login')
-    }
-    return Promise.reject(error)
-  }
-)
-
+// axios 全局配置已移除，统一使用 api/index.js 中的 service 实例处理请求/拦截/认证
+// 如需在组件中直接使用 axios 实例，可通过 Vue.prototype.$http 访问
 Vue.prototype.$http = axios
 
 new Vue({

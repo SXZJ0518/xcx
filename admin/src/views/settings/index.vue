@@ -38,7 +38,7 @@
 
         <!-- 联系方式 -->
         <el-tab-pane label="联系方式" name="contact">
-          <el-form :model="contactForm" :rules="contactRules" ref="contactFormRef" label-width="120px">
+          <el-form :model="contactForm" :rules="contactRules" ref="contactFormRef" label-width="140px">
             <el-form-item label="微信号" prop="wechatId">
               <el-input v-model="contactForm.wechatId" placeholder="请输入微信号">
                 <i slot="prefix" class="el-icon-chat-dot-round"></i>
@@ -61,9 +61,30 @@
                 <i slot="prefix" class="el-icon-time"></i>
               </el-input>
             </el-form-item>
-            <el-form-item label="公司地址" prop="address">
-              <el-input v-model="contactForm.address" type="textarea" :rows="2" placeholder="请输入公司地址"></el-input>
+            <el-form-item label="产地" prop="address">
+              <el-input v-model="contactForm.address" placeholder="请输入产地地址" maxlength="100" show-word-limit></el-input>
+              <div class="form-tip">显示在「我的」页面的信息栏</div>
             </el-form-item>
+            <el-form-item label="发货地" prop="shipFrom">
+              <el-input v-model="contactForm.shipFrom" placeholder="如：广东·汕头" maxlength="100" show-word-limit></el-input>
+              <div class="form-tip">显示在「我的」页面的信息栏</div>
+            </el-form-item>
+            
+            <el-divider content-position="left">商品详情页联系区域配置</el-divider>
+            
+            <el-form-item label="联系标题" prop="productContactTitle">
+              <el-input v-model="contactForm.productContactTitle" placeholder="如：品茶咨询" maxlength="20" show-word-limit></el-input>
+              <div class="form-tip">显示在商品详情页联系区域的大标题</div>
+            </el-form-item>
+            <el-form-item label="联系描述" prop="productContactDesc">
+              <el-input v-model="contactForm.productContactDesc" placeholder="如：添加微信，了解更多详情" maxlength="50" show-word-limit></el-input>
+              <div class="form-tip">显示在标题下方的描述文字</div>
+            </el-form-item>
+            <el-form-item label="按钮文字" prop="productContactBtnText">
+              <el-input v-model="contactForm.productContactBtnText" placeholder="如：复制微信号" maxlength="10" show-word-limit></el-input>
+              <div class="form-tip">复制微信号按钮上显示的文字</div>
+            </el-form-item>
+            
             <el-form-item>
               <el-button type="primary" @click="saveContact" :loading="saving.contact">保存联系方式</el-button>
             </el-form-item>
@@ -218,7 +239,11 @@ export default {
         phone: '',
         email: '',
         workHours: '',
-        address: ''
+        address: '',
+        shipFrom: '广东·汕头',
+        productContactTitle: '品茶咨询',
+        productContactDesc: '添加微信，了解更多详情',
+        productContactBtnText: '复制微信号'
       },
       contactRules: {
         wechatId: [

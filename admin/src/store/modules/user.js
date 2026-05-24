@@ -1,5 +1,4 @@
 import Cookies from 'js-cookie'
-import { mockLogin } from '@/utils/mock'
 import request from '@/api'
 
 const state = {
@@ -37,7 +36,7 @@ const actions = {
         .then(response => {
           if (response.code === 0 && response.data) {
             const token = response.data.token
-            const userInfo = response.data.userInfo
+            const userInfo = response.data.userInfo || response.data.user
             
             // 保存token
             Cookies.set('Admin-Token', token, { expires: 7 }) // Cookie 7天过期

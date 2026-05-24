@@ -51,7 +51,7 @@
           <el-dropdown class="avatar-container" trigger="click">
             <div class="avatar-wrapper">
               <div class="user-info">
-                <span class="user-name">管理员</span>
+                <span class="user-name">{{ userName }}</span>
                 <i class="el-icon-arrow-down" />
               </div>
             </div>
@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions, mapState } from 'vuex'
 import Hamburger from './components/Hamburger'
 import Breadcrumb from './components/Breadcrumb'
 import SidebarItem from './components/SidebarItem'
@@ -92,6 +92,7 @@ export default {
     ...mapGetters([
       'sidebar'
     ]),
+    ...mapState('user', { userName: state => state.userInfo && state.userInfo.name ? state.userInfo.name : '管理员' }),
     routes() {
       return this.$router.options.routes.filter(route => {
         return !route.hidden && 

@@ -59,6 +59,10 @@ export const constantRoutes = [
         component: () => import('@/views/product/detail'),
         meta: { title: '商品详情', icon: 'el-icon-edit' },
         hidden: true
+      },
+      {
+        path: 'add',
+        redirect: '/product/detail'
       }
     ]
   },
@@ -98,15 +102,19 @@ export const constantRoutes = [
   {
     path: '/knowledge',
     component: Layout,
-    redirect: '/knowledge/index',
+    redirect: '/knowledge/list',
     name: 'Knowledge',
     meta: { title: '茶知识管理', icon: 'el-icon-reading' },
     children: [
       {
-        path: 'index',
+        path: 'list',
         name: 'KnowledgeList',
         component: () => import('@/views/knowledge/index'),
         meta: { title: '文章列表', icon: 'el-icon-document' }
+      },
+      {
+        path: 'index',
+        redirect: '/knowledge/detail'
       },
       {
         path: 'detail',
@@ -130,22 +138,6 @@ export const constantRoutes = [
         name: 'SettingsIndex',
         component: () => import('@/views/settings/index'),
         meta: { title: '站点设置', icon: 'el-icon-s-tools' }
-      }
-    ]
-  },
-  // 联系方式配置
-  {
-    path: '/contact',
-    component: Layout,
-    redirect: '/contact/index',
-    name: 'Contact',
-    meta: { title: '联系方式', icon: 'el-icon-phone' },
-    children: [
-      {
-        path: 'index',
-        name: 'ContactSetting',
-        component: () => import('@/views/contact/index'),
-        meta: { title: '联系配置', icon: 'el-icon-phone-outline' }
       }
     ]
   },
@@ -173,13 +165,13 @@ router.beforeEach((to, from, next) => {
     const token = localStorage.getItem('Admin-Token')
     const userInfo = localStorage.getItem('adminUserInfo')
     
-    if (!store.getters['user/isLoggedIn'] && (!token || !userInfo)) {
+    if (!(store.getters['user/isLoggedIn'] || store.state.user.isLoggedIn) && (!token || !userInfo)) {
       next({
         path: '/login',
         query: { redirect: to.fullPath }
       })
     } else {
-      if (!store.getters['user/isLoggedIn'] && token && userInfo) {
+      if (!(store.getters['user/isLoggedIn'] || store.state.user.isLoggedIn) && token && userInfo) {
         try {
           const parsedUserInfo = JSON.parse(userInfo)
           store.commit('user/SET_TOKEN', token)
@@ -194,7 +186,7 @@ router.beforeEach((to, from, next) => {
     if (to.path === '/login') {
       const token = localStorage.getItem('Admin-Token')
       const userInfo = localStorage.getItem('adminUserInfo')
-      if (store.getters['user/isLoggedIn'] || (token && userInfo)) {
+      if (store.getters['user/isLoggedIn'] || store.state.user.isLoggedIn || (token && userInfo)) {
         next({ path: '/' })
       } else {
         next()
