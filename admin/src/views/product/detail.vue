@@ -889,7 +889,7 @@ export default {
             .then(response => {
               if (response.code === 0) {
                 this.$message.success('商品更新成功！')
-                this.$router.push('/product/index')
+                this.$router.push('/content/product')
               } else {
                 this.$message.error(response.message || '更新失败')
                 this.submitting = false
@@ -905,7 +905,7 @@ export default {
             .then(response => {
               if (response.code === 0) {
                 this.$message.success('商品添加成功！')
-                this.$router.push('/product/index')
+                this.$router.push('/content/product')
               } else {
                 this.$message.error(response.message || '添加失败')
                 this.submitting = false
@@ -963,7 +963,7 @@ export default {
     
     // 返回
     goBack() {
-      this.$router.push('/product/index')
+      this.$router.push('/content/product')
     }
   }
 }

@@ -159,10 +159,10 @@ export default {
       this.fetchData()
     },
     handleAdd() {
-      this.$router.push('/knowledge/detail')
+      this.$router.push('/content/knowledge-detail')
     },
     handleEdit(row) {
-      this.$router.push(`/knowledge/detail?id=${row.id}`)
+      this.$router.push(`/content/knowledge-detail?id=${row.id}`)
     },
     handleDelete(row) {
       this.$confirm('确定删除该文章？', '提示', { type: 'warning' }).then(async () => {

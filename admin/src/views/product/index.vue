@@ -352,12 +352,12 @@ export default {
     
     // 新增商品
     handleAdd() {
-      this.$router.push('/product/detail')
+      this.$router.push('/content/product-detail')
     },
     
     // 编辑商品
     handleEdit(item) {
-      this.$router.push(`/product/detail?id=${item.id}`)
+      this.$router.push(`/content/product-detail?id=${item.id}`)
     },
     
     // 删除商品

@@ -209,7 +209,7 @@ export default {
             await knowledgeApi.create(this.form)
           }
           this.$message.success(this.isEdit ? '已保存' : '发布成功')
-          this.$router.push('/knowledge/index')
+          this.$router.push('/content/knowledge')
         } catch {
           this.$message.error('操作失败')
         }

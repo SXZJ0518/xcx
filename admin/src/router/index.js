@@ -39,85 +39,47 @@ export const constantRoutes = [
       }
     ]
   },
-  // 商品管理
+  // 内容管理（合并商品、分类、香型、茶知识）
   {
-    path: '/product',
+    path: '/content',
     component: Layout,
-    redirect: '/product/index',
-    name: 'Product',
-    meta: { title: '商品管理', icon: 'el-icon-goods' },
+    redirect: '/content/product',
+    name: 'Content',
+    meta: { title: '内容管理', icon: 'el-icon-s-management' },
     children: [
       {
-        path: 'index',
+        path: 'product',
         name: 'ProductList',
         component: () => import('@/views/product/index'),
-        meta: { title: '商品列表', icon: 'el-icon-s-order' }
+        meta: { title: '商品管理', icon: 'el-icon-goods' }
       },
       {
-        path: 'detail',
+        path: 'product-detail',
         name: 'ProductDetail',
         component: () => import('@/views/product/detail'),
         meta: { title: '商品详情', icon: 'el-icon-edit' },
         hidden: true
       },
       {
-        path: 'add',
-        redirect: '/product/detail'
-      }
-    ]
-  },
-  // 分类管理
-  {
-    path: '/category',
-    component: Layout,
-    redirect: '/category/index',
-    name: 'Category',
-    meta: { title: '分类管理', icon: 'el-icon-menu' },
-    children: [
-      {
-        path: 'index',
+        path: 'category',
         name: 'CategoryList',
         component: () => import('@/views/category/index'),
-        meta: { title: '分类列表', icon: 'el-icon-folder' }
-      }
-    ]
-  },
-  // 香型管理
-  {
-    path: '/aroma',
-    component: Layout,
-    redirect: '/aroma/index',
-    name: 'Aroma',
-    meta: { title: '香型管理', icon: 'el-icon-collection-tag' },
-    children: [
+        meta: { title: '分类管理', icon: 'el-icon-menu' }
+      },
       {
-        path: 'index',
+        path: 'aroma',
         name: 'AromaList',
         component: () => import('@/views/aroma/index'),
-        meta: { title: '香型列表', icon: 'el-icon-s-flag' }
-      }
-    ]
-  },
-  // 茶知识管理
-  {
-    path: '/knowledge',
-    component: Layout,
-    redirect: '/knowledge/list',
-    name: 'Knowledge',
-    meta: { title: '茶知识管理', icon: 'el-icon-reading' },
-    children: [
+        meta: { title: '香型管理', icon: 'el-icon-collection-tag' }
+      },
       {
-        path: 'list',
+        path: 'knowledge',
         name: 'KnowledgeList',
         component: () => import('@/views/knowledge/index'),
-        meta: { title: '文章列表', icon: 'el-icon-document' }
+        meta: { title: '茶知识管理', icon: 'el-icon-reading' }
       },
       {
-        path: 'index',
-        redirect: '/knowledge/detail'
-      },
-      {
-        path: 'detail',
+        path: 'knowledge-detail',
         name: 'KnowledgeDetail',
         component: () => import('@/views/knowledge/detail'),
         meta: { title: '文章详情', icon: 'el-icon-edit' },
