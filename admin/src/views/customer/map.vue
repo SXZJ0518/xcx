@@ -220,79 +220,76 @@ export default {
       
       this.mapChart = echarts.init(this.$refs.mapChart)
       
-      // 由于无法加载外部地图数据，使用散点图模拟
-      const scatterData = this.generateScatterData()
+      // 显示加载中
+      this.mapChart.showLoading()
+      
+      // 加载中国地图 GeoJSON 数据
+      fetch('https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json')
+        .then(res => res.json())
+        .then(chinaJson => {
+          echarts.registerMap('china', chinaJson)
+          this.mapChart.hideLoading()
+          this.renderMap()
+        })
+        .catch(err => {
+          console.error('加载地图数据失败:', err)
+          this.mapChart.hideLoading()
+          // 降级为柱状图
+          this.renderBarChart()
+        })
+    },
+    renderMap() {
+      const maxValue = Math.max(...this.mapData.map(d => d.value), 1)
       
       const option = {
         tooltip: {
           trigger: 'item',
           formatter: (params) => {
-            return `${params.name}<br/>客户数: ${params.value[2]}人`
+            if (params.value === undefined || params.value === null) return params.name + '<br/>暂无客户'
+            return params.name + '<br/>客户数: ' + params.value + '人'
           }
-        },
-        geo: {
-          map: 'china',
-          roam: true,
-          itemStyle: {
-            areaColor: '#f5f0e8',
-            borderColor: '#c9a86c'
-          },
-          emphasis: {
-            itemStyle: {
-              areaColor: '#e8dcc8'
-            }
-          }
-        },
-        series: [{
-          type: 'scatter',
-          coordinateSystem: 'geo',
-          data: scatterData,
-          symbolSize: (val) => Math.max(10, val[2] * 5),
-          itemStyle: {
-            color: '#c9a86c',
-            shadowBlur: 10,
-            shadowColor: 'rgba(201, 168, 108, 0.5)'
-          },
-          emphasis: {
-            itemStyle: {
-              color: '#8b7355'
-            }
-          }
-        }]
-      }
-      
-      // 使用简化的地图（不依赖外部地图数据）
-      const simpleOption = {
-        tooltip: {
-          trigger: 'item',
-          formatter: '{b}: {c}人'
         },
         visualMap: {
           min: 0,
-          max: Math.max(...this.mapData.map(d => d.value), 10),
+          max: maxValue,
           left: 'left',
-          bottom: 'bottom',
+          bottom: '10px',
           text: ['高', '低'],
           inRange: {
-            color: ['#f5f0e8', '#c9a86c', '#8b7355']
-          }
+            color: ['#f5f0e8', '#e8d5b0', '#c9a86c', '#8b7355']
+          },
+          calculable: true
         },
         series: [{
           name: '客户分布',
           type: 'map',
           map: 'china',
           roam: true,
-          data: this.mapData,
+          scaleLimit: { min: 1, max: 5 },
+          label: {
+            show: false,
+            emphasis: { show: true }
+          },
+          itemStyle: {
+            areaColor: '#f5f0e8',
+            borderColor: '#c9a86c',
+            borderWidth: 1
+          },
           emphasis: {
-            label: { show: true },
+            label: { show: true, fontSize: 14, color: '#2d2520' },
             itemStyle: {
-              areaColor: '#b8965c'
+              areaColor: '#b8965c',
+              shadowBlur: 20,
+              shadowColor: 'rgba(201, 168, 108, 0.5)'
             }
-          }
+          },
+          data: this.mapData
         }]
       }
       
-      // 由于没有地图数据，改用柱状图展示省份分布
+      this.mapChart.setOption(option)
+    },
+    renderBarChart() {
       const barOption = {
         tooltip: {
           trigger: 'axis',
