@@ -159,6 +159,50 @@ export const constantRoutes = [
       }
     ]
   },
+  // 客户档案
+  {
+    path: '/customer',
+    component: Layout,
+    redirect: '/customer/list',
+    name: 'Customer',
+    meta: { title: '客户档案', icon: 'el-icon-s-custom' },
+    children: [
+      {
+        path: 'list',
+        name: 'CustomerList',
+        component: () => import('@/views/customer/list'),
+        meta: { title: '客户列表', icon: 'el-icon-user' }
+      },
+      {
+        path: 'map',
+        name: 'CustomerMap',
+        component: () => import('@/views/customer/map'),
+        meta: { title: '客户分布地图', icon: 'el-icon-map-location' }
+      }
+    ]
+  },
+  // 销售管理
+  {
+    path: '/sales',
+    component: Layout,
+    redirect: '/sales/list',
+    name: 'Sales',
+    meta: { title: '销售管理', icon: 'el-icon-s-order' },
+    children: [
+      {
+        path: 'list',
+        name: 'SalesList',
+        component: () => import('@/views/sales/list'),
+        meta: { title: '销售记录', icon: 'el-icon-document' }
+      },
+      {
+        path: 'statistics',
+        name: 'SalesStatistics',
+        component: () => import('@/views/sales/statistics'),
+        meta: { title: '销售统计', icon: 'el-icon-s-data' }
+      }
+    ]
+  },
   // 站点设置
   {
     path: '/settings',
