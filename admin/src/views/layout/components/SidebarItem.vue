@@ -1,22 +1,19 @@
 <template>
   <div v-if="shouldRender">
-    <!-- 没有子路由：直接渲染为菜单项 -->
+    <!-- 没有子路由或只有一个可见子路由：直接渲染为菜单项 -->
     <template v-if="!item.children || showingChildren.length === 0">
-      <app-link :to="resolvePath(item.path)">
-        <el-menu-item :index="resolvePath(item.path)" :class="{'submenu-title-noDropdown': !isNest}">
-          <i v-if="item.meta && item.meta.icon" :class="item.meta.icon"></i>
-          <span>{{ item.meta.title }}</span>
-        </el-menu-item>
-      </app-link>
+      <el-menu-item :index="resolvePath(item.path)" :class="{'submenu-title-noDropdown': !isNest}">
+        <i v-if="item.meta && item.meta.icon" :class="item.meta.icon"></i>
+        <span slot="title">{{ item.meta.title }}</span>
+      </el-menu-item>
     </template>
 
     <!-- 只有一个可见子路由：直接展示子路由（不显示箭头） -->
     <template v-else-if="showingChildren.length === 1">
-      <sidebar-item
-        :item="showingChildren[0]"
-        :base-path="basePath"
-        :is-nest="isNest"
-      />
+      <el-menu-item :index="resolvePath(showingChildren[0].path)" :class="{'submenu-title-noDropdown': !isNest}">
+        <i v-if="showingChildren[0].meta && showingChildren[0].meta.icon" :class="showingChildren[0].meta.icon"></i>
+        <span slot="title">{{ showingChildren[0].meta.title }}</span>
+      </el-menu-item>
     </template>
 
     <!-- 多个可见子路由：渲染为可折叠子菜单 -->
@@ -25,25 +22,24 @@
         <i v-if="item.meta && item.meta.icon" :class="item.meta.icon"></i>
         <span>{{ item.meta.title }}</span>
       </template>
-      <sidebar-item
+      <el-menu-item
         v-for="child in showingChildren"
         :key="child.path"
-        :item="child"
-        :base-path="basePath"
-        :is-nest="true"
+        :index="resolvePath(child.path)"
         class="nest-menu"
-      />
+      >
+        <i v-if="child.meta && child.meta.icon" :class="child.meta.icon"></i>
+        <span slot="title">{{ child.meta.title }}</span>
+      </el-menu-item>
     </el-submenu>
   </div>
 </template>
 
 <script>
 import path from 'path'
-import AppLink from './Link'
 
 export default {
   name: 'SidebarItem',
-  components: { AppLink },
   props: {
     item: {
       type: Object,
@@ -61,7 +57,6 @@ export default {
   computed: {
     shouldRender() {
       if (this.item.hidden) return false
-      // 必须有标题或至少一个可见子菜单
       if (this.item.meta && this.item.meta.title) return true
       if (this.showingChildren.length > 0) return true
       return false

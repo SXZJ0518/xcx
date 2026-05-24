@@ -18,6 +18,7 @@
           :active-text-color="variables.menuActiveText"
           :unique-opened="false"
           :collapse-transition="false"
+          :router="true"
           mode="vertical"
         >
           <sidebar-item
@@ -220,6 +221,11 @@ $paper: #f5f0e8;
     ::v-deep .el-menu {
       border-right: none;
       background: transparent;
+
+      a {
+        text-decoration: none !important;
+        color: inherit;
+      }
     }
 
     ::v-deep .el-menu-item {
