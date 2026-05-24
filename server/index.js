@@ -57,17 +57,21 @@ app.all('/mall', async (req, res) => {
     let body = ''
     cloudRes.on('data', chunk => body += chunk)
     cloudRes.on('end', () => {
+      console.log(`← RAW(${cloudRes.statusCode}):`, body.slice(0, 500))
+
       try {
         const result = JSON.parse(body)
-        // 云函数 corsResponse 格式：{ body: "json字符串" }
         if (result.body && typeof result.body === 'string') {
           res.json(JSON.parse(result.body))
+        } else if (result.code !== undefined) {
+          res.json(result)
         } else {
           res.json(result)
         }
         console.log(`← ${action} ✓ ${Date.now() - start}ms`)
       } catch (e) {
-        res.json({ code: -1, message: '响应解析失败' })
+        console.error(`← JSON解析失败，原始响应:`, body.slice(0, 300))
+        res.json({ code: -1, message: `响应解析失败: ${body.slice(0, 100)}` })
       }
     })
   })
