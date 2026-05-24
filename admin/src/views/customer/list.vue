@@ -3,7 +3,15 @@
     <!-- 搜索栏 -->
     <div class="search-bar">
       <el-input v-model="searchKeyword" placeholder="搜索客户姓名/手机号" style="width: 200px;" clearable />
-      <el-cascader v-model="selectedRegion" :options="regionOptions" placeholder="选择地区" clearable style="width: 200px; margin-left: 10px;" />
+      <el-cascader
+        v-model="selectedRegion"
+        :options="regionOptions"
+        :props="{ value: 'value', label: 'label', children: 'children' }"
+        placeholder="选择地区"
+        clearable
+        filterable
+        style="width: 250px; margin-left: 10px;"
+      />
       <el-button type="primary" icon="el-icon-search" style="margin-left: 10px;" @click="handleSearch">搜索</el-button>
       <el-button type="success" icon="el-icon-plus" style="margin-left: 10px;" @click="handleAdd">新增客户</el-button>
     </div>
@@ -66,91 +74,7 @@
 </template>
 
 <script>
-// 省市区数据（简化版）
-const regionData = [
-  {
-    value: '广东省',
-    label: '广东省',
-    children: [
-      {
-        value: '广州市',
-        label: '广州市',
-        children: [
-          { value: '天河区', label: '天河区' },
-          { value: '越秀区', label: '越秀区' },
-          { value: '海珠区', label: '海珠区' },
-          { value: '白云区', label: '白云区' }
-        ]
-      },
-      {
-        value: '深圳市',
-        label: '深圳市',
-        children: [
-          { value: '福田区', label: '福田区' },
-          { value: '罗湖区', label: '罗湖区' },
-          { value: '南山区', label: '南山区' },
-          { value: '宝安区', label: '宝安区' }
-        ]
-      },
-      {
-        value: '汕头市',
-        label: '汕头市',
-        children: [
-          { value: '金平区', label: '金平区' },
-          { value: '龙湖区', label: '龙湖区' },
-          { value: '澄海区', label: '澄海区' }
-        ]
-      }
-    ]
-  },
-  {
-    value: '北京市',
-    label: '北京市',
-    children: [
-      {
-        value: '北京市',
-        label: '北京市',
-        children: [
-          { value: '朝阳区', label: '朝阳区' },
-          { value: '海淀区', label: '海淀区' },
-          { value: '东城区', label: '东城区' },
-          { value: '西城区', label: '西城区' }
-        ]
-      }
-    ]
-  },
-  {
-    value: '上海市',
-    label: '上海市',
-    children: [
-      {
-        value: '上海市',
-        label: '上海市',
-        children: [
-          { value: '浦东新区', label: '浦东新区' },
-          { value: '黄浦区', label: '黄浦区' },
-          { value: '静安区', label: '静安区' },
-          { value: '徐汇区', label: '徐汇区' }
-        ]
-      }
-    ]
-  },
-  {
-    value: '浙江省',
-    label: '浙江省',
-    children: [
-      {
-        value: '杭州市',
-        label: '杭州市',
-        children: [
-          { value: '西湖区', label: '西湖区' },
-          { value: '上城区', label: '上城区' },
-          { value: '下城区', label: '下城区' }
-        ]
-      }
-    ]
-  }
-]
+import { regionData } from './regionData'
 
 export default {
   name: 'CustomerList',
