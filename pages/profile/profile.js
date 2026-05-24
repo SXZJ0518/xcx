@@ -8,16 +8,29 @@ const favorites = require('../../utils/favorites')
 Page({
   data: {
     siteConfig: {},
-    favoriteCount: 0
+    favoriteCount: 0,
+    isLoggedIn: false,
+    userInfo: null
   },
 
   onLoad() {
     this.loadSiteConfig()
+    this.checkLoginStatus()
   },
 
   onShow() {
-    // 每次显示时刷新收藏数
+    // 每次显示时刷新收藏数和登录状态
     this.setData({ favoriteCount: favorites.getCount() })
+    this.checkLoginStatus()
+  },
+
+  /**
+   * 检查登录状态
+   */
+  checkLoginStatus() {
+    const isLoggedIn = wx.getStorageSync('isLoggedIn') || false
+    const userInfo = wx.getStorageSync('userInfo') || null
+    this.setData({ isLoggedIn, userInfo })
   },
 
   /**
@@ -30,6 +43,31 @@ Page({
     } catch (err) {
       console.error('加载配置失败:', err)
     }
+  },
+
+  /**
+   * 跳转到登录页
+   */
+  goToLogin() {
+    wx.navigateTo({ url: '/pages/login/login' })
+  },
+
+  /**
+   * 退出登录
+   */
+  logout() {
+    wx.showModal({
+      title: '提示',
+      content: '确定要退出登录吗？',
+      success: (res) => {
+        if (res.confirm) {
+          wx.removeStorageSync('isLoggedIn')
+          wx.removeStorageSync('userInfo')
+          this.setData({ isLoggedIn: false, userInfo: null })
+          wx.showToast({ title: '已退出登录', icon: 'success' })
+        }
+      }
+    })
   },
 
   /**

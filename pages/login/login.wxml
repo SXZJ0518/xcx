@@ -1,0 +1,85 @@
+<!-- 登录页面 -->
+<view class="page">
+  <!-- 背景装饰 -->
+  <view class="bg-deco">
+    <view class="bg-circle bg-circle-1"></view>
+    <view class="bg-circle bg-circle-2"></view>
+    <view class="bg-circle bg-circle-3"></view>
+  </view>
+
+  <!-- Logo 区域 -->
+  <view class="logo-section">
+    <view class="logo-wrap">
+      <text class="logo-icon">🍃</text>
+    </view>
+    <text class="logo-title">凤凰单枞</text>
+    <text class="logo-slogan">一丛一味 · 百丛百香</text>
+  </view>
+
+  <!-- 登录卡片 -->
+  <view class="login-card">
+    <!-- 微信授权登录 -->
+    <view class="login-section">
+      <view class="section-title">
+        <view class="title-line"></view>
+        <text>微信快捷登录</text>
+        <view class="title-line"></view>
+      </view>
+      <button class="wx-login-btn" open-type="getPhoneNumber" bindgetphonenumber="onGetPhoneNumber">
+        <view class="btn-icon">📱</view>
+        <text class="btn-text">微信手机号快捷登录</text>
+      </button>
+      <button class="wx-auth-btn" bindtap="onWechatAuth">
+        <view class="btn-icon">💬</view>
+        <text class="btn-text">微信授权登录</text>
+      </button>
+    </view>
+
+    <!-- 分割线 -->
+    <view class="divider">
+      <view class="divider-line"></view>
+      <text class="divider-text">或</text>
+      <view class="divider-line"></view>
+    </view>
+
+    <!-- 手机号登录 -->
+    <view class="login-section">
+      <view class="section-title">
+        <view class="title-line"></view>
+        <text>手机号登录</text>
+        <view class="title-line"></view>
+      </view>
+      <view class="input-row">
+        <text class="input-label">+86</text>
+        <input class="input-phone" type="number" placeholder="请输入手机号" maxlength="11" value="{{phone}}" bindinput="onPhoneInput" />
+      </view>
+      <view class="input-row">
+        <input class="input-code" type="number" placeholder="请输入验证码" maxlength="6" value="{{code}}" bindinput="onCodeInput" />
+        <view class="code-btn {{canSendCode ? '' : 'disabled'}}" bindtap="sendCode">
+          <text>{{codeText}}</text>
+        </view>
+      </view>
+      <button class="phone-login-btn {{canLogin ? '' : 'disabled'}}" bindtap="onPhoneLogin">
+        <text>登录</text>
+      </button>
+    </view>
+  </view>
+
+  <!-- 协议 -->
+  <view class="agreement">
+    <view class="checkbox-wrap" bindtap="toggleAgreement">
+      <view class="checkbox {{agreed ? 'checked' : ''}}">
+        <text wx:if="{{agreed}}">✓</text>
+      </view>
+    </view>
+    <text class="agreement-text">登录即代表同意</text>
+    <text class="agreement-link" bindtap="goToUserAgreement">《用户协议》</text>
+    <text class="agreement-text">和</text>
+    <text class="agreement-link" bindtap="goToPrivacyPolicy">《隐私政策》</text>
+  </view>
+
+  <!-- 底部 -->
+  <view class="footer">
+    <text class="footer-text">登录后可享受更多专属服务</text>
+  </view>
+</view>

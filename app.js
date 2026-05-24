@@ -1,4 +1,6 @@
 // app.js
+const analytics = require('./utils/analytics')
+
 App({
   globalData: {
     userInfo: null,
@@ -17,6 +19,18 @@ App({
     this.initCloud()
     // 获取系统信息
     this.getSystemInfo()
+    // 初始化埋点
+    this.initAnalytics()
+  },
+  
+  onShow() {
+    // 小程序切前台时上报
+    analytics.track('app_show', { page: 'app', title: '小程序启动' })
+  },
+  
+  onHide() {
+    // 小程序切后台时批量上报
+    analytics.flush()
   },
   
   // 初始化云开发
@@ -68,6 +82,46 @@ App({
       this.globalData.safeBottomHeight = 34
     } else {
       this.globalData.safeBottomHeight = 0
+    }
+  },
+  
+  // 初始化埋点
+  initAnalytics() {
+    // 页面生命周期监听
+    const originalPage = Page
+    Page = function(config) {
+      const originalOnShow = config.onShow
+      const originalOnHide = config.onHide
+      
+      config.onShow = function() {
+        const pages = getCurrentPages()
+        const currentPage = pages[pages.length - 1]
+        const route = currentPage.route || ''
+        const options = currentPage.options || {}
+        
+        // 上报页面访问
+        analytics.trackPageEnter(route)
+        analytics.trackPageView(route, route.split('/').pop(), options)
+        
+        if (originalOnShow) {
+          originalOnShow.call(this)
+        }
+      }
+      
+      config.onHide = function() {
+        const pages = getCurrentPages()
+        const currentPage = pages[pages.length - 1]
+        const route = currentPage.route || ''
+        
+        // 上报页面离开
+        analytics.trackPageLeave(route)
+        
+        if (originalOnHide) {
+          originalOnHide.call(this)
+        }
+      }
+      
+      return originalPage(config)
     }
   }
 })

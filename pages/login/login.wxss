@@ -1,0 +1,300 @@
+/* 登录页面 */
+.page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #f5f0e8 0%, #ebe4d8 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* 背景装饰 */
+.bg-deco {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.bg-circle {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.15;
+}
+
+.bg-circle-1 {
+  width: 400rpx;
+  height: 400rpx;
+  background: #c9a86c;
+  top: -100rpx;
+  right: -100rpx;
+}
+
+.bg-circle-2 {
+  width: 300rpx;
+  height: 300rpx;
+  background: #8b7355;
+  bottom: 200rpx;
+  left: -80rpx;
+}
+
+.bg-circle-3 {
+  width: 200rpx;
+  height: 200rpx;
+  background: #c9a86c;
+  bottom: -50rpx;
+  right: 100rpx;
+}
+
+/* Logo 区域 */
+.logo-section {
+  padding: 80rpx 0 60rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo-wrap {
+  width: 140rpx;
+  height: 140rpx;
+  background: linear-gradient(135deg, #c9a86c, #b8965c);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 20rpx 60rpx rgba(201, 168, 108, 0.3);
+}
+
+.logo-icon {
+  font-size: 60rpx;
+}
+
+.logo-title {
+  margin-top: 24rpx;
+  font-size: 40rpx;
+  font-weight: 600;
+  color: #2d2520;
+  letter-spacing: 8rpx;
+}
+
+.logo-slogan {
+  margin-top: 12rpx;
+  font-size: 24rpx;
+  color: #8b7355;
+  letter-spacing: 4rpx;
+}
+
+/* 登录卡片 */
+.login-card {
+  margin: 0 40rpx;
+  padding: 40rpx;
+  background: #fff;
+  border-radius: 24rpx;
+  box-shadow: 0 8rpx 40rpx rgba(45, 37, 32, 0.08);
+}
+
+.login-section {
+  margin-bottom: 32rpx;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 32rpx;
+}
+
+.section-title text {
+  font-size: 26rpx;
+  color: #8b7355;
+  letter-spacing: 2rpx;
+  padding: 0 16rpx;
+}
+
+.title-line {
+  width: 60rpx;
+  height: 1rpx;
+  background: #d4ccc0;
+}
+
+/* 微信登录按钮 */
+.wx-login-btn, .wx-auth-btn {
+  width: 100%;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 44rpx;
+  margin-bottom: 20rpx;
+  border: none;
+  padding: 0;
+}
+
+.wx-login-btn {
+  background: linear-gradient(135deg, #07c160, #06ad56);
+}
+
+.wx-auth-btn {
+  background: linear-gradient(135deg, #c9a86c, #b8965c);
+}
+
+.wx-login-btn::after, .wx-auth-btn::after {
+  border: none;
+}
+
+.btn-icon {
+  font-size: 32rpx;
+  margin-right: 12rpx;
+}
+
+.btn-text {
+  font-size: 28rpx;
+  color: #fff;
+  letter-spacing: 2rpx;
+}
+
+/* 分割线 */
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 32rpx 0;
+}
+
+.divider-line {
+  flex: 1;
+  height: 1rpx;
+  background: #e8e0d5;
+}
+
+.divider-text {
+  padding: 0 20rpx;
+  font-size: 24rpx;
+  color: #a09080;
+}
+
+/* 输入框 */
+.input-row {
+  display: flex;
+  align-items: center;
+  height: 88rpx;
+  background: #f5f0e8;
+  border-radius: 44rpx;
+  margin-bottom: 20rpx;
+  padding: 0 24rpx;
+}
+
+.input-label {
+  font-size: 28rpx;
+  color: #2d2520;
+  padding-right: 16rpx;
+  border-right: 1rpx solid #d4ccc0;
+  margin-right: 16rpx;
+}
+
+.input-phone, .input-code {
+  flex: 1;
+  height: 88rpx;
+  font-size: 28rpx;
+  color: #2d2520;
+}
+
+.code-btn {
+  padding: 0 24rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #c9a86c, #b8965c);
+  border-radius: 30rpx;
+}
+
+.code-btn.disabled {
+  background: #d4ccc0;
+}
+
+.code-btn text {
+  font-size: 24rpx;
+  color: #fff;
+}
+
+/* 手机号登录按钮 */
+.phone-login-btn {
+  width: 100%;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #c9a86c, #b8965c);
+  border-radius: 44rpx;
+  margin-top: 20rpx;
+  border: none;
+}
+
+.phone-login-btn.disabled {
+  background: #d4ccc0;
+}
+
+.phone-login-btn::after {
+  border: none;
+}
+
+.phone-login-btn text {
+  font-size: 28rpx;
+  color: #fff;
+  letter-spacing: 4rpx;
+}
+
+/* 协议 */
+.agreement {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 40rpx;
+  padding: 0 40rpx;
+}
+
+.checkbox-wrap {
+  padding: 10rpx;
+}
+
+.checkbox {
+  width: 32rpx;
+  height: 32rpx;
+  border: 2rpx solid #c9a86c;
+  border-radius: 6rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkbox.checked {
+  background: #c9a86c;
+}
+
+.checkbox text {
+  font-size: 20rpx;
+  color: #fff;
+}
+
+.agreement-text {
+  font-size: 22rpx;
+  color: #8b7355;
+}
+
+.agreement-link {
+  font-size: 22rpx;
+  color: #c9a86c;
+}
+
+/* 底部 */
+.footer {
+  position: absolute;
+  bottom: 40rpx;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.footer-text {
+  font-size: 22rpx;
+  color: #a09080;
+  letter-spacing: 1rpx;
+}

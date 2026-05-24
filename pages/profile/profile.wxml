@@ -9,17 +9,40 @@
       <view class="user-bg-circle user-bg-circle-3"></view>
     </view>
     <view class="user-content">
-      <view class="avatar-wrap">
-        <view class="avatar-default">
-          <view class="avatar-icon">
-            <view class="avatar-head"></view>
-            <view class="avatar-body"></view>
+      <!-- 未登录状态 -->
+      <block wx:if="{{!isLoggedIn}}">
+        <view class="avatar-wrap" bindtap="goToLogin">
+          <view class="avatar-default">
+            <view class="avatar-icon">
+              <view class="avatar-head"></view>
+              <view class="avatar-body"></view>
+            </view>
           </view>
+          <view class="avatar-ring"></view>
         </view>
-        <view class="avatar-ring"></view>
-      </view>
-      <text class="nickname">茶友</text>
-      <text class="user-desc">品茶悟道 · 静心修行</text>
+        <text class="nickname login-hint" bindtap="goToLogin">点击登录</text>
+        <text class="user-desc">登录后享受更多专属服务</text>
+      </block>
+      <!-- 已登录状态 -->
+      <block wx:else>
+        <view class="avatar-wrap">
+          <image wx:if="{{userInfo.avatar}}" class="avatar-img" src="{{userInfo.avatar}}" mode="aspectFill" />
+          <view wx:else class="avatar-default">
+            <view class="avatar-icon">
+              <view class="avatar-head"></view>
+              <view class="avatar-body"></view>
+            </view>
+          </view>
+          <view class="avatar-ring"></view>
+        </view>
+        <text class="nickname">{{userInfo.nickname || '茶友'}}</text>
+        <text class="user-desc" wx:if="{{userInfo.phone}}">{{userInfo.phone}}</text>
+        <text class="user-desc" wx:else>欢迎回来</text>
+      </block>
+    </view>
+    <!-- 退出登录按钮 -->
+    <view class="logout-btn" wx:if="{{isLoggedIn}}" bindtap="logout">
+      <text>退出</text>
     </view>
     <!-- 底部弧形过渡 -->
     <view class="header-curve"></view>
